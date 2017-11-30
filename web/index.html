@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ajax demo</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="styles/bootstrap.min.css" rel="stylesheet">
+    <link href="styles/main.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <button class="btn btn-primary" onclick="button_click()">
+                    Click me
+                </button>
+                <p id="display1"></p>
+                <p id="display2"></p>
+            </div>
+        </div>
+    </div>
+    <script src="scripts/jquery-3.2.1.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script>
+        function button_click(){
+            $.get("/test/api/helloworld", function(data, status) {
+                if (status === "success") {
+//                    alert(data);
+//                    var json_dict = JSON.parse(data);
+                    $("#display1").html(data['message']);
+                    $("#display2").html(data['time']);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

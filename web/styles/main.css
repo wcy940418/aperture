@@ -1,0 +1,13 @@
+body {
+	color: #555;
+	padding-top: 70px;
+}
+.table-style {
+	margin-top: 30px;
+	padding: 0px 40px;
+}
+.input-group {
+ 	max-width: 600px;
+ 	margin: 0 auto;
+ 	float: none;
+}
