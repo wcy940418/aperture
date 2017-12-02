@@ -20,7 +20,7 @@ public interface DBConnection {
      * @throws IDException e
      * @throws SQLException
      */
-    public int signUp(String username, String email, String password) throws IDException, SQLException;
+    public int signUp(String username, String email, String password, String firstName, String lastName) throws IDException, SQLException;
 
     /**
      * Verify sign in
@@ -72,12 +72,13 @@ public interface DBConnection {
      * @param friendUserId
      * @param columnCount
      * @param offset
+     * @param urlPrefix
      * @return JSONArray of {photoId, uploaderName, category, title, description, lon, lat, country, city, street, zip,
      *                      time_cap, time_upload}
      * @throws IDException e
      * @throws SQLException
      */
-    public JSONArray getPhotos(int userId, int friendUserId, int columnCount, int offset) throws IDException, SQLException;
+    public JSONArray getPhotos(int userId, int friendUserId, int columnCount, int offset, String urlPrefix) throws IDException, SQLException;
     /**
      * Get events
      * @param userId
@@ -124,10 +125,9 @@ public interface DBConnection {
      * @param metadata
      * @return int photoId
      * @throws IDException e
-     * @throws FileException e
      * @throws SQLException
      */
-    public int uploadPhoto(int userId, JSONObject metadata) throws IDException, FileException, SQLException;
+    public int uploadPhoto(int userId, JSONObject metadata) throws IDException, SQLException;
     /**
      * Edit photo
      * @param userId
@@ -141,11 +141,12 @@ public interface DBConnection {
      * Get photo
      * @param userId
      * @param photoId
+     * @param urlPrefix
      * @return photo metadata
      * @throws IDException
      * @throws SQLException
      */
-    public JSONObject getPhoto(int userId, int photoId) throws IDException, SQLException;
+    public JSONObject getPhoto(int userId, int photoId, String urlPrefix) throws IDException, SQLException;
     /**
      * Get profile
      * @param userId
@@ -166,19 +167,21 @@ public interface DBConnection {
     /**
      * Send message
      * @param userId
-     * @param toUserId
+     * @param message
      * @throws IDException e
      * @throws SQLException
+     * @return messageId
      */
-    public void sendMessage(int userId, int toUserId) throws IDException, SQLException;
+    public int sendMessage(int userId, JSONObject message) throws IDException, SQLException;
     /**
      * Send invitation
      * @param userId
      * @param toUserId
      * @throws IDException e
      * @throws SQLException
+     * @return invitationId(messageId)
      */
-    public void sendInvitation(int userId, int toUserId) throws IDException, SQLException;
+    public int sendInvitation(int userId, int toUserId) throws IDException, SQLException;
     /**
      * Accept invitation
      * @param messageId
@@ -207,22 +210,29 @@ public interface DBConnection {
      * Create collection
      * @param userId
      * @param metadata
-     * @param photoIds
      * @return int collectionId
      * @throws IDException e
      * @throws SQLException
      */
-    public int createCollection(int userId, JSONObject metadata, JSONArray photoIds) throws IDException, SQLException;
+    public int createCollection(int userId, JSONObject metadata) throws IDException, SQLException;
     /**
-     * Edit collection
+     * Edit collection metadata
      * @param userId
      * @param collectionId
      * @param metadata
-     * @param changes
      * @throws IDException e
      * @throws SQLException
      */
-    public void editCollection(int userId, int collectionId, JSONObject metadata, JSONObject changes) throws IDException, SQLException;
+    public void editCollectionMetadata(int userId, int collectionId, JSONObject metadata) throws IDException, SQLException;
+
+    /**
+     * Edit collection photos
+     * @param userId
+     * @param collectionId
+     * @param changes
+     * @throws SQLException
+     */
+    public void editCollectionPhotos(int userId, int collectionId, JSONObject changes) throws SQLException;
     /**
      * Get collection
      * @param userId
@@ -286,4 +296,13 @@ public interface DBConnection {
      * @throws SQLException
      */
     public JSONArray searchCollection(int userId, String keyWord) throws IDException, SQLException;
+
+    /**
+     * User register event
+     * @param userId
+     * @param eventId
+     * @throws IDException
+     * @throws SQLException
+     */
+    public void registerEvent(int userId, int eventId) throws IDException, SQLException;
 }
