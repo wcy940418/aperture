@@ -35,7 +35,7 @@ public class Profile {
     }
 
     public Profile(JSONObject object) {
-        this.id = object.getInt("id");
+        this.id = object.getInt("user_id");
         this.username = object.getString("username");
         this.email = object.getString("email");
         this.firstName = object.getString("first_name");
@@ -76,7 +76,7 @@ public class Profile {
     public JSONObject toJSONObject() {
         JSONObject object = new JSONObject();
         try {
-            object.put("id", id);
+            object.put("user_id", id);
             object.put("username", username);
             object.put("email", email);
             object.put("first_name", firstName);

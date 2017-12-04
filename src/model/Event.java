@@ -52,7 +52,7 @@ public class Event {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.id = object.getInt("id");
+        this.id = object.getInt("event_id");
         this.hostId = object.getInt("host_id");
         this.title = object.getString("title");
         this.description = object.getString("description");
@@ -85,7 +85,7 @@ public class Event {
     public JSONObject toJSONObject() {
         JSONObject object = new JSONObject();
         try {
-            object.put("id", id);
+            object.put("event_id", id);
             object.put("host_id", hostId);
             object.put("title", title);
             object.put("description", description);

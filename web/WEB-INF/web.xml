@@ -3,6 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+
     <servlet>
         <servlet-name>api-test</servlet-name>
         <servlet-class>api.helloworld</servlet-class>
@@ -10,5 +11,23 @@
     <servlet-mapping>
         <servlet-name>api-test</servlet-name>
         <url-pattern>/api/helloworld</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api-SignUp</servlet-name>
+        <servlet-class>api.SignUp</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-SignUp</servlet-name>
+        <url-pattern>/api/sign_up</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api-SignIn</servlet-name>
+        <servlet-class>api.SignIn</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-SignIn</servlet-name>
+        <url-pattern>/api/sign_in</url-pattern>
     </servlet-mapping>
 </web-app>

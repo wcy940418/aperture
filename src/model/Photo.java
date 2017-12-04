@@ -54,7 +54,7 @@ public class Photo {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.id = object.getInt("id");
+        this.id = object.getInt("photo_id");
         this.uploaderId = object.getInt("uploader_id");
         this.title = object.getString("title");
         this.description = object.getString("description");
@@ -89,7 +89,7 @@ public class Photo {
     public JSONObject toJSONObject() {
         JSONObject object = new JSONObject();
         try {
-            object.put("id", id);
+            object.put("photo_id", id);
             object.put("uploader_id", uploaderId);
             object.put("title", title);
             object.put("description", description);

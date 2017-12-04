@@ -83,7 +83,7 @@ public class MySQLDBConnection implements DBConnection{
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             if (rs.next()) {
-                userId = rs.getInt("ID");
+                userId = rs.getInt(1);
             }
             return userId;
         } catch (SQLException e) {
@@ -132,7 +132,7 @@ public class MySQLDBConnection implements DBConnection{
     }
 
     @Override
-    public JSONArray getPhotos(int userId, int friendUserId, int columnCount, int offset)
+    public JSONArray getPhotos(int userId, int friendUserId, int rowCount, int offset)
             throws IDException, SQLException {
 
         try {
@@ -141,7 +141,7 @@ public class MySQLDBConnection implements DBConnection{
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, userId);
             statement.setInt(2, friendUserId);
-            statement.setInt(3, columnCount);
+            statement.setInt(3, rowCount);
             statement.setInt(4, offset);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -171,14 +171,14 @@ public class MySQLDBConnection implements DBConnection{
     }
 
     @Override
-    public JSONArray getEvents(int userId, int friendUserId, int columnCount, int offset) throws IDException, SQLException {
+    public JSONArray getEvents(int userId, int friendUserId, int rowCount, int offset) throws IDException, SQLException {
         try {
             String query = "CALL show_events(?,?,?,?)";
             JSONArray events = new JSONArray();
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, userId);
             statement.setInt(2, friendUserId);
-            statement.setInt(3, columnCount);
+            statement.setInt(3, rowCount);
             statement.setInt(4, offset);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -238,7 +238,7 @@ public class MySQLDBConnection implements DBConnection{
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             if (rs.next()) {
-                photoId = rs.getInt("ID");
+                photoId = rs.getInt(1);
             }
             return photoId;
         } catch (SQLException e) {
@@ -260,7 +260,7 @@ public class MySQLDBConnection implements DBConnection{
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             if (rs.next()) {
-                collectionId = rs.getInt("ID");
+                collectionId = rs.getInt(1);
             }
             return collectionId;
         } catch (SQLException e) {
@@ -300,7 +300,7 @@ public class MySQLDBConnection implements DBConnection{
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             if (rs.next()) {
-                eventId = rs.getInt("ID");
+                eventId = rs.getInt(1);
             }
             return eventId;
         } catch (SQLException e) {
@@ -323,7 +323,7 @@ public class MySQLDBConnection implements DBConnection{
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             if (rs.next()) {
-                messageId = rs.getInt("ID");
+                messageId = rs.getInt(1);
             }
             return messageId;
         } catch (SQLException e) {
@@ -346,7 +346,7 @@ public class MySQLDBConnection implements DBConnection{
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             if (rs.next()) {
-                messageId = rs.getInt("ID");
+                messageId = rs.getInt(1);
             }
             return messageId;
         } catch (SQLException e) {
@@ -599,7 +599,7 @@ public class MySQLDBConnection implements DBConnection{
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 JSONObject person = new JSONObject();
-                person.put("id", rs.getInt("ID"));
+                person.put("user_id", rs.getInt("ID"));
                 person.put("first_name", rs.getString("first_name"));
                 person.put("last_name", rs.getString("last_name"));
                 friendList.put(person);
@@ -612,7 +612,7 @@ public class MySQLDBConnection implements DBConnection{
     }
 
     @Override
-    public JSONArray getMessageList(int userId, int friendUserId, int columnCount, int offset) throws IDException, SQLException {
+    public JSONArray getMessageList(int userId, int friendUserId, int rowCount, int offset) throws IDException, SQLException {
         String query = "SELECT ID, from_userID, time_stamp, is_read, content FROM Message" +
                 "WHERE (from_userID = ? AND to_userID = ?) OR (to_userID = ? AND from_userID = ?)" +
                 "ORDER BY time_stamp DESC" +
@@ -626,11 +626,11 @@ public class MySQLDBConnection implements DBConnection{
             statement.setInt(3, userId);
             statement.setInt(4, friendUserId);
             statement.setInt(5, offset);
-            statement.setInt(6, columnCount);
+            statement.setInt(6, rowCount);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 JSONObject message = new JSONObject();
-                message.put("id", rs.getInt("ID"));
+                message.put("message_id", rs.getInt("ID"));
                 message.put("to_from", rs.getInt("from_userID") == userId ? "from" : "to");
                 message.put("time_stamp", dateFormat.format(rs.getTimestamp("time_stamp")));
                 message.put("is_read", rs.getBoolean("is_read"));
@@ -646,19 +646,18 @@ public class MySQLDBConnection implements DBConnection{
 
     @Override
     public JSONArray getInvitationList(int userId) throws IDException, SQLException {
-        String query = "SELECT ID, to_userID, time_stamp FROM Message" +
-                "WHERE (from_userID = ? OR to_userID = ?) AND is_read = FALSE";
+        String query = "SELECT ID, from_userID, time_stamp FROM Message" +
+                "WHERE to_userID = ? AND is_read = FALSE";
         try {
             DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS", Locale.ENGLISH);
             JSONArray invitationList = new JSONArray();
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, userId);
-            statement.setInt(2, userId);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 JSONObject invitation = new JSONObject();
-                invitation.put("id", rs.getInt("ID"));
-                invitation.put("to", rs.getInt("to_userID"));
+                invitation.put("message_id", rs.getInt("ID"));
+                invitation.put("from_user_id", rs.getInt("from_userID"));
                 invitation.put("time_stamp", dateFormat.format(rs.getTimestamp("time_stamp")));
                 invitation.put("content", rs.getString("content"));
                 invitationList.put(invitation);
@@ -714,7 +713,7 @@ public class MySQLDBConnection implements DBConnection{
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 JSONObject FOF = new JSONObject();
-                FOF.put("id", rs.getInt("ID"));
+                FOF.put("user_id", rs.getInt("ID"));
                 FOF.put("first_name", rs.getString("first_name"));
                 FOF.put("last_name", rs.getString("last_name"));
                 FOFArr.put(FOF);
@@ -794,14 +793,14 @@ public class MySQLDBConnection implements DBConnection{
     }
 
     @Override
-    public JSONArray getCollections(int userId, int friendUserId, int columnCount, int offset) throws IDException, SQLException {
+    public JSONArray getCollections(int userId, int friendUserId, int rowCount, int offset) throws IDException, SQLException {
         try {
             String query = "CALL show_collections(?,?,?,?)";
             JSONArray collections = new JSONArray();
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, userId);
             statement.setInt(2, friendUserId);
-            statement.setInt(3, columnCount);
+            statement.setInt(3, rowCount);
             statement.setInt(4, offset);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -833,7 +832,7 @@ public class MySQLDBConnection implements DBConnection{
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 Profile profile = new Profile(
-                        rs.getInt("ID "),
+                        rs.getInt("ID"),
                         rs.getString("username"),
                         rs.getString("email"),
                         rs.getString("first_name"),
@@ -854,7 +853,7 @@ public class MySQLDBConnection implements DBConnection{
     }
 
     @Override
-    public JSONArray searchPhoto(int userId, String keyWord, String scope, int days, int columnCount, int offset)
+    public JSONArray searchPhoto(int userId, String keyWord, String scope, int days, int rowCount, int offset)
             throws IDException, SQLException {
         String query = "CALL search_photos(?,?,?,?,?,?)";
         JSONArray photos = new JSONArray();
@@ -864,7 +863,7 @@ public class MySQLDBConnection implements DBConnection{
             statement.setString(2, keyWord);
             statement.setString(3, scope);
             statement.setInt(4, days);
-            statement.setInt(5, columnCount);
+            statement.setInt(5, rowCount);
             statement.setInt(6, offset);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -894,14 +893,14 @@ public class MySQLDBConnection implements DBConnection{
     }
 
     @Override
-    public JSONArray searchEvent(int userId, String keyWord, int columnCount, int offset) throws IDException, SQLException {
+    public JSONArray searchEvent(int userId, String keyWord, int rowCount, int offset) throws IDException, SQLException {
         String query = "CALL search_events(?,?,?,?)";
         JSONArray events = new JSONArray();
         try {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, userId);
             statement.setString(2, keyWord);
-            statement.setInt(3, columnCount);
+            statement.setInt(3, rowCount);
             statement.setInt(4, offset);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -931,14 +930,14 @@ public class MySQLDBConnection implements DBConnection{
     }
 
     @Override
-    public JSONArray searchCollection(int userId, String keyWord, int columnCount, int offset) throws IDException, SQLException {
+    public JSONArray searchCollection(int userId, String keyWord, int rowCount, int offset) throws IDException, SQLException {
         try {
             String query = "CALL search_collections(?,?,?,?)";
             JSONArray collections = new JSONArray();
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, userId);
             statement.setString(2, keyWord);
-            statement.setInt(3, columnCount);
+            statement.setInt(3, rowCount);
             statement.setInt(4, offset);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -960,7 +959,7 @@ public class MySQLDBConnection implements DBConnection{
     }
 
     @Override
-    public JSONArray searchEventByLoc(int userId, JSONObject location, int columnCount, int offset) throws IDException, SQLException {
+    public JSONArray searchEventByLoc(int userId, JSONObject location, int rowCount, int offset) throws IDException, SQLException {
         String query = "CALL search_local_events(?,?,?,?,?)";
         JSONArray events = new JSONArray();
         try {
@@ -968,7 +967,7 @@ public class MySQLDBConnection implements DBConnection{
             statement.setInt(1, userId);
             statement.setString(2, location.getString("search_city"));
             statement.setString(3, location.getString("search_street"));
-            statement.setInt(4, columnCount);
+            statement.setInt(4, rowCount);
             statement.setInt(5, offset);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {

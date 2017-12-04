@@ -46,7 +46,7 @@ public class Collection {
     }
 
     public Collection(JSONObject collectionData) {
-        this.id = collectionData.getInt("id");
+        this.id = collectionData.getInt("collection_id");
         try {
             try {
                 this.timeCreated = dateFormat.parse(collectionData.getString("time_created"));
@@ -113,7 +113,7 @@ public class Collection {
 
     public JSONObject toJSONObject() {
         JSONObject object = new JSONObject();
-        object.put("id", id);
+        object.put("collection_id", id);
         object.put("host_id", hostId);
         object.put("title", title);
         object.put("description", description);
