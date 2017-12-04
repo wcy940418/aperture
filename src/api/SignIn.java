@@ -18,6 +18,7 @@ public class SignIn extends HttpServlet{
         JSONObject request = RpcParser.parseInput(req);
         JSONObject response = new JSONObject();
         try {
+            RpcParser.checkSignOut(req);
             RpcParser.checkKeys(request, "username_or_email", "password", "remember");
             try {
                 int userId = conn.verifySignIn(request.getString("username_or_email"),
@@ -47,7 +48,9 @@ public class SignIn extends HttpServlet{
         JSONObject request = RpcParser.parseInput(req);
         JSONObject response = new JSONObject();
         try {
-            response.put("user_id", request.getInt("user_id"));
+                RpcParser.checkSignIn(req);
+                response.put("user_id", request.getInt("user_id"));
+
         } catch (Exception e) {
             e.printStackTrace();
             resp.setStatus(400);

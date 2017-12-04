@@ -13,6 +13,21 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class RpcParser {
+
+    public static void checkSignOut(HttpServletRequest req) throws Exception {
+        HttpSession session = req.getSession(false);
+        if (session != null && req.isRequestedSessionIdValid()) {
+            throw new Exception("You have signed in");
+        }
+    }
+
+    public static void checkSignIn(HttpServletRequest req) throws Exception {
+        HttpSession session = req.getSession(false);
+        if (session == null || !req.isRequestedSessionIdValid()) {
+            throw new Exception("You haven't signed in");
+        }
+    }
+
     public static void checkKeys(JSONObject obj, String... keys) throws Exception{
         ArrayList<String> missedKeys = new ArrayList<String>();
         for (String key: keys) {
@@ -36,8 +51,8 @@ public class RpcParser {
 
     public static JSONObject parseInput(HttpServletRequest req) {
         JSONObject requestDict = null;
-        HttpSession session = req.getSession();
-        int userId = session.getAttribute("user_id") == null ? 1 : (int) session.getAttribute("user_id");
+        HttpSession session = req.getSession(false);
+        int userId = session == null || !req.isRequestedSessionIdValid() ? 1 : (int) session.getAttribute("user_id");
         if (req.getMethod().equals("GET")) {
             requestDict = new JSONObject();
             Map<String, String[]> parameters = req.getParameterMap();

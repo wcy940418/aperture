@@ -30,4 +30,14 @@
         <servlet-name>api-SignIn</servlet-name>
         <url-pattern>/api/sign_in</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api-SignOut</servlet-name>
+        <servlet-class>api.SignOut</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-SignOut</servlet-name>
+        <url-pattern>/api/sign_out</url-pattern>
+    </servlet-mapping>
+
 </web-app>
