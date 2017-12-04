@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Locale;
 
 public class Collection {
-    private int id = -1;
+    private final int id;
     private int hostId = -1;
     private String title = null;
     private String description = null;
@@ -19,6 +19,7 @@ public class Collection {
     private Date timeCreated = null;
     private HashSet<Integer> photos = null;
     private DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS", Locale.ENGLISH);
+
     public Collection(int id, int hostId, String title, String visibility, String description, Date timeCreated,
                       HashSet<Integer> photos) {
         this.id = id;
@@ -29,6 +30,7 @@ public class Collection {
         this.timeCreated = timeCreated;
         this.photos = photos;
     }
+
     public Collection(int id, int hostId, String title, String visibility, String description, Date timeCreated) {
         this.id = id;
         this.hostId = hostId;
@@ -37,10 +39,12 @@ public class Collection {
         this.description = description;
         this.timeCreated = timeCreated;
     }
+
     public Collection(int id, HashSet<Integer> photos) {
         this.id = id;
         this.photos = photos;
     }
+
     public Collection(JSONObject collectionData) {
         this.id = collectionData.getInt("id");
         try {
@@ -72,6 +76,7 @@ public class Collection {
             this.photos = null;
         }
     }
+
     public void editCollectionMetadata(JSONObject metadata) {
         if (title != null) {
             try {
@@ -84,6 +89,7 @@ public class Collection {
             this.visibility = metadata.getString("visibility");
         }
     }
+
     public void editCollectionPhoto(JSONObject changes) {
         if (this.photos != null) {
             try {
@@ -104,6 +110,7 @@ public class Collection {
             }
         }
     }
+
     public JSONObject toJSONObject() {
         JSONObject object = new JSONObject();
         object.put("id", id);

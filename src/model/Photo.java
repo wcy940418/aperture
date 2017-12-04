@@ -23,6 +23,7 @@ public class Photo {
     private Date timeUploaded;
     private String category;
     private DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS", Locale.ENGLISH);
+
     public Photo(int id, int uploaderId, String title, String description, String visibility, float lon, float lat,
                  String country, String city, String street, String zip, Date timeCaptured, Date timeUploaded,
                  String category) {
@@ -41,6 +42,7 @@ public class Photo {
         this.timeUploaded = timeUploaded;
         this.category = category;
     }
+
     public Photo(JSONObject object) {
         try {
             this.timeCaptured = dateFormat.parse(object.getString("time_captured"));
@@ -65,6 +67,7 @@ public class Photo {
         this.zip = object.getString("zip");
         this.category = object.getString("category");
     }
+
     public void editPhotoInfo(JSONObject object) {
         try {
             this.timeCaptured = dateFormat.parse(object.getString("time_captured"));
@@ -81,6 +84,29 @@ public class Photo {
         this.street = object.getString("street");
         this.zip = object.getString("zip");
         this.category = object.getString("category");
+    }
+
+    public JSONObject toJSONObject() {
+        JSONObject object = new JSONObject();
+        try {
+            object.put("id", id);
+            object.put("uploader_id", uploaderId);
+            object.put("title", title);
+            object.put("description", description);
+            object.put("lon", lon);
+            object.put("lat", lat);
+            object.put("country", country);
+            object.put("city", city);
+            object.put("street", street);
+            object.put("visibility", visibility);
+            object.put("zip", zip);
+            object.put("time_captured", dateFormat.format(timeCaptured));
+            object.put("time_uploaded", dateFormat.format(timeUploaded));
+            object.put("category", category);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return object;
     }
 
     public int getId() {
@@ -137,29 +163,5 @@ public class Photo {
 
     public String getCategory() {
         return category;
-    }
-
-    public JSONObject toJSONObject() {
-        JSONObject object = new JSONObject();
-        try {
-            object.put("id", id);
-            object.put("uploader_id", uploaderId);
-            object.put("title", title);
-            object.put("description", description);
-            object.put("lon", lon);
-            object.put("lat", lat);
-            object.put("country", country);
-            object.put("city", city);
-            object.put("street", street);
-            object.put("visibility", visibility);
-            object.put("zip", zip);
-            object.put("time_captured", dateFormat.format(timeCaptured));
-            object.put("time_uploaded", dateFormat.format(timeUploaded));
-            object.put("category", category);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return object;
-
     }
 }

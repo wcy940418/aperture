@@ -8,13 +8,12 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
 
-import com.FileException;
 import com.IDException;
 import model.Collection;
 import model.Photo;
 import model.Event;
+import model.Profile;
 import org.json.*;
-import db.PhotoDBUtil;
 
 public class MySQLDBConnection implements DBConnection{
     private Connection conn = null;
@@ -133,7 +132,7 @@ public class MySQLDBConnection implements DBConnection{
     }
 
     @Override
-    public JSONArray getPhotos(int userId, int friendUserId, int columnCount, int offset, String urlPrefix)
+    public JSONArray getPhotos(int userId, int friendUserId, int columnCount, int offset)
             throws IDException, SQLException {
 
         try {
@@ -151,19 +150,17 @@ public class MySQLDBConnection implements DBConnection{
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getString("visibility"),
-                        rs.getFloat("longtitude"),
+                        rs.getFloat("longitude"),
                         rs.getFloat("latitude"),
                         rs.getString("country"),
                         rs.getString("city"),
                         rs.getString("street"),
                         rs.getString("zip"),
-                        rs.getDate("time_captured"),
-                        rs.getDate("time_uploaded"),
+                        rs.getTimestamp("time_captured"),
+                        rs.getTimestamp("time_uploaded"),
                         rs.getString("category_name")
                         );
                 JSONObject photoJSON = photo.toJSONObject();
-                photoJSON.put("photo_url", urlPrefix + "/photo/" + Integer.toString(photo.getId()));
-                photoJSON.put("thumbnail_url", urlPrefix + "/thumb/" + Integer.toString(photo.getId()));
                 photos.put(photoJSON);
             }
             return photos;
@@ -191,9 +188,9 @@ public class MySQLDBConnection implements DBConnection{
                         rs.getString("description"),
                         rs.getInt("limitation"),
                         rs.getString("visibility"),
-                        rs.getDate("time_created"),
-                        rs.getDate("time_happened"),
-                        rs.getFloat("longtitude"),
+                        rs.getTimestamp("time_created"),
+                        rs.getTimestamp("time_happened"),
+                        rs.getFloat("longitude"),
                         rs.getFloat("latitude"),
                         rs.getString("country"),
                         rs.getString("city"),
@@ -213,7 +210,7 @@ public class MySQLDBConnection implements DBConnection{
     @Override
     public int uploadPhoto(int userId, JSONObject metadata) throws IDException, SQLException {
         String query = "INSERT INTO Photo " +
-                "(upload_by_userID, category_name, title, description, longtitude, latitude, " +
+                "(upload_by_userID, category_name, title, description, longitude, latitude, " +
                 "country, city, street, zip, time_captured, visibility)" +
                 "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         DateFormat format = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS", Locale.ENGLISH);
@@ -275,7 +272,7 @@ public class MySQLDBConnection implements DBConnection{
     @Override
     public int createEvent(int userId, JSONObject metadata) throws IDException, SQLException {
         String query = "INSERT INTO Event " +
-                "(host_userID, title, description, longtitude, latitude, limitation, " +
+                "(host_userID, title, description, longitude, latitude, limitation, " +
                 "country, city, street, zip, time_happened, visibility)" +
                 "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         DateFormat format = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS", Locale.ENGLISH);
@@ -336,8 +333,8 @@ public class MySQLDBConnection implements DBConnection{
     }
 
     @Override
-    public int sendInvitation(int userId, int toUserId) throws IDException, SQLException {
-        String query = "INSERT INTO Message (from_userID, to_userID, type)" +
+    public int sendInvitation(int userId, int toUserId, String content) throws IDException, SQLException {
+        String query = "INSERT INTO Message (from_userID, to_userID, type, content)" +
                 "VALUES (?,?,?,?)";
         int messageId = 0;
         try {
@@ -345,6 +342,7 @@ public class MySQLDBConnection implements DBConnection{
             statement.setInt(1, userId);
             statement.setInt(2, toUserId);
             statement.setString(3, "invitation");
+            statement.setString(4, content);
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             if (rs.next()) {
@@ -401,7 +399,7 @@ public class MySQLDBConnection implements DBConnection{
     @Override
     public void editEvent(int userId, int eventId, JSONObject metadata) throws IDException, SQLException {
         String query = "UPDATE Event SET title = ?, description = ?, limitation = ?, visibility = ?, time_happened = ?," +
-                "longtitude = ?, latitude = ?, country = ?, city = ?, street = ?, zip = ? WHERE ID = ?";
+                "longitude = ?, latitude = ?, country = ?, city = ?, street = ?, zip = ? WHERE ID = ?";
         Event event = new Event(metadata);
         try {
             PreparedStatement statement = conn.prepareStatement(query);
@@ -426,7 +424,7 @@ public class MySQLDBConnection implements DBConnection{
 
     @Override
     public void editPhoto(int userId, int photoId, JSONObject metadata) throws IDException, SQLException {
-        String query = "UPDATE Photo SET category_name = ?, title = ?, description = ?, longtitude = ?, country = ?," +
+        String query = "UPDATE Photo SET category_name = ?, title = ?, description = ?, longitude = ?, country = ?," +
                 "city = ?, street = ?, zip = ?, time_captured = ?, visibility = ? WHERE ID = ?";
         Photo photo = new Photo(metadata);
         try {
@@ -468,7 +466,23 @@ public class MySQLDBConnection implements DBConnection{
 
     @Override
     public void editProfile(int userId, JSONObject profileData) throws IDException, SQLException {
-
+        String query = "UPDATE User SET first_name = ?, last_name = ?, DOB = ?, country = ?," +
+                "introduction = ?, gender = ? WHERE ID = ?";
+        Profile profile = new Profile(profileData);
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, profile.getFirstName());
+            statement.setString(2, profile.getLastName());
+            statement.setDate(3, new java.sql.Date(profile.getDOB().getTime()));
+            statement.setString(4, profile.getCountry());
+            statement.setString(5, profile.getIntroduction());
+            statement.setString(6, profile.getGender());
+            statement.setInt(7, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
     }
 
     @Override
@@ -523,6 +537,460 @@ public class MySQLDBConnection implements DBConnection{
                 statement.addBatch();
             }
             statement.executeBatch();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public void changePassword(int userId, String oldPassword, String newPassword) throws SQLException {
+        String query = "UPDATE User SET password = ? WHERE ID = ? AND password = ?";
+        try {
+            oldPassword = getMD5(oldPassword);
+            newPassword = getMD5(newPassword);
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, newPassword);
+            statement.setInt(2, userId);
+            statement.setString(3, oldPassword);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public void changeUsername(int userId, String newUsername) throws SQLException {
+        String query = "UPDATE User SET username = ? WHERE ID = ?";
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, newUsername);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public void changeEmail(int userId, String newEmail) throws SQLException {
+        String query = "UPDATE User SET email = ? WHERE ID = ?";
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, newEmail);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public JSONArray getFriendList(int userId, int toSeeUserId) throws IDException, SQLException {
+        String query = "CALL show_friends(?,?)";
+        JSONArray friendList = new JSONArray();
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            statement.setInt(2, toSeeUserId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                JSONObject person = new JSONObject();
+                person.put("id", rs.getInt("ID"));
+                person.put("first_name", rs.getString("first_name"));
+                person.put("last_name", rs.getString("last_name"));
+                friendList.put(person);
+            }
+            return friendList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public JSONArray getMessageList(int userId, int friendUserId, int columnCount, int offset) throws IDException, SQLException {
+        String query = "SELECT ID, from_userID, time_stamp, is_read, content FROM Message" +
+                "WHERE (from_userID = ? AND to_userID = ?) OR (to_userID = ? AND from_userID = ?)" +
+                "ORDER BY time_stamp DESC" +
+                "LIMIT ?, ?";
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS", Locale.ENGLISH);
+            JSONArray messageList = new JSONArray();
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            statement.setInt(2, friendUserId);
+            statement.setInt(3, userId);
+            statement.setInt(4, friendUserId);
+            statement.setInt(5, offset);
+            statement.setInt(6, columnCount);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                JSONObject message = new JSONObject();
+                message.put("id", rs.getInt("ID"));
+                message.put("to_from", rs.getInt("from_userID") == userId ? "from" : "to");
+                message.put("time_stamp", dateFormat.format(rs.getTimestamp("time_stamp")));
+                message.put("is_read", rs.getBoolean("is_read"));
+                message.put("content", rs.getString("content"));
+                messageList.put(message);
+            }
+            return messageList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public JSONArray getInvitationList(int userId) throws IDException, SQLException {
+        String query = "SELECT ID, to_userID, time_stamp FROM Message" +
+                "WHERE (from_userID = ? OR to_userID = ?) AND is_read = FALSE";
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS", Locale.ENGLISH);
+            JSONArray invitationList = new JSONArray();
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            statement.setInt(2, userId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                JSONObject invitation = new JSONObject();
+                invitation.put("id", rs.getInt("ID"));
+                invitation.put("to", rs.getInt("to_userID"));
+                invitation.put("time_stamp", dateFormat.format(rs.getTimestamp("time_stamp")));
+                invitation.put("content", rs.getString("content"));
+                invitationList.put(invitation);
+            }
+            return invitationList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public JSONObject getPhoto(int userId, int photoId) throws IDException, SQLException {
+        String query = "CALL show_photo(?,?)";
+        JSONObject photoJSON = new JSONObject();
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            statement.setInt(2, photoId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                Photo photo = new Photo(rs.getInt("ID"),
+                        rs.getInt("upload_by_userID"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getString("visibility"),
+                        rs.getFloat("longitude"),
+                        rs.getFloat("latitude"),
+                        rs.getString("country"),
+                        rs.getString("city"),
+                        rs.getString("street"),
+                        rs.getString("zip"),
+                        rs.getTimestamp("time_captured"),
+                        rs.getTimestamp("time_uploaded"),
+                        rs.getString("category_name")
+                );
+                photoJSON = photo.toJSONObject();
+            }
+            return photoJSON;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public JSONArray getFOF(int userId) throws IDException, SQLException {
+        String query = "CALL show_FOF(?)";
+        JSONArray FOFArr = new JSONArray();
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                JSONObject FOF = new JSONObject();
+                FOF.put("id", rs.getInt("ID"));
+                FOF.put("first_name", rs.getString("first_name"));
+                FOF.put("last_name", rs.getString("last_name"));
+                FOFArr.put(FOF);
+            }
+            return FOFArr;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public JSONObject getEvent(int userId, int eventId) throws IDException, SQLException {
+        String query = "CALL show_event(?,?)";
+        JSONObject eventJSON = new JSONObject();
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            statement.setInt(2, eventId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                Event event = new Event(rs.getInt("ID"),
+                        rs.getInt("host_userID"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getInt("limitation"),
+                        rs.getString("visibility"),
+                        rs.getTimestamp("time_created"),
+                        rs.getTimestamp("time_happened"),
+                        rs.getFloat("longitude"),
+                        rs.getFloat("latitude"),
+                        rs.getString("country"),
+                        rs.getString("city"),
+                        rs.getString("street"),
+                        rs.getString("zip"));
+                eventJSON = event.toJSONObject();
+            }
+            return eventJSON;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public JSONObject getCollection(int userId, int collectionId) throws IDException, SQLException {
+        String query = "CALL show_collection(?,?)";
+        String queryPhotos = "SELECT photoID FROM Collection_photo WHERE collectionID = ?";
+        JSONObject collectionJSON = new JSONObject();
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            statement.setInt(2, collectionId);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                PreparedStatement statementPhotos = conn.prepareStatement(queryPhotos);
+                ResultSet rsPhotos = statementPhotos.executeQuery();
+                HashSet<Integer> photos = new HashSet<Integer>();
+                while (rsPhotos.next()) {
+                    photos.add(rsPhotos.getInt("photoID"));
+                }
+                Collection collection = new Collection(rs.getInt("ID"),
+                        rs.getInt("host_userID"),
+                        rs.getString("title"),
+                        rs.getString("visibility"),
+                        rs.getString("description"),
+                        rs.getTimestamp("time_created"),
+                        photos);
+                collectionJSON = collection.toJSONObject();
+            }
+            return collectionJSON;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public JSONArray getCollections(int userId, int friendUserId, int columnCount, int offset) throws IDException, SQLException {
+        try {
+            String query = "CALL show_collections(?,?,?,?)";
+            JSONArray collections = new JSONArray();
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            statement.setInt(2, friendUserId);
+            statement.setInt(3, columnCount);
+            statement.setInt(4, offset);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Collection collection = new Collection(rs.getInt("ID"),
+                        rs.getInt("host_userID"),
+                        rs.getString("title"),
+                        rs.getString("visibility"),
+                        rs.getString("description"),
+                        rs.getTimestamp("time_created")
+                );
+                JSONObject collectionJSON = collection.toJSONObject();
+                collections.put(collectionJSON);
+            }
+            return collections;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public JSONObject getProfile(int userId, int toSeeUserId) throws IDException, SQLException {
+        String query = "CALL show_profile(?,?)";
+        JSONObject profileJSON = new JSONObject();
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            statement.setInt(2, toSeeUserId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                Profile profile = new Profile(
+                        rs.getInt("ID "),
+                        rs.getString("username"),
+                        rs.getString("email"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getDate("DOB"),
+                        rs.getTimestamp("lastAccessTime"),
+                        rs.getString("country"),
+                        rs.getString("introduction"),
+                        rs.getString("gender")
+                );
+                profileJSON = profile.toJSONObject();
+            }
+            return profileJSON;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public JSONArray searchPhoto(int userId, String keyWord, String scope, int days, int columnCount, int offset)
+            throws IDException, SQLException {
+        String query = "CALL search_photos(?,?,?,?,?,?)";
+        JSONArray photos = new JSONArray();
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            statement.setString(2, keyWord);
+            statement.setString(3, scope);
+            statement.setInt(4, days);
+            statement.setInt(5, columnCount);
+            statement.setInt(6, offset);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Photo photo = new Photo(rs.getInt("ID"),
+                        rs.getInt("upload_by_userID"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getString("visibility"),
+                        rs.getFloat("longitude"),
+                        rs.getFloat("latitude"),
+                        rs.getString("country"),
+                        rs.getString("city"),
+                        rs.getString("street"),
+                        rs.getString("zip"),
+                        rs.getTimestamp("time_captured"),
+                        rs.getTimestamp("time_uploaded"),
+                        rs.getString("category_name")
+                );
+                JSONObject photoJSON = photo.toJSONObject();
+                photos.put(photoJSON);
+            }
+            return photos;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public JSONArray searchEvent(int userId, String keyWord, int columnCount, int offset) throws IDException, SQLException {
+        String query = "CALL search_events(?,?,?,?)";
+        JSONArray events = new JSONArray();
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            statement.setString(2, keyWord);
+            statement.setInt(3, columnCount);
+            statement.setInt(4, offset);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Event event = new Event(rs.getInt("ID"),
+                        rs.getInt("host_userID"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getInt("limitation"),
+                        rs.getString("visibility"),
+                        rs.getTimestamp("time_created"),
+                        rs.getTimestamp("time_happened"),
+                        rs.getFloat("longitude"),
+                        rs.getFloat("latitude"),
+                        rs.getString("country"),
+                        rs.getString("city"),
+                        rs.getString("street"),
+                        rs.getString("zip")
+                );
+                JSONObject eventJSON = event.toJSONObject();
+                events.put(eventJSON);
+            }
+            return events;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public JSONArray searchCollection(int userId, String keyWord, int columnCount, int offset) throws IDException, SQLException {
+        try {
+            String query = "CALL search_collections(?,?,?,?)";
+            JSONArray collections = new JSONArray();
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            statement.setString(2, keyWord);
+            statement.setInt(3, columnCount);
+            statement.setInt(4, offset);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Collection collection = new Collection(rs.getInt("ID"),
+                        rs.getInt("host_userID"),
+                        rs.getString("title"),
+                        rs.getString("visibility"),
+                        rs.getString("description"),
+                        rs.getTimestamp("time_created")
+                );
+                JSONObject collectionJSON = collection.toJSONObject();
+                collections.put(collectionJSON);
+            }
+            return collections;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public JSONArray searchEventByLoc(int userId, JSONObject location, int columnCount, int offset) throws IDException, SQLException {
+        String query = "CALL search_local_events(?,?,?,?,?)";
+        JSONArray events = new JSONArray();
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            statement.setString(2, location.getString("search_city"));
+            statement.setString(3, location.getString("search_street"));
+            statement.setInt(4, columnCount);
+            statement.setInt(5, offset);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Event event = new Event(rs.getInt("ID"),
+                        rs.getInt("host_userID"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getInt("limitation"),
+                        rs.getString("visibility"),
+                        rs.getTimestamp("time_created"),
+                        rs.getTimestamp("time_happened"),
+                        rs.getFloat("longitude"),
+                        rs.getFloat("latitude"),
+                        rs.getString("country"),
+                        rs.getString("city"),
+                        rs.getString("street"),
+                        rs.getString("zip")
+                );
+                JSONObject eventJSON = event.toJSONObject();
+                events.put(eventJSON);
+            }
+            return events;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException("Internal error");

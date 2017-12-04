@@ -23,6 +23,31 @@ public interface DBConnection {
     public int signUp(String username, String email, String password, String firstName, String lastName) throws IDException, SQLException;
 
     /**
+     * Change password
+     * @param userId
+     * @param oldPassword
+     * @param newPassword
+     * @throws SQLException
+     */
+    public void changePassword(int userId, String oldPassword, String newPassword) throws SQLException;
+
+    /**
+     * Change username
+     * @param userId
+     * @param newUsername
+     * @throws SQLException
+     */
+    public void changeUsername(int userId, String newUsername) throws SQLException;
+
+    /**
+     * Change email
+     * @param userId
+     * @param newEmail
+     * @throws SQLException
+     */
+    public void changeEmail(int userId, String newEmail) throws SQLException;
+
+    /**
      * Verify sign in
      * @param usernameEmail
      * @param password
@@ -34,11 +59,12 @@ public interface DBConnection {
     /**
      * Get friend list
      * @param userId
-     * @return JSONObject of {userId, first_name + last_name}
+     * @param toSeeUserId
+     * @return JSONArray of {userId, first_name, last_name}
      * @throws IDException e
      * @throws SQLException
      */
-    public JSONObject getFriendList(int userId) throws IDException, SQLException;
+    public JSONArray getFriendList(int userId, int toSeeUserId) throws IDException, SQLException;
     /**
      * Get message list with a specific user
      * @param userId
@@ -49,11 +75,11 @@ public interface DBConnection {
      * @throws IDException e
      * @throws SQLException
      */
-    public JSONObject getMessageList(int userId, int friendUserId, int columnCount, int offset) throws IDException, SQLException;
+    public JSONArray getMessageList(int userId, int friendUserId, int columnCount, int offset) throws IDException, SQLException;
     /**
      * Get invitation list
      * @param userId
-     * @return JSONArray(time desc) of {friendUserId, messageId, timeStamp}
+     * @return JSONArray(time desc) of {messageId, friendUserId, timeStamp}
      * @throws IDException e
      * @throws SQLException
      */
@@ -61,24 +87,23 @@ public interface DBConnection {
     /**
      * Get FOFs
      * @param userId
-     * @return JSONObject of {userId, first_name + last_name, messageId}
+     * @return JSONArray of {userId, first_name, last_name}
      * @throws IDException e
      * @throws SQLException
      */
-    public JSONObject getFOF(int userId) throws IDException, SQLException;
+    public JSONArray getFOF(int userId) throws IDException, SQLException;
     /**
      * Get photos
      * @param userId
      * @param friendUserId
      * @param columnCount
      * @param offset
-     * @param urlPrefix
      * @return JSONArray of {photoId, uploaderName, category, title, description, lon, lat, country, city, street, zip,
      *                      time_cap, time_upload}
      * @throws IDException e
      * @throws SQLException
      */
-    public JSONArray getPhotos(int userId, int friendUserId, int columnCount, int offset, String urlPrefix) throws IDException, SQLException;
+    public JSONArray getPhotos(int userId, int friendUserId, int columnCount, int offset) throws IDException, SQLException;
     /**
      * Get events
      * @param userId
@@ -141,21 +166,20 @@ public interface DBConnection {
      * Get photo
      * @param userId
      * @param photoId
-     * @param urlPrefix
      * @return photo metadata
      * @throws IDException
      * @throws SQLException
      */
-    public JSONObject getPhoto(int userId, int photoId, String urlPrefix) throws IDException, SQLException;
+    public JSONObject getPhoto(int userId, int photoId) throws IDException, SQLException;
     /**
      * Get profile
      * @param userId
-     * @param profileUserId
+     * @param toSeeUserId
      * @return JSONObject profileData
      * @throws IDException e
      * @throws SQLException
      */
-    public JSONObject getProfile(int userId, int profileUserId) throws IDException, SQLException;
+    public JSONObject getProfile(int userId, int toSeeUserId) throws IDException, SQLException;
     /**
      * Edit profile
      * @param userId
@@ -177,11 +201,12 @@ public interface DBConnection {
      * Send invitation
      * @param userId
      * @param toUserId
+     * @param content
      * @throws IDException e
      * @throws SQLException
      * @return invitationId(messageId)
      */
-    public int sendInvitation(int userId, int toUserId) throws IDException, SQLException;
+    public int sendInvitation(int userId, int toUserId, String content) throws IDException, SQLException;
     /**
      * Accept invitation
      * @param messageId
@@ -265,37 +290,43 @@ public interface DBConnection {
      * @throws IDException
      * @throws SQLException
      */
-    public JSONArray searchPhoto(int userId, String keyWord, String scope, int days) throws IDException, SQLException;
+    public JSONArray searchPhoto(int userId, String keyWord, String scope, int days, int columnCount, int offset) throws IDException, SQLException;
 
     /**
      * Search event by using keyword in title and description
      * @param userId
      * @param keyWord
+     * @param columnCount
+     * @param offset
      * @return JSONArray of eventData
      * @throws IDException
      * @throws SQLException
      */
-    public JSONArray searchEvent(int userId, String keyWord) throws IDException, SQLException;
+    public JSONArray searchEvent(int userId, String keyWord, int columnCount, int offset) throws IDException, SQLException;
 
     /**
      * Search event by using location information
      * @param userId
      * @param location {lon, lat, country, city, street, zip} lon and lat have higher priority
+     * @param columnCount
+     * @param offset
      * @return JSONArray of eventData
      * @throws IDException
      * @throws SQLException
      */
-    public JSONArray searchEventByLoc(int userId, JSONObject location) throws IDException, SQLException;
+    public JSONArray searchEventByLoc(int userId, JSONObject location, int columnCount, int offset) throws IDException, SQLException;
 
     /**
      * Search collection by using keyword
      * @param userId
      * @param keyWord
+     * @param columnCount
+     * @param offset
      * @return JSONArray of collectionData
      * @throws IDException
      * @throws SQLException
      */
-    public JSONArray searchCollection(int userId, String keyWord) throws IDException, SQLException;
+    public JSONArray searchCollection(int userId, String keyWord, int columnCount, int offset) throws IDException, SQLException;
 
     /**
      * User register event

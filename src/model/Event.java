@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Event {
-    private int id;
-    private int hostId;
+    private final int id;
+    private final int hostId;
     private String title;
     private String description;
     private int limitation;
