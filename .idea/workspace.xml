@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f1db75d3-96f7-495a-8ad6-c6d8c87e9765" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/ChangePassword.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/api/RpcParser.java" afterPath="$PROJECT_DIR$/src/api/RpcParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/api/SignIn.java" afterPath="$PROJECT_DIR$/src/api/SignIn.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/api/SignOut.java" afterPath="$PROJECT_DIR$/src/api/SignOut.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/api/SignUp.java" afterPath="$PROJECT_DIR$/src/api/SignUp.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/api/ChangePassword.java" afterPath="$PROJECT_DIR$/src/api/ChangePassword.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -46,11 +41,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="MySQLDBConnection.java" pinned="false" current-in-tab="false">
+          <file leaf-file-name="MySQLDBConnection.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/db/MySQLDBConnection.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="147">
-                  <caret line="48" column="16" lean-forward="true" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="16" />
+                <state relative-caret-position="303">
+                  <caret line="555" column="38" lean-forward="true" selection-start-line="555" selection-start-column="38" selection-end-line="555" selection-end-column="38" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#459#460#0" expanded="true" />
@@ -108,12 +103,14 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="SignOut.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="SignOut.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/api/SignOut.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="75">
-                  <caret line="5" column="38" lean-forward="true" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
-                  <folding />
+                <state relative-caret-position="135">
+                  <caret line="9" column="27" lean-forward="true" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -131,8 +128,8 @@
           <file leaf-file-name="web.xml" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/web/WEB-INF/web.xml">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="292">
-                  <caret line="26" column="49" lean-forward="true" selection-start-line="26" selection-start-column="49" selection-end-line="26" selection-end-column="49" />
+                <state relative-caret-position="382">
+                  <caret line="41" column="0" lean-forward="true" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -142,7 +139,7 @@
             <entry file="file://$PROJECT_DIR$/src/api/ChangePassword.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="315">
-                  <caret line="21" column="20" lean-forward="false" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
+                  <caret line="21" column="40" lean-forward="true" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -265,12 +262,12 @@
         <option value="$PROJECT_DIR$/web/index.html" />
         <option value="$PROJECT_DIR$/src/db/MySQLDBConnection.java" />
         <option value="$PROJECT_DIR$/src/api/TemplateApi.java" />
-        <option value="$PROJECT_DIR$/web/WEB-INF/web.xml" />
-        <option value="$PROJECT_DIR$/src/api/ChangePassword.java" />
         <option value="$PROJECT_DIR$/src/api/SignOut.java" />
         <option value="$PROJECT_DIR$/src/api/RpcParser.java" />
         <option value="$PROJECT_DIR$/src/api/SignIn.java" />
         <option value="$PROJECT_DIR$/src/api/SignUp.java" />
+        <option value="$PROJECT_DIR$/web/WEB-INF/web.xml" />
+        <option value="$PROJECT_DIR$/src/api/ChangePassword.java" />
       </list>
     </option>
   </component>
@@ -288,8 +285,8 @@
     <option name="CUSTOM_FILTER" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="66" />
-    <option name="y" value="22" />
+    <option name="x" value="402" />
+    <option name="y" value="373" />
     <option name="width" value="1884" />
     <option name="height" value="1037" />
   </component>
@@ -635,15 +632,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1511991801805</updated>
-      <workItem from="1511991811590" duration="126328000" />
+      <workItem from="1511991811590" duration="127099000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="126328000" />
+    <option name="totallyTimeSpent" value="127099000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="66" y="22" width="1884" height="1037" extended-state="0" />
+    <frame x="402" y="373" width="1884" height="1037" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -653,7 +650,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3189466" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14649682" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -666,7 +663,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38549224" sideWeight="0.49677938" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13110404" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13110404" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19170985" sideWeight="0.49574327" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -870,42 +867,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/db/MySQLDBConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="48" column="16" lean-forward="true" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#459#460#0" expanded="true" />
-            <element signature="e#491#492#0" expanded="true" />
-            <element signature="e#32944#32953#0" expanded="true" />
-            <marker date="1512418924000" expanded="true" signature="2234:2320" ph="INSERT INTO User... " />
-            <marker date="1512418924000" expanded="true" signature="3762:3810" ph="SELECT passw... User" />
-            <marker date="1512418924000" expanded="true" signature="3851:3896" ph="SELECT passw... User" />
-            <marker date="1512418924000" expanded="true" signature="8017:8259" ph="INSERT INTO Photo... " />
-            <marker date="1512418924000" expanded="true" signature="9996:10081" ph="INSERT INTO Collection... " />
-            <marker date="1512418924000" expanded="true" signature="10969:11203" ph="INSERT INTO Event... " />
-            <marker date="1512418924000" expanded="true" signature="12930:13026" ph="INSERT INTO Message... " />
-            <marker date="1512418924000" expanded="true" signature="13886:13982" ph="INSERT INTO Message... " />
-            <marker date="1512418924000" expanded="true" signature="14784:14842" ph="INSERT INTO User_like_photo... " />
-            <marker date="1512418924000" expanded="true" signature="15772:15837" ph="INSERT INTO User_participate_event... " />
-            <marker date="1512418924000" expanded="true" signature="16332:16532" ph="UPDATE Event... " />
-            <marker date="1512418924000" expanded="true" signature="17668:17857" ph="UPDATE Photo... " />
-            <marker date="1512418924000" expanded="true" signature="18958:19035" ph="UPDATE Colle... " />
-            <marker date="1512418924000" expanded="true" signature="19738:19868" ph="UPDATE User " />
-            <marker date="1512418924000" expanded="true" signature="20947:21024" ph="UPDATE Frien... " />
-            <marker date="1512418924000" expanded="true" signature="21757:21822" ph="INSERT INTO Collection_photo... " />
-            <marker date="1512418924000" expanded="true" signature="21852:21916" ph="DELETE FROM " />
-            <marker date="1512418924000" expanded="true" signature="23135:23193" ph="UPDATE User " />
-            <marker date="1512418924000" expanded="true" signature="23816:23857" ph="UPDATE User " />
-            <marker date="1512418924000" expanded="true" signature="24331:24369" ph="UPDATE User " />
-            <marker date="1512418924000" expanded="true" signature="25828:26070" ph="SELECT ID, f... MessageWHERE" />
-            <marker date="1512418924000" expanded="true" signature="27436:27543" ph="SELECT ID, f... MessageWHERE" />
-            <marker date="1512418924000" expanded="true" signature="32361:32420" ph="SELECT photo... Collection_photo" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/IDException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -922,29 +883,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/WEB-INF/web.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
-          <caret line="26" column="49" lean-forward="true" selection-start-line="26" selection-start-column="49" selection-end-line="26" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="8" lean-forward="true" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/api/ChangePassword.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="20" lean-forward="false" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -981,9 +924,65 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/api/SignOut.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="38" lean-forward="true" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
+        <state relative-caret-position="135">
+          <caret line="9" column="27" lean-forward="true" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/web.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="382">
+          <caret line="41" column="0" lean-forward="true" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/ChangePassword.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="40" lean-forward="true" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/db/MySQLDBConnection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="555" column="38" lean-forward="true" selection-start-line="555" selection-start-column="38" selection-end-line="555" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#459#460#0" expanded="true" />
+            <element signature="e#491#492#0" expanded="true" />
+            <element signature="e#32944#32953#0" expanded="true" />
+            <marker date="1512418924000" expanded="true" signature="2234:2320" ph="INSERT INTO User... " />
+            <marker date="1512418924000" expanded="true" signature="3762:3810" ph="SELECT passw... User" />
+            <marker date="1512418924000" expanded="true" signature="3851:3896" ph="SELECT passw... User" />
+            <marker date="1512418924000" expanded="true" signature="8017:8259" ph="INSERT INTO Photo... " />
+            <marker date="1512418924000" expanded="true" signature="9996:10081" ph="INSERT INTO Collection... " />
+            <marker date="1512418924000" expanded="true" signature="10969:11203" ph="INSERT INTO Event... " />
+            <marker date="1512418924000" expanded="true" signature="12930:13026" ph="INSERT INTO Message... " />
+            <marker date="1512418924000" expanded="true" signature="13886:13982" ph="INSERT INTO Message... " />
+            <marker date="1512418924000" expanded="true" signature="14784:14842" ph="INSERT INTO User_like_photo... " />
+            <marker date="1512418924000" expanded="true" signature="15772:15837" ph="INSERT INTO User_participate_event... " />
+            <marker date="1512418924000" expanded="true" signature="16332:16532" ph="UPDATE Event... " />
+            <marker date="1512418924000" expanded="true" signature="17668:17857" ph="UPDATE Photo... " />
+            <marker date="1512418924000" expanded="true" signature="18958:19035" ph="UPDATE Colle... " />
+            <marker date="1512418924000" expanded="true" signature="19738:19868" ph="UPDATE User " />
+            <marker date="1512418924000" expanded="true" signature="20947:21024" ph="UPDATE Frien... " />
+            <marker date="1512418924000" expanded="true" signature="21757:21822" ph="INSERT INTO Collection_photo... " />
+            <marker date="1512418924000" expanded="true" signature="21852:21916" ph="DELETE FROM " />
+            <marker date="1512418924000" expanded="true" signature="23135:23193" ph="UPDATE User " />
+            <marker date="1512418924000" expanded="true" signature="23816:23857" ph="UPDATE User " />
+            <marker date="1512418924000" expanded="true" signature="24331:24369" ph="UPDATE User " />
+            <marker date="1512418924000" expanded="true" signature="25828:26070" ph="SELECT ID, f... MessageWHERE" />
+            <marker date="1512418924000" expanded="true" signature="27436:27543" ph="SELECT ID, f... MessageWHERE" />
+            <marker date="1512418924000" expanded="true" signature="32361:32420" ph="SELECT photo... Collection_photo" />
+          </folding>
         </state>
       </provider>
     </entry>

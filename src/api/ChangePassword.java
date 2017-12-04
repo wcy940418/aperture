@@ -17,6 +17,7 @@ public class ChangePassword extends HttpServlet {
         JSONObject request = RpcParser.parseInput(req);
         JSONObject response = new JSONObject();
         try {
+            RpcParser.checkSignIn(req);
             RpcParser.checkKeys(request, "old_password", "new_password");
             conn.changePassword(request.getInt("user_id"),
                     request.getString("old_password"),
@@ -27,5 +28,6 @@ public class ChangePassword extends HttpServlet {
             resp.setStatus(400);
             response.put("status", e.getMessage());
         }
+        RpcParser.writeOutput(resp, response);
     }
 }

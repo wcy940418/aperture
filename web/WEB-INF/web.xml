@@ -40,4 +40,13 @@
         <url-pattern>/api/sign_out</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>api-ChangePassword</servlet-name>
+        <servlet-class>api.ChangePassword</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-ChangePassword</servlet-name>
+        <url-pattern>/api/change_password</url-pattern>
+    </servlet-mapping>
+
 </web-app>
