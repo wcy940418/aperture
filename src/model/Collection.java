@@ -18,7 +18,7 @@ public class Collection {
     private String visibility = null;
     private Date timeCreated = null;
     private HashSet<Integer> photos = null;
-    private DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS", Locale.ENGLISH);
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
 
     public Collection(int id, int hostId, String title, String visibility, String description, Date timeCreated,
                       HashSet<Integer> photos) {

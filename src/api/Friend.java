@@ -2,20 +2,20 @@ package api;
 
 import db.DBConnection;
 import db.MySQLDBConnection;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class SignIn extends HttpServlet{
+public class Friend extends HttpServlet{
     private static final DBConnection conn = new MySQLDBConnection();
 
     /**
-     * Sign in
+     * Set friend visibility
      * @param req
      * @param resp
      * @throws ServletException
@@ -23,38 +23,26 @@ public class SignIn extends HttpServlet{
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         JSONObject response = new JSONObject();
         try {
-            RpcParser.checkSignOut(req);
+            RpcParser.checkSignIn(req);
             JSONObject request = RpcParser.parseInput(req);
-            RpcParser.checkKeys(request, "username_or_email", "password", "remember");
-            try {
-                int userId = conn.verifySignIn(request.getString("username_or_email"),
-                        request.getString("password"));
-                HttpSession session = req.getSession();
-                session.setAttribute("user_id", userId);
-                if (request.getBoolean("remember")) {
-                    session.setMaxInactiveInterval(60 * 60 * 24 * 15);
-                } else {
-                    session.setMaxInactiveInterval(60 * 60);
-                }
-                response.put("user_id", userId);
-            } catch (Exception e) {
-                e.printStackTrace();
-                resp.setStatus(400);
-                response.put("status", e.getMessage());
-            }
+            RpcParser.checkKeys(request, "friend_user_id", "visibility");
+            conn.setFriendshipVisibility(request.getInt("user_id"),
+                    request.getInt("friend_user_id"),
+                    request.getString("visibility"));
+
         } catch (Exception e) {
             e.printStackTrace();
             resp.setStatus(400);
             response.put("status", e.getMessage());
         }
+
         RpcParser.writeOutput(resp, response);
     }
 
     /**
-     * Sign in (get status)
+     * Get friend list
      * @param req
      * @param resp
      * @throws ServletException
@@ -64,15 +52,18 @@ public class SignIn extends HttpServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject response = new JSONObject();
         try {
-                RpcParser.checkSignIn(req);
-                JSONObject request = RpcParser.parseInput(req);
-                response.put("user_id", request.getInt("user_id"));
-
+            RpcParser.checkSignIn(req);
+            JSONObject request = RpcParser.parseInput(req);
+            RpcParser.checkKeys(request, "to_see_user_id");
+            JSONArray friends = conn.getFriendList(request.getInt("user_id"),
+                    request.getInt("to_see_user_id"));
+            response.put("friends", friends);
         } catch (Exception e) {
             e.printStackTrace();
             resp.setStatus(400);
             response.put("status", e.getMessage());
         }
+
         RpcParser.writeOutput(resp, response);
     }
 }

@@ -18,7 +18,8 @@ public class Profile {
     private String country;
     private String introduction;
     private String gender;
-    private DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS", Locale.ENGLISH);
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+    private DateFormat DOBFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
     public Profile(int id, String username, String email, String firstName, String lastName,
                    Date DOB, Date lastAccessTime, String country, String introduction, String gender) {
@@ -41,7 +42,7 @@ public class Profile {
         this.firstName = object.getString("first_name");
         this.lastName = object.getString("last_name");
         try {
-            this.DOB = dateFormat.parse(object.getString("DOB"));
+            this.DOB = DOBFormat.parse(object.getString("DOB"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,25 +53,20 @@ public class Profile {
         }
         this.country = object.getString("country");
         this.introduction = object.getString("introduction");
-        this.gender = object.getString("");
+        this.gender = object.getString("gender");
     }
 
     public void editProfile(JSONObject object) {
         this.firstName = object.getString("first_name");
         this.lastName = object.getString("last_name");
         try {
-            this.DOB = dateFormat.parse(object.getString("DOB"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            this.lastAccessTime = dateFormat.parse(object.getString("time_last_access"));
+            this.DOB = DOBFormat.parse(object.getString("DOB"));
         } catch (Exception e) {
             e.printStackTrace();
         }
         this.country = object.getString("country");
         this.introduction = object.getString("introduction");
-        this.gender = object.getString("");
+        this.gender = object.getString("gender");
     }
 
     public JSONObject toJSONObject() {

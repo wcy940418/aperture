@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class ChangePassword extends HttpServlet {
+public class ChangeEmail extends HttpServlet {
     private static final DBConnection conn = new MySQLDBConnection();
 
     /**
-     * Change password
+     * Change email
      * @param req
      * @param resp
      * @throws ServletException
@@ -26,16 +26,14 @@ public class ChangePassword extends HttpServlet {
         try {
             RpcParser.checkSignIn(req);
             JSONObject request = RpcParser.parseInput(req);
-            RpcParser.checkKeys(request, "old_password", "new_password");
-            conn.changePassword(request.getInt("user_id"),
-                    request.getString("old_password"),
-                    request.getString("new_password"));
-
+            RpcParser.checkKeys(request, "email");
+            conn.changeEmail(request.getInt("user_id"), request.getString("email"));
         } catch (Exception e) {
             e.printStackTrace();
             resp.setStatus(400);
             response.put("status", e.getMessage());
         }
+
         RpcParser.writeOutput(resp, response);
     }
 }

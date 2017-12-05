@@ -49,7 +49,7 @@ public class RpcParser {
         }
     }
 
-    public static JSONObject parseInput(HttpServletRequest req) {
+    public static JSONObject parseInput(HttpServletRequest req) throws Exception {
         JSONObject requestDict = null;
         HttpSession session = req.getSession(false);
         int userId = session == null || !req.isRequestedSessionIdValid() ? 1 : (int) session.getAttribute("user_id");
@@ -61,7 +61,7 @@ public class RpcParser {
                     requestDict.put(parameter.getKey(), parameter.getValue()[0]);
                 }
             }
-        } else if (req.getMethod().equals("POST")) {
+        } else if (req.getMethod().equals("POST") || req.getMethod().equals("PUT")) {
             StringBuffer jb = new StringBuffer();
             String line = null;
             try {
@@ -73,9 +73,7 @@ public class RpcParser {
                 requestDict = new JSONObject(jb.toString());
             } catch (Exception e) {
                 e.printStackTrace();
-                requestDict = new JSONObject();
-                requestDict.put("status", "Request JSON format error");
-                return requestDict;
+                throw new Exception(e.getMessage());
             }
         }
         requestDict.put("user_id", userId);

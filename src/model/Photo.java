@@ -22,7 +22,7 @@ public class Photo {
     private Date timeCaptured;
     private Date timeUploaded;
     private String category;
-    private DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS", Locale.ENGLISH);
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
 
     public Photo(int id, int uploaderId, String title, String description, String visibility, float lon, float lat,
                  String country, String city, String street, String zip, Date timeCaptured, Date timeUploaded,

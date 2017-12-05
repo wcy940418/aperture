@@ -22,7 +22,7 @@ public class Event {
     private String city;
     private String street;
     private String zip;
-    private DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS", Locale.ENGLISH);
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
     public Event(int id, int hostId, String title, String description, int limitation, String visibility,
                  Date timeCreated, Date timeHappened, float lon, float lat, String country, String city,
                  String street, String zip) {

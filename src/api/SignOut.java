@@ -10,6 +10,13 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class SignOut extends HttpServlet {
+    /**
+     * Sign out
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject response = new JSONObject();

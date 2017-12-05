@@ -69,10 +69,9 @@ public class MySQLDBConnection implements DBConnection{
         if (email.indexOf('@') == -1) {
             throw new IDException("Invalid email address");
         }
-        password = getMD5(password);
 
         try {
-            String query = "INSERT INTO User (username, password, email, first_name, last_name) VALUES (?,?,?,?,?)";
+            String query = "INSERT INTO User (username, password, email, first_name, last_name) VALUES (?,MD5(?),?,?,?)";
             int userId = 0;
             PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, username);
@@ -211,9 +210,9 @@ public class MySQLDBConnection implements DBConnection{
     public int uploadPhoto(int userId, JSONObject metadata) throws IDException, SQLException {
         String query = "INSERT INTO Photo " +
                 "(upload_by_userID, category_name, title, description, longitude, latitude, " +
-                "country, city, street, zip, time_captured, visibility)" +
+                "country, city, street, zip, time_captured, visibility) " +
                 "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-        DateFormat format = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS", Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         Timestamp timeCaptured = new Timestamp((new Date()).getTime());
         int photoId = 0;
         try {
@@ -273,9 +272,9 @@ public class MySQLDBConnection implements DBConnection{
     public int createEvent(int userId, JSONObject metadata) throws IDException, SQLException {
         String query = "INSERT INTO Event " +
                 "(host_userID, title, description, longitude, latitude, limitation, " +
-                "country, city, street, zip, time_happened, visibility)" +
+                "country, city, street, zip, time_happened, visibility) " +
                 "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-        DateFormat format = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS", Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         Timestamp timeHappened = new Timestamp((new Date()).getTime());
         int eventId = 0;
         try {
@@ -311,7 +310,7 @@ public class MySQLDBConnection implements DBConnection{
 
     @Override
     public int sendMessage(int userId, JSONObject message) throws IDException, SQLException {
-        String query = "INSERT INTO Message (from_userID, to_userID, type, content)" +
+        String query = "INSERT INTO Message (from_userID, to_userID, type, content) " +
                 "VALUES (?,?,?,?)";
         int messageId = 0;
         try {
@@ -334,7 +333,7 @@ public class MySQLDBConnection implements DBConnection{
 
     @Override
     public int sendInvitation(int userId, int toUserId, String content) throws IDException, SQLException {
-        String query = "INSERT INTO Message (from_userID, to_userID, type, content)" +
+        String query = "INSERT INTO Message (from_userID, to_userID, type, content) " +
                 "VALUES (?,?,?,?)";
         int messageId = 0;
         try {
@@ -357,7 +356,7 @@ public class MySQLDBConnection implements DBConnection{
 
     @Override
     public void likePhoto(int userId, int photoId) throws IDException, SQLException {
-        String query = "INSERT INTO User_like_photo (userID, photoID) VALUES (?,?);";
+        String query = "INSERT INTO User_like_photo (userID, photoID) VALUES (?,?)";
         try {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, userId);
@@ -398,9 +397,11 @@ public class MySQLDBConnection implements DBConnection{
 
     @Override
     public void editEvent(int userId, int eventId, JSONObject metadata) throws IDException, SQLException {
-        String query = "UPDATE Event SET title = ?, description = ?, limitation = ?, visibility = ?, time_happened = ?," +
-                "longitude = ?, latitude = ?, country = ?, city = ?, street = ?, zip = ? WHERE ID = ?";
-        Event event = new Event(metadata);
+        String query = "UPDATE Event SET title = ?, description = ?, limitation = ?, visibility = ?, " +
+                "time_happened = ?, longitude = ?, latitude = ?, country = ?, city = ?, street = ?, zip = ? " +
+                "WHERE ID = ?";
+        Event event = new Event(getEvent(userId, eventId));
+        event.editEvent(metadata);
         try {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, event.getTitle());
@@ -424,9 +425,10 @@ public class MySQLDBConnection implements DBConnection{
 
     @Override
     public void editPhoto(int userId, int photoId, JSONObject metadata) throws IDException, SQLException {
-        String query = "UPDATE Photo SET category_name = ?, title = ?, description = ?, longitude = ?, country = ?," +
+        String query = "UPDATE Photo SET category_name = ?, title = ?, description = ?, longitude = ?, country = ?, " +
                 "city = ?, street = ?, zip = ?, time_captured = ?, visibility = ? WHERE ID = ?";
-        Photo photo = new Photo(metadata);
+        Photo photo = new Photo(getPhoto(userId, photoId));
+        photo.editPhotoInfo(metadata);
         try {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, photo.getCategory());
@@ -466,9 +468,10 @@ public class MySQLDBConnection implements DBConnection{
 
     @Override
     public void editProfile(int userId, JSONObject profileData) throws IDException, SQLException {
-        String query = "UPDATE User SET first_name = ?, last_name = ?, DOB = ?, country = ?," +
+        String query = "UPDATE User SET first_name = ?, last_name = ?, DOB = ?, country = ?, " +
                 "introduction = ?, gender = ? WHERE ID = ?";
-        Profile profile = new Profile(profileData);
+        Profile profile = new Profile(getProfile(userId, userId));
+        profile.editProfile(profileData);
         try {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, profile.getFirstName());
@@ -613,12 +616,17 @@ public class MySQLDBConnection implements DBConnection{
 
     @Override
     public JSONArray getMessageList(int userId, int friendUserId, int rowCount, int offset) throws IDException, SQLException {
-        String query = "SELECT ID, from_userID, time_stamp, is_read, content FROM Message" +
-                "WHERE (from_userID = ? AND to_userID = ?) OR (to_userID = ? AND from_userID = ?)" +
-                "ORDER BY time_stamp DESC" +
+        String query = "SELECT ID, from_userID, time_stamp, is_read, content FROM Message " +
+                "WHERE ((from_userID = ? AND to_userID = ?) OR (to_userID = ? AND from_userID = ?)) " +
+                "AND type = 'normal' " +
+                "ORDER BY time_stamp DESC " +
                 "LIMIT ?, ?";
         try {
-            DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS", Locale.ENGLISH);
+            System.out.println(userId);
+            System.out.println(friendUserId);
+            System.out.println(rowCount);
+            System.out.println(offset);
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
             JSONArray messageList = new JSONArray();
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, userId);
@@ -627,11 +635,12 @@ public class MySQLDBConnection implements DBConnection{
             statement.setInt(4, friendUserId);
             statement.setInt(5, offset);
             statement.setInt(6, rowCount);
+            System.out.println(statement);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 JSONObject message = new JSONObject();
                 message.put("message_id", rs.getInt("ID"));
-                message.put("to_from", rs.getInt("from_userID") == userId ? "from" : "to");
+                message.put("to_from", rs.getInt("from_userID") == userId ? "to" : "from");
                 message.put("time_stamp", dateFormat.format(rs.getTimestamp("time_stamp")));
                 message.put("is_read", rs.getBoolean("is_read"));
                 message.put("content", rs.getString("content"));
@@ -646,10 +655,10 @@ public class MySQLDBConnection implements DBConnection{
 
     @Override
     public JSONArray getInvitationList(int userId) throws IDException, SQLException {
-        String query = "SELECT ID, from_userID, time_stamp FROM Message" +
-                "WHERE to_userID = ? AND is_read = FALSE";
+        String query = "SELECT ID, from_userID, time_stamp, content FROM Message " +
+                "WHERE to_userID = ? AND is_read = FALSE AND type = 'invitation'";
         try {
-            DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS", Locale.ENGLISH);
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
             JSONArray invitationList = new JSONArray();
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, userId);
@@ -823,12 +832,11 @@ public class MySQLDBConnection implements DBConnection{
 
     @Override
     public JSONObject getProfile(int userId, int toSeeUserId) throws IDException, SQLException {
-        String query = "CALL show_profile(?,?)";
+        String query = "CALL show_profile(?)";
         JSONObject profileJSON = new JSONObject();
         try {
             PreparedStatement statement = conn.prepareStatement(query);
-            statement.setInt(1, userId);
-            statement.setInt(2, toSeeUserId);
+            statement.setInt(1, toSeeUserId);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 Profile profile = new Profile(
@@ -838,7 +846,7 @@ public class MySQLDBConnection implements DBConnection{
                         rs.getString("first_name"),
                         rs.getString("last_name"),
                         rs.getDate("DOB"),
-                        rs.getTimestamp("lastAccessTime"),
+                        rs.getTimestamp("time_last_access"),
                         rs.getString("country"),
                         rs.getString("introduction"),
                         rs.getString("gender")

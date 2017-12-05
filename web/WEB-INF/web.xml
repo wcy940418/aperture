@@ -49,4 +49,84 @@
         <url-pattern>/api/change_password</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>api-ChangeEmail</servlet-name>
+        <servlet-class>api.ChangeEmail</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-ChangeEmail</servlet-name>
+        <url-pattern>/api/change_email</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api-ChangeUsername</servlet-name>
+        <servlet-class>api.ChangeUsername</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-ChangeUsername</servlet-name>
+        <url-pattern>/api/change_username</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api-Friend</servlet-name>
+        <servlet-class>api.Friend</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-Friend</servlet-name>
+        <url-pattern>/api/friend</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api-Message</servlet-name>
+        <servlet-class>api.Message</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-Message</servlet-name>
+        <url-pattern>/api/message</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api-Invitation</servlet-name>
+        <servlet-class>api.Invitation</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-Invitation</servlet-name>
+        <url-pattern>/api/invitation</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api-FOF</servlet-name>
+        <servlet-class>api.FOF</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-FOF</servlet-name>
+        <url-pattern>/api/fof</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api-Photo</servlet-name>
+        <servlet-class>api.Photo</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-Photo</servlet-name>
+        <url-pattern>/api/photo</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api-Profile</servlet-name>
+        <servlet-class>api.Profile</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-Profile</servlet-name>
+        <url-pattern>/api/profile</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api-Event</servlet-name>
+        <servlet-class>api.Event</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-Event</servlet-name>
+        <url-pattern>/api/event</url-pattern>
+    </servlet-mapping>
 </web-app>

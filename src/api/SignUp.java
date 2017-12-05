@@ -12,12 +12,20 @@ import java.io.IOException;
 
 public class SignUp extends HttpServlet{
     private static final DBConnection conn = new MySQLDBConnection();
+
+    /**
+     * Sign up
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject request = RpcParser.parseInput(req);
         JSONObject response = new JSONObject();
         try {
             RpcParser.checkSignOut(req);
+            JSONObject request = RpcParser.parseInput(req);
             RpcParser.checkKeys(request, "username", "email", "password", "first_name", "last_name");
             try {
                 int userId = conn.signUp(request.getString("username"),
