@@ -12,19 +12,19 @@ public class Event {
     private final int hostId;
     private String title;
     private String description;
-    private int limitation;
+    private Integer limitation;
     private String visibility;
     private Date timeCreated;
     private Date timeHappened;
-    private float lon;
-    private float lat;
+    private Float lon;
+    private Float lat;
     private String country;
     private String city;
     private String street;
     private String zip;
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-    public Event(int id, int hostId, String title, String description, int limitation, String visibility,
-                 Date timeCreated, Date timeHappened, float lon, float lat, String country, String city,
+    public Event(int id, int hostId, String title, String description, Integer limitation, String visibility,
+                 Date timeCreated, Date timeHappened, Float lon, Float lat, String country, String city,
                  String street, String zip) {
         this.id = id;
         this.hostId = hostId;
@@ -43,44 +43,41 @@ public class Event {
     }
     public Event(JSONObject object) {
         try {
-            this.timeCreated = dateFormat.parse(object.getString("time_created"));
+            this.timeHappened = isNull(object, "time_happened") ? null : dateFormat.parse(object.getString(
+                    "time_happened"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        try {
-            this.timeHappened = dateFormat.parse(object.getString("time_happened"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        this.id = object.getInt("event_id");
-        this.hostId = object.getInt("host_id");
+        this.id = object.optInt("event_id");
+        this.hostId = object.optInt("host_id");
         this.title = object.getString("title");
-        this.description = object.getString("description");
-        this.limitation = object.getInt("limitation");
+        this.description = isNull(object, "description") ? null : object.getString("description");
+        this.limitation = isNull(object, "limitation") ? null : object.getInt("limitation");
         this.visibility = object.getString("visibility");
-        this.lon = object.getFloat("lon");
-        this.lat = object.getFloat("lat");
-        this.country = object.getString("country");
-        this.city = object.getString("city");
-        this.street = object.getString("street");
-        this.zip = object.getString("zip");
+        this.lon = isNull(object, "lon") ? null : object.getFloat("lon");
+        this.lat = isNull(object, "lat") ? null : object.getFloat("lat");
+        this.country = isNull(object, "country") ? null : object.getString("country");
+        this.city = isNull(object, "city") ? null : object.getString("city");
+        this.street = isNull(object, "street") ? null : object.getString("street");
+        this.zip = isNull(object, "zip") ? null : object.getString("zip");
     }
     public void editEvent(JSONObject object) {
         try {
-            this.timeHappened = dateFormat.parse(object.getString("time_happened"));
+            this.timeHappened = isNull(object, "time_happened") ? null : dateFormat.parse(object.getString(
+                    "time_happened"));
         } catch (Exception e) {
             e.printStackTrace();
         }
         this.title = object.getString("title");
-        this.description = object.getString("description");
-        this.limitation = object.getInt("limitation");
+        this.description = isNull(object, "description") ? null : object.getString("description");
+        this.limitation = isNull(object, "limitation") ? null : object.getInt("limitation");
         this.visibility = object.getString("visibility");
-        this.lon = object.getFloat("lon");
-        this.lat = object.getFloat("lat");
-        this.country = object.getString("country");
-        this.city = object.getString("city");
-        this.street = object.getString("street");
-        this.zip = object.getString("zip");
+        this.lon = isNull(object, "lon") ? null : object.getFloat("lon");
+        this.lat = isNull(object, "lat") ? null : object.getFloat("lat");
+        this.country = isNull(object, "country") ? null : object.getString("country");
+        this.city = isNull(object, "city") ? null : object.getString("city");
+        this.street = isNull(object, "street") ? null : object.getString("street");
+        this.zip = isNull(object, "zip") ? null : object.getString("zip");
     }
     public JSONObject toJSONObject() {
         JSONObject object = new JSONObject();
@@ -105,6 +102,10 @@ public class Event {
         return object;
     }
 
+    private boolean isNull(JSONObject object, String key) {
+        return object.isNull(key);
+    }
+
     public int getId() {
         return id;
     }
@@ -121,7 +122,7 @@ public class Event {
         return description;
     }
 
-    public int getLimitation() {
+    public Integer getLimitation() {
         return limitation;
     }
 
@@ -133,11 +134,11 @@ public class Event {
         return timeHappened;
     }
 
-    public float getLon() {
+    public Float getLon() {
         return lon;
     }
 
-    public float getLat() {
+    public Float getLat() {
         return lat;
     }
 

@@ -2,22 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f1db75d3-96f7-495a-8ad6-c6d8c87e9765" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/ChangeEmail.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/ChangeUsername.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/Event.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/FOF.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/Friend.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/Invitation.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/Message.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/Photo.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/Profile.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/WEB-INF/lib/commons-fileupload-1.3.3.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/Collection.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/Like.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/PhotoFileService.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/PhotoUploadProcessor.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/Register.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/Search.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/api/ChangePassword.java" afterPath="$PROJECT_DIR$/src/api/ChangePassword.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/aperture.iml" afterPath="$PROJECT_DIR$/aperture.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/api/Photo.java" afterPath="$PROJECT_DIR$/src/api/Photo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/api/Profile.java" afterPath="$PROJECT_DIR$/src/api/Profile.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/api/RpcParser.java" afterPath="$PROJECT_DIR$/src/api/RpcParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/api/SignIn.java" afterPath="$PROJECT_DIR$/src/api/SignIn.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/api/SignOut.java" afterPath="$PROJECT_DIR$/src/api/SignOut.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/api/SignUp.java" afterPath="$PROJECT_DIR$/src/api/SignUp.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/db/DBConnection.java" afterPath="$PROJECT_DIR$/src/db/DBConnection.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/db/MySQLDBConnection.java" afterPath="$PROJECT_DIR$/src/db/MySQLDBConnection.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/db/PhotoDBUtil.java" afterPath="$PROJECT_DIR$/src/db/PhotoDBUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/model/Collection.java" afterPath="$PROJECT_DIR$/src/model/Collection.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/model/Event.java" afterPath="$PROJECT_DIR$/src/model/Event.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/model/Photo.java" afterPath="$PROJECT_DIR$/src/model/Photo.java" />
@@ -34,11 +33,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Profile.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/model/Profile.java">
+      <file leaf-file-name="Search.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/api/Search.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-196">
-              <caret line="48" column="13" lean-forward="true" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
+            <state relative-caret-position="193">
+              <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -49,105 +48,62 @@
       <file leaf-file-name="web.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/WEB-INF/web.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="106" column="46" lean-forward="true" selection-start-line="106" selection-start-column="46" selection-end-line="106" selection-end-column="46" />
+            <state relative-caret-position="320">
+              <caret line="154" column="21" lean-forward="true" selection-start-line="154" selection-start-column="21" selection-end-line="154" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Invitation.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/api/Invitation.java">
+      <file leaf-file-name="DBConnection.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/db/DBConnection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="344">
-              <caret line="64" column="60" lean-forward="false" selection-start-line="64" selection-start-column="60" selection-end-line="64" selection-end-column="60" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="455">
+              <caret line="340" column="60" lean-forward="false" selection-start-line="340" selection-start-column="60" selection-end-line="340" selection-end-column="60" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MySQLDBConnection.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MySQLDBConnection.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/db/MySQLDBConnection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
-              <caret line="405" column="59" lean-forward="true" selection-start-line="405" selection-start-column="59" selection-end-line="405" selection-end-column="59" />
+            <state relative-caret-position="193">
+              <caret line="689" column="21" lean-forward="false" selection-start-line="689" selection-start-column="21" selection-end-line="689" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#459#460#0" expanded="true" />
                 <element signature="e#491#492#0" expanded="true" />
-                <element signature="e#33395#33404#0" expanded="true" />
-                <marker date="1512499477000" expanded="true" signature="2197:2288" ph="INSERT INTO User... " />
-                <marker date="1512499477000" expanded="true" signature="3730:3778" ph="SELECT passw... User" />
-                <marker date="1512499477000" expanded="true" signature="3819:3864" ph="SELECT passw... User" />
-                <marker date="1512499477000" expanded="true" signature="7985:8228" ph="INSERT INTO Photo... " />
-                <marker date="1512499477000" expanded="true" signature="9965:10050" ph="INSERT INTO Collection... " />
-                <marker date="1512499477000" expanded="true" signature="10938:11173" ph="INSERT INTO Event... " />
-                <marker date="1512499477000" expanded="true" signature="12900:12997" ph="INSERT INTO Message... " />
-                <marker date="1512499477000" expanded="true" signature="13857:13954" ph="INSERT INTO Message... " />
-                <marker date="1512499477000" expanded="true" signature="14756:14814" ph="INSERT INTO User_like_photo... " />
-                <marker date="1512499477000" expanded="true" signature="15743:15808" ph="INSERT INTO User_participate_event... " />
-                <marker date="1512499477000" expanded="true" signature="16303:16420" ph="UPDATE Event... " />
-                <marker date="1512499477000" expanded="true" signature="16303:16525" ph="UPDATE Event... " />
-                <marker date="1512499477000" expanded="true" signature="17713:17903" ph="UPDATE Photo... " />
-                <marker date="1512499477000" expanded="true" signature="19060:19137" ph="UPDATE Colle... " />
-                <marker date="1512499477000" expanded="true" signature="19840:19971" ph="UPDATE User " />
-                <marker date="1512499477000" expanded="true" signature="21107:21184" ph="UPDATE Frien... " />
-                <marker date="1512499477000" expanded="true" signature="21917:21982" ph="INSERT INTO Collection_photo... " />
-                <marker date="1512499477000" expanded="true" signature="22012:22076" ph="DELETE FROM " />
-                <marker date="1512499477000" expanded="true" signature="23295:23353" ph="UPDATE User " />
-                <marker date="1512499477000" expanded="true" signature="23976:24017" ph="UPDATE User " />
-                <marker date="1512499477000" expanded="true" signature="24491:24529" ph="UPDATE User " />
-                <marker date="1512499477000" expanded="true" signature="25988:26276" ph="SELECT ID, f... Message" />
-                <marker date="1512499477000" expanded="true" signature="27853:27994" ph="SELECT ID, f... Message" />
-                <marker date="1512499477000" expanded="true" signature="32812:32871" ph="SELECT photo... Collection_photo" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Profile.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/api/Profile.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="45" lean-forward="true" selection-start-line="8" selection-start-column="45" selection-end-line="8" selection-end-column="45" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Friend.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/api/Friend.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-120">
-              <caret line="31" column="35" lean-forward="false" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FOF.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/api/FOF.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145">
-              <caret line="22" column="7" lean-forward="true" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Event.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/api/Event.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-636">
-              <caret line="27" column="32" lean-forward="true" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
-              <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#36093#36102#0" expanded="true" />
+                <element signature="e#37802#37811#0" expanded="true" />
+                <element signature="e#44352#44361#0" expanded="true" />
+                <marker date="1512590824000" expanded="true" signature="2197:2288" ph="INSERT INTO User... " />
+                <marker date="1512590824000" expanded="true" signature="3730:3778" ph="SELECT passw... User" />
+                <marker date="1512590824000" expanded="true" signature="3819:3864" ph="SELECT passw... User" />
+                <marker date="1512590824000" expanded="true" signature="8029:8272" ph="INSERT INTO Photo... " />
+                <marker date="1512590824000" expanded="true" signature="10037:10122" ph="INSERT INTO Collection... " />
+                <marker date="1512590824000" expanded="true" signature="11050:11285" ph="INSERT INTO Event... " />
+                <marker date="1512590824000" expanded="true" signature="13267:13364" ph="INSERT INTO Message... " />
+                <marker date="1512590824000" expanded="true" signature="14224:14321" ph="INSERT INTO Message... " />
+                <marker date="1512590824000" expanded="true" signature="15123:15181" ph="INSERT INTO User_like_photo... " />
+                <marker date="1512590824000" expanded="true" signature="16110:16175" ph="INSERT INTO User_participate_event... " />
+                <marker date="1512590824000" expanded="true" signature="16670:16787" ph="UPDATE Event... " />
+                <marker date="1512590824000" expanded="true" signature="16670:16892" ph="UPDATE Event... " />
+                <marker date="1512590824000" expanded="true" signature="18630:18834" ph="UPDATE Photo... " />
+                <marker date="1512590824000" expanded="true" signature="20455:20532" ph="UPDATE Colle... " />
+                <marker date="1512590824000" expanded="true" signature="21235:21366" ph="UPDATE User " />
+                <marker date="1512590824000" expanded="true" signature="22635:22712" ph="UPDATE Frien... " />
+                <marker date="1512590824000" expanded="true" signature="23445:23517" ph="INSERT INTO Collection_photo... " />
+                <marker date="1512590824000" expanded="true" signature="23547:23614" ph="DELETE FROM " />
+                <marker date="1512590824000" expanded="true" signature="23645:23674" ph="SELECT is_ow... " />
+                <marker date="1512590824000" expanded="true" signature="25675:25733" ph="UPDATE User " />
+                <marker date="1512590824000" expanded="true" signature="26356:26397" ph="UPDATE User " />
+                <marker date="1512590824000" expanded="true" signature="26871:26909" ph="UPDATE User " />
+                <marker date="1512590824000" expanded="true" signature="28368:28656" ph="SELECT ID, f... Message" />
+                <marker date="1512590824000" expanded="true" signature="30233:30374" ph="SELECT ID, f... Message" />
+                <marker date="1512590824000" expanded="true" signature="35450:35509" ph="SELECT photo... Collection_photo" />
+                <marker date="1512590824000" expanded="true" signature="37088:37147" ph="SELECT photo... Collection_photo" />
+                <marker date="1512590824000" expanded="true" signature="43640:43699" ph="SELECT photo... Collection_photo" />
               </folding>
             </state>
           </provider>
@@ -156,8 +112,8 @@
       <file leaf-file-name="Photo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/api/Photo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="20" column="39" lean-forward="true" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="39" />
+            <state relative-caret-position="280">
+              <caret line="34" column="34" lean-forward="true" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -165,11 +121,62 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Event.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/model/Event.java">
+      <file leaf-file-name="Photo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/model/Photo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="417">
-              <caret line="82" column="19" lean-forward="true" selection-start-line="82" selection-start-column="19" selection-end-line="82" selection-end-column="19" />
+            <state relative-caret-position="1048">
+              <caret line="109" column="22" lean-forward="false" selection-start-line="109" selection-start-column="22" selection-end-line="109" selection-end-column="22" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#5633#5634#0" expanded="true" />
+                <element signature="e#5661#5662#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PhotoFileService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/api/PhotoFileService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="575">
+              <caret line="45" column="5" lean-forward="false" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PhotoUploadProcessor.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/api/PhotoUploadProcessor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="427">
+              <caret line="42" column="58" lean-forward="false" selection-start-line="42" selection-start-column="58" selection-end-line="42" selection-end-column="58" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RpcParser.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/api/RpcParser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="628">
+              <caret line="80" column="71" lean-forward="false" selection-start-line="80" selection-start-column="71" selection-end-line="80" selection-end-column="71" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1047#1055#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Collection.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/model/Collection.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="193">
+              <caret line="117" column="0" lean-forward="false" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -206,14 +213,16 @@
       <find>missingParameters</find>
       <find>getGeneratedKeys</find>
       <find>YYYY-MM-DD HH:MM:SS</find>
-      <find>String query</find>
       <find>photo_id</find>
+      <find>String query</find>
+      <find>event</find>
     </findStrings>
     <replaceStrings>
       <replace>userId</replace>
       <replace>missedKeys</replace>
       <replace>rowCount</replace>
       <replace>yyyy-MM-dd HH:mm:ss</replace>
+      <replace>collection</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -235,8 +244,6 @@
         <option value="$PROJECT_DIR$/src/com/FileException.java" />
         <option value="$PROJECT_DIR$/src/db/DBUtil.java" />
         <option value="$PROJECT_DIR$/src/model/BasePhoto.java" />
-        <option value="$PROJECT_DIR$/src/db/PhotoDBUtil.java" />
-        <option value="$PROJECT_DIR$/src/db/DBConnection.java" />
         <option value="$PROJECT_DIR$/module/apache-tomcat-9.0.1/lib/servlet-api.jar!/javax/servlet/http/HttpServletRequestWrapper.class" />
         <option value="$PROJECT_DIR$/web/index.html" />
         <option value="$PROJECT_DIR$/src/api/TemplateApi.java" />
@@ -248,18 +255,26 @@
         <option value="$PROJECT_DIR$/src/api/ChangePassword.java" />
         <option value="$PROJECT_DIR$/src/api/ChangeUsername.java" />
         <option value="$PROJECT_DIR$/src/api/Message.java" />
-        <option value="$PROJECT_DIR$/src/model/Collection.java" />
-        <option value="$PROJECT_DIR$/src/model/Event.java" />
         <option value="$PROJECT_DIR$/src/api/FOF.java" />
-        <option value="$PROJECT_DIR$/src/api/RpcParser.java" />
         <option value="$PROJECT_DIR$/src/api/Invitation.java" />
-        <option value="$PROJECT_DIR$/src/api/Photo.java" />
-        <option value="$PROJECT_DIR$/src/model/Photo.java" />
-        <option value="$PROJECT_DIR$/src/model/Profile.java" />
-        <option value="$PROJECT_DIR$/src/api/Profile.java" />
-        <option value="$PROJECT_DIR$/src/db/MySQLDBConnection.java" />
-        <option value="$PROJECT_DIR$/web/WEB-INF/web.xml" />
         <option value="$PROJECT_DIR$/src/api/Event.java" />
+        <option value="$PROJECT_DIR$/src/model/Profile.java" />
+        <option value="$PROJECT_DIR$/src/model/Event.java" />
+        <option value="$PROJECT_DIR$/src/model/Collection.java" />
+        <option value="$PROJECT_DIR$/src/api/Like.java" />
+        <option value="$PROJECT_DIR$/src/api/Register.java" />
+        <option value="$PROJECT_DIR$/src/api/Collection.java" />
+        <option value="$PROJECT_DIR$/src/api/RpcParser.java" />
+        <option value="$PROJECT_DIR$/src/api/Profile.java" />
+        <option value="$PROJECT_DIR$/src/api/PhotoFileService.java" />
+        <option value="$PROJECT_DIR$/src/db/PhotoDBUtil.java" />
+        <option value="$PROJECT_DIR$/src/api/PhotoUploadProcessor.java" />
+        <option value="$PROJECT_DIR$/src/model/Photo.java" />
+        <option value="$PROJECT_DIR$/src/api/Photo.java" />
+        <option value="$PROJECT_DIR$/src/db/DBConnection.java" />
+        <option value="$PROJECT_DIR$/web/WEB-INF/web.xml" />
+        <option value="$PROJECT_DIR$/src/api/Search.java" />
+        <option value="$PROJECT_DIR$/src/db/MySQLDBConnection.java" />
       </list>
     </option>
   </component>
@@ -276,11 +291,11 @@
     <option name="FILTER_DEBUG" value="true" />
     <option name="CUSTOM_FILTER" />
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="56" />
-    <option name="y" value="22" />
-    <option name="width" value="1251" />
-    <option name="height" value="778" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="517" />
+    <option name="y" value="63" />
+    <option name="width" value="1783" />
+    <option name="height" value="1058" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -363,6 +378,12 @@
             <path>
               <item name="aperture" type="b2602c69:ProjectViewProjectNode" />
               <item name="aperture" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="org" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aperture" type="b2602c69:ProjectViewProjectNode" />
+              <item name="aperture" type="462c0819:PsiDirectoryNode" />
               <item name="web" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -370,6 +391,13 @@
               <item name="aperture" type="462c0819:PsiDirectoryNode" />
               <item name="web" type="462c0819:PsiDirectoryNode" />
               <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aperture" type="b2602c69:ProjectViewProjectNode" />
+              <item name="aperture" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -387,6 +415,11 @@
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/web/WEB-INF/lib" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -624,16 +657,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1511991801805</updated>
-      <workItem from="1511991811590" duration="147204000" />
+      <workItem from="1511991811590" duration="184035000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="147204000" />
+    <option name="totallyTimeSpent" value="184035000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="true" />
+    <frame x="517" y="63" width="1783" height="1058" extended-state="0" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2621469" sideWeight="0.5042567" order="5" side_tool="true" content_ui="tabs" />
@@ -642,7 +674,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22734375" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2478968" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -652,10 +684,10 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30533335" sideWeight="0.49677938" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36511156" sideWeight="0.49677938" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.228125" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14974761" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19170985" sideWeight="0.49574327" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -743,14 +775,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/db/PhotoDBUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="26" lean-forward="true" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/src.zip!/java/sql/Statement.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="477">
@@ -772,16 +796,6 @@
         <state relative-caret-position="1440">
           <caret line="96" column="28" lean-forward="false" selection-start-line="96" selection-start-column="28" selection-end-line="96" selection-end-column="28" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/db/DBConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="22" column="15" lean-forward="false" selection-start-line="22" selection-start-column="15" selection-end-line="22" selection-end-column="15" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -921,47 +935,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/model/Collection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="20" column="77" lean-forward="false" selection-start-line="20" selection-start-column="77" selection-end-line="20" selection-end-column="77" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/api/RpcParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1047#1055#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/model/Photo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="73" column="31" lean-forward="true" selection-start-line="73" selection-start-column="31" selection-end-line="73" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/model/Profile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-196">
-          <caret line="48" column="13" lean-forward="true" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/api/Invitation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="344">
@@ -977,7 +950,7 @@
         <state relative-caret-position="-120">
           <caret line="31" column="35" lean-forward="false" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -987,25 +960,184 @@
         <state relative-caret-position="145">
           <caret line="22" column="7" lean-forward="true" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/model/Event.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="82" column="19" lean-forward="true" selection-start-line="82" selection-start-column="19" selection-end-line="82" selection-end-column="19" />
+        <state relative-caret-position="208">
+          <caret line="68" column="32" lean-forward="true" selection-start-line="68" selection-start-column="32" selection-end-line="68" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4486#4487#0" expanded="true" />
+            <element signature="e#4527#4528#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/model/Profile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="38" column="43" lean-forward="true" selection-start-line="38" selection-start-column="43" selection-end-line="38" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3419#3420#0" expanded="true" />
+            <element signature="e#3460#3461#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/Like.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="13" column="69" lean-forward="true" selection-start-line="13" selection-start-column="69" selection-end-line="13" selection-end-column="69" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/Collection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/Register.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="18" column="39" lean-forward="false" selection-start-line="18" selection-start-column="39" selection-end-line="18" selection-end-column="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/Event.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/Profile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="23" column="41" lean-forward="false" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/PhotoUploader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/db/PhotoDBUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/RpcParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="628">
+          <caret line="80" column="71" lean-forward="false" selection-start-line="80" selection-start-column="71" selection-end-line="80" selection-end-column="71" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1047#1055#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/PhotoFileService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="575">
+          <caret line="45" column="5" lean-forward="false" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/PhotoUploadProcessor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="427">
+          <caret line="42" column="58" lean-forward="false" selection-start-line="42" selection-start-column="58" selection-end-line="42" selection-end-column="58" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/db/DBConnection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="455">
+          <caret line="340" column="60" lean-forward="false" selection-start-line="340" selection-start-column="60" selection-end-line="340" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/web.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="154" column="21" lean-forward="true" selection-start-line="154" selection-start-column="21" selection-end-line="154" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/model/Photo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1048">
+          <caret line="109" column="22" lean-forward="false" selection-start-line="109" selection-start-column="22" selection-end-line="109" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5633#5634#0" expanded="true" />
+            <element signature="e#5661#5662#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/api/Photo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="20" column="39" lean-forward="true" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="39" />
+        <state relative-caret-position="280">
+          <caret line="34" column="34" lean-forward="true" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/model/Collection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="117" column="0" lean-forward="false" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/Search.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1014,63 +1146,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/db/MySQLDBConnection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="405" column="59" lean-forward="true" selection-start-line="405" selection-start-column="59" selection-end-line="405" selection-end-column="59" />
+        <state relative-caret-position="193">
+          <caret line="689" column="21" lean-forward="false" selection-start-line="689" selection-start-column="21" selection-end-line="689" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#459#460#0" expanded="true" />
             <element signature="e#491#492#0" expanded="true" />
-            <element signature="e#33395#33404#0" expanded="true" />
-            <marker date="1512499477000" expanded="true" signature="2197:2288" ph="INSERT INTO User... " />
-            <marker date="1512499477000" expanded="true" signature="3730:3778" ph="SELECT passw... User" />
-            <marker date="1512499477000" expanded="true" signature="3819:3864" ph="SELECT passw... User" />
-            <marker date="1512499477000" expanded="true" signature="7985:8228" ph="INSERT INTO Photo... " />
-            <marker date="1512499477000" expanded="true" signature="9965:10050" ph="INSERT INTO Collection... " />
-            <marker date="1512499477000" expanded="true" signature="10938:11173" ph="INSERT INTO Event... " />
-            <marker date="1512499477000" expanded="true" signature="12900:12997" ph="INSERT INTO Message... " />
-            <marker date="1512499477000" expanded="true" signature="13857:13954" ph="INSERT INTO Message... " />
-            <marker date="1512499477000" expanded="true" signature="14756:14814" ph="INSERT INTO User_like_photo... " />
-            <marker date="1512499477000" expanded="true" signature="15743:15808" ph="INSERT INTO User_participate_event... " />
-            <marker date="1512499477000" expanded="true" signature="16303:16420" ph="UPDATE Event... " />
-            <marker date="1512499477000" expanded="true" signature="16303:16525" ph="UPDATE Event... " />
-            <marker date="1512499477000" expanded="true" signature="17713:17903" ph="UPDATE Photo... " />
-            <marker date="1512499477000" expanded="true" signature="19060:19137" ph="UPDATE Colle... " />
-            <marker date="1512499477000" expanded="true" signature="19840:19971" ph="UPDATE User " />
-            <marker date="1512499477000" expanded="true" signature="21107:21184" ph="UPDATE Frien... " />
-            <marker date="1512499477000" expanded="true" signature="21917:21982" ph="INSERT INTO Collection_photo... " />
-            <marker date="1512499477000" expanded="true" signature="22012:22076" ph="DELETE FROM " />
-            <marker date="1512499477000" expanded="true" signature="23295:23353" ph="UPDATE User " />
-            <marker date="1512499477000" expanded="true" signature="23976:24017" ph="UPDATE User " />
-            <marker date="1512499477000" expanded="true" signature="24491:24529" ph="UPDATE User " />
-            <marker date="1512499477000" expanded="true" signature="25988:26276" ph="SELECT ID, f... Message" />
-            <marker date="1512499477000" expanded="true" signature="27853:27994" ph="SELECT ID, f... Message" />
-            <marker date="1512499477000" expanded="true" signature="32812:32871" ph="SELECT photo... Collection_photo" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/api/Profile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="45" lean-forward="true" selection-start-line="8" selection-start-column="45" selection-end-line="8" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/WEB-INF/web.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="106" column="46" lean-forward="true" selection-start-line="106" selection-start-column="46" selection-end-line="106" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/api/Event.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-636">
-          <caret line="27" column="32" lean-forward="true" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#36093#36102#0" expanded="true" />
+            <element signature="e#37802#37811#0" expanded="true" />
+            <element signature="e#44352#44361#0" expanded="true" />
+            <marker date="1512590824000" expanded="true" signature="2197:2288" ph="INSERT INTO User... " />
+            <marker date="1512590824000" expanded="true" signature="3730:3778" ph="SELECT passw... User" />
+            <marker date="1512590824000" expanded="true" signature="3819:3864" ph="SELECT passw... User" />
+            <marker date="1512590824000" expanded="true" signature="8029:8272" ph="INSERT INTO Photo... " />
+            <marker date="1512590824000" expanded="true" signature="10037:10122" ph="INSERT INTO Collection... " />
+            <marker date="1512590824000" expanded="true" signature="11050:11285" ph="INSERT INTO Event... " />
+            <marker date="1512590824000" expanded="true" signature="13267:13364" ph="INSERT INTO Message... " />
+            <marker date="1512590824000" expanded="true" signature="14224:14321" ph="INSERT INTO Message... " />
+            <marker date="1512590824000" expanded="true" signature="15123:15181" ph="INSERT INTO User_like_photo... " />
+            <marker date="1512590824000" expanded="true" signature="16110:16175" ph="INSERT INTO User_participate_event... " />
+            <marker date="1512590824000" expanded="true" signature="16670:16787" ph="UPDATE Event... " />
+            <marker date="1512590824000" expanded="true" signature="16670:16892" ph="UPDATE Event... " />
+            <marker date="1512590824000" expanded="true" signature="18630:18834" ph="UPDATE Photo... " />
+            <marker date="1512590824000" expanded="true" signature="20455:20532" ph="UPDATE Colle... " />
+            <marker date="1512590824000" expanded="true" signature="21235:21366" ph="UPDATE User " />
+            <marker date="1512590824000" expanded="true" signature="22635:22712" ph="UPDATE Frien... " />
+            <marker date="1512590824000" expanded="true" signature="23445:23517" ph="INSERT INTO Collection_photo... " />
+            <marker date="1512590824000" expanded="true" signature="23547:23614" ph="DELETE FROM " />
+            <marker date="1512590824000" expanded="true" signature="23645:23674" ph="SELECT is_ow... " />
+            <marker date="1512590824000" expanded="true" signature="25675:25733" ph="UPDATE User " />
+            <marker date="1512590824000" expanded="true" signature="26356:26397" ph="UPDATE User " />
+            <marker date="1512590824000" expanded="true" signature="26871:26909" ph="UPDATE User " />
+            <marker date="1512590824000" expanded="true" signature="28368:28656" ph="SELECT ID, f... Message" />
+            <marker date="1512590824000" expanded="true" signature="30233:30374" ph="SELECT ID, f... Message" />
+            <marker date="1512590824000" expanded="true" signature="35450:35509" ph="SELECT photo... Collection_photo" />
+            <marker date="1512590824000" expanded="true" signature="37088:37147" ph="SELECT photo... Collection_photo" />
+            <marker date="1512590824000" expanded="true" signature="43640:43699" ph="SELECT photo... Collection_photo" />
           </folding>
         </state>
       </provider>
@@ -1134,6 +1245,7 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

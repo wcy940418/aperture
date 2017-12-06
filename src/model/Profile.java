@@ -42,7 +42,7 @@ public class Profile {
         this.firstName = object.getString("first_name");
         this.lastName = object.getString("last_name");
         try {
-            this.DOB = DOBFormat.parse(object.getString("DOB"));
+            this.DOB = isNull(object, "DOB") ? null : DOBFormat.parse(object.getString("DOB"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,8 +51,8 @@ public class Profile {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.country = object.getString("country");
-        this.introduction = object.getString("introduction");
+        this.country = isNull(object, "country") ? null : object.getString("country");
+        this.introduction = isNull(object, "introduction") ? null : object.getString("introduction");
         this.gender = object.getString("gender");
     }
 
@@ -60,12 +60,12 @@ public class Profile {
         this.firstName = object.getString("first_name");
         this.lastName = object.getString("last_name");
         try {
-            this.DOB = DOBFormat.parse(object.getString("DOB"));
+            this.DOB = isNull(object, "DOB") ? null : DOBFormat.parse(object.getString("DOB"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.country = object.getString("country");
-        this.introduction = object.getString("introduction");
+        this.country = isNull(object, "country") ? null : object.getString("country");
+        this.introduction = isNull(object, "introduction") ? null : object.getString("introduction");
         this.gender = object.getString("gender");
     }
 
@@ -86,6 +86,10 @@ public class Profile {
             e.printStackTrace();
         }
         return object;
+    }
+
+    private boolean isNull(JSONObject object, String key) {
+        return object.isNull(key);
     }
 
     public int getId() {

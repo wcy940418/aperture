@@ -46,16 +46,12 @@ public class Collection {
     }
 
     public Collection(JSONObject collectionData) {
-        this.id = collectionData.getInt("collection_id");
+        this.id = collectionData.optInt("collection_id");
         try {
-            try {
-                this.timeCreated = dateFormat.parse(collectionData.getString("time_created"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            this.hostId = collectionData.getInt("host_id");
-            this.title = collectionData.getString("title");
-            this.description = collectionData.getString("description");
+            this.hostId = collectionData.optInt("host_id");
+            this.title = isNull(collectionData, "title") ? null : collectionData.getString("title");
+            this.description = isNull(collectionData, "description") ? null : collectionData.getString(
+                    "description");
             this.visibility = collectionData.getString("visibility");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -79,34 +75,33 @@ public class Collection {
 
     public void editCollectionMetadata(JSONObject metadata) {
         if (title != null) {
-            try {
-                this.timeCreated = dateFormat.parse(metadata.getString("time_created"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            this.title = metadata.getString("title");
-            this.description = metadata.getString("description");
+            this.title = isNull(metadata, "title") ? null : metadata.getString("title");
+            this.description = isNull(metadata, "description") ? null : metadata.getString("description");
             this.visibility = metadata.getString("visibility");
         }
     }
 
     public void editCollectionPhoto(JSONObject changes) {
         if (this.photos != null) {
-            try {
-                JSONArray toAdd = changes.getJSONArray("add");
-                for (int i = 0; i < toAdd.length(); ++i) {
-                    this.photos.add(toAdd.getInt(i));
+            if (changes.has("add")) {
+                try {
+                    JSONArray toAdd = changes.getJSONArray("add");
+                    for (int i = 0; i < toAdd.length(); ++i) {
+                        this.photos.add(toAdd.getInt(i));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-            try {
-                JSONArray toDelete = changes.getJSONArray("del");
-                for (int i = 0; i < toDelete.length(); ++i) {
-                    this.photos.remove(toDelete.getInt(i));
+            if (changes.has("del")) {
+                try {
+                    JSONArray toDelete = changes.getJSONArray("del");
+                    for (int i = 0; i < toDelete.length(); ++i) {
+                        this.photos.remove(toDelete.getInt(i));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
     }
@@ -125,6 +120,10 @@ public class Collection {
         }
         object.put("photos", photosArr);
         return object;
+    }
+
+    private boolean isNull(JSONObject object, String key) {
+        return object.isNull(key);
     }
 
     public int getId() {

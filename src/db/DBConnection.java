@@ -305,16 +305,16 @@ public interface DBConnection {
     public JSONArray searchEvent(int userId, String keyWord, int rowCount, int offset) throws IDException, SQLException;
 
     /**
-     * Search event by using location information
+     * Search event by using address information
      * @param userId
-     * @param location {lon, lat, country, city, street, zip} lon and lat have higher priority
+     * @param address {city, street}
      * @param rowCount
      * @param offset
      * @return JSONArray of eventData
      * @throws IDException
      * @throws SQLException
      */
-    public JSONArray searchEventByLoc(int userId, JSONObject location, int rowCount, int offset) throws IDException, SQLException;
+    public JSONArray searchEventByAddress(int userId, JSONObject address, int rowCount, int offset) throws IDException, SQLException;
 
     /**
      * Search collection by using keyword
@@ -328,6 +328,17 @@ public interface DBConnection {
      */
     public JSONArray searchCollection(int userId, String keyWord, int rowCount, int offset) throws IDException, SQLException;
 
+    /**
+     * Search event by using location information
+     * @param userId
+     * @param location
+     * @param rowCount
+     * @param offset
+     * @return
+     * @throws IDException
+     * @throws SQLException
+     */
+    public JSONArray searchEventByLoc(int userId, JSONObject location, int rowCount, int offset) throws IDException, SQLException;
     /**
      * User register event
      * @param userId

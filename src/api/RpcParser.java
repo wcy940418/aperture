@@ -77,7 +77,8 @@ public class RpcParser {
             }
         }
         requestDict.put("user_id", userId);
-        requestDict.put("url_prefix", req.getServerName() + ":" + Integer.toString(req.getServerPort()));
+        requestDict.put("url_prefix", req.getServerName() +
+                (req.getServerPort() == 80 ? "" : ":" + Integer.toString(req.getServerPort())));
         return requestDict;
     }
     public static void writeOutput(HttpServletResponse response, JSONObject obj) {

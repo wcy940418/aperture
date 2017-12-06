@@ -12,8 +12,8 @@ public class Photo {
     private int uploaderId;
     private String title;
     private String description;
-    private float lon;
-    private float lat;
+    private Float lon;
+    private Float lat;
     private String visibility;
     private String country;
     private String city;
@@ -22,11 +22,12 @@ public class Photo {
     private Date timeCaptured;
     private Date timeUploaded;
     private String category;
+    private Integer likes;
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
 
-    public Photo(int id, int uploaderId, String title, String description, String visibility, float lon, float lat,
+    public Photo(int id, int uploaderId, String title, String description, String visibility, Float lon, Float lat,
                  String country, String city, String street, String zip, Date timeCaptured, Date timeUploaded,
-                 String category) {
+                 String category, Integer likes) {
         this.id = id;
         this.uploaderId = uploaderId;
         this.title = title;
@@ -41,48 +42,47 @@ public class Photo {
         this.timeCaptured = timeCaptured;
         this.timeUploaded = timeUploaded;
         this.category = category;
+        this.likes = likes;
     }
 
     public Photo(JSONObject object) {
         try {
-            this.timeCaptured = dateFormat.parse(object.getString("time_captured"));
+            this.timeCaptured = isNull(object, "time_captured") ? null : dateFormat.parse(object.getString(
+                    "time_captured"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        try {
-            this.timeUploaded = dateFormat.parse(object.getString("time_uploaded"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        this.id = object.getInt("photo_id");
-        this.uploaderId = object.getInt("uploader_id");
-        this.title = object.getString("title");
-        this.description = object.getString("description");
+        this.id = object.optInt("photo_id");
+        this.uploaderId = object.optInt("uploader_id");
+        this.title = isNull(object, "title") ? null : object.getString("title");
+        this.description = isNull(object, "description") ? null : object.getString("description");
         this.visibility = object.getString("visibility");
-        this.lon = object.getFloat("lon");
-        this.lat = object.getFloat("lat");
-        this.country = object.getString("country");
-        this.city = object.getString("city");
-        this.street = object.getString("street");
-        this.zip = object.getString("zip");
+        this.lon = isNull(object, "lon") ? null : object.getFloat("lon");
+        this.lat = isNull(object, "lat") ? null : object.getFloat("lat");
+        this.country = isNull(object, "country") ? null : object.getString("country");
+        this.city = isNull(object, "city") ? null : object.getString("city");
+        this.street = isNull(object, "street") ? null : object.getString("street");
+        this.zip = isNull(object, "zip") ? null : object.getString("zip");
         this.category = object.getString("category");
+        this.likes = object.optInt("likes");
     }
 
     public void editPhotoInfo(JSONObject object) {
         try {
-            this.timeCaptured = dateFormat.parse(object.getString("time_captured"));
+            this.timeCaptured = isNull(object, "time_captured") ? null : dateFormat.parse(object.getString(
+                    "time_captured"));
         } catch (Exception e) {
             e.printStackTrace();
         }
+        this.title = isNull(object, "title") ? null : object.getString("title");
+        this.description = isNull(object, "description") ? null : object.getString("description");
         this.visibility = object.getString("visibility");
-        this.title = object.getString("title");
-        this.description = object.getString("description");
-        this.lon = object.getFloat("lon");
-        this.lat = object.getFloat("lat");
-        this.country = object.getString("country");
-        this.city = object.getString("city");
-        this.street = object.getString("street");
-        this.zip = object.getString("zip");
+        this.lon = isNull(object, "lon") ? null : object.getFloat("lon");
+        this.lat = isNull(object, "lat") ? null : object.getFloat("lat");
+        this.country = isNull(object, "country") ? null : object.getString("country");
+        this.city = isNull(object, "city") ? null : object.getString("city");
+        this.street = isNull(object, "street") ? null : object.getString("street");
+        this.zip = isNull(object, "zip") ? null : object.getString("zip");
         this.category = object.getString("category");
     }
 
@@ -100,13 +100,18 @@ public class Photo {
             object.put("street", street);
             object.put("visibility", visibility);
             object.put("zip", zip);
-            object.put("time_captured", dateFormat.format(timeCaptured));
+            object.put("time_captured", timeCaptured == null ? null : dateFormat.format(timeCaptured));
             object.put("time_uploaded", dateFormat.format(timeUploaded));
             object.put("category", category);
+            object.put("likes", likes);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return object;
+    }
+
+    private boolean isNull(JSONObject object, String key) {
+        return object.isNull(key);
     }
 
     public int getId() {
@@ -125,11 +130,11 @@ public class Photo {
         return description;
     }
 
-    public float getLon() {
+    public Float getLon() {
         return lon;
     }
 
-    public float getLat() {
+    public Float getLat() {
         return lat;
     }
 
@@ -163,5 +168,9 @@ public class Photo {
 
     public String getCategory() {
         return category;
+    }
+
+    public Integer getLikes() {
+        return likes;
     }
 }

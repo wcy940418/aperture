@@ -1,14 +1,22 @@
 package api;
 
 import db.DBConnection;
+import db.DBUtil;
 import db.MySQLDBConnection;
+import db.PhotoDBUtil;
+import org.imgscalr.Scalr;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 
 public class Photo extends HttpServlet {
@@ -21,8 +29,21 @@ public class Photo extends HttpServlet {
             RpcParser.checkSignIn(req);
             JSONObject request = RpcParser.parseInput(req);
             RpcParser.checkKeys(request, "category", "title", "description", "lon", "lat", "country", "city",
-                    "street", "zip", "time_captured", "visibility");
+                    "street", "zip", "time_captured", "visibility", "temp_filename");
             int photoId = conn.uploadPhoto(request.getInt("user_id"), request);
+            File file = new File(PhotoDBUtil.tempPath, request.getString("temp_filename"));
+            if (!file.canRead()) {
+                throw new Exception("Unable to find uploaded file");
+            }
+            BufferedImage img = ImageIO.read(file);
+            if (img != null) {
+                BufferedImage thumb = Scalr.resize(img, 150);
+                File thumbFile = new File (PhotoDBUtil.thumbnailPrefix,
+                        Integer.toString(photoId) + PhotoDBUtil.thumbnailFormat);
+                ImageIO.write(thumb, PhotoDBUtil.thumbnailFormat.substring(1), thumbFile);
+            }
+            file.renameTo(new File(PhotoDBUtil.fullPhotoPrefix,
+                    Integer.toString(photoId) + PhotoDBUtil.fullPhotoFormat));
             response.put("photo_id", photoId);
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,11 +70,13 @@ public class Photo extends HttpServlet {
                     photo.put("full_url",
                             request.getString("url_prefix") +
                             "/photo/" +
-                            Integer.toString(photo.getInt("photo_id")));
+                            Integer.toString(photo.getInt("photo_id")) +
+                            PhotoDBUtil.fullPhotoFormat);
                     photo.put("thumbnail_url",
                             request.getString("url_prefix") +
                             "/thumb/" +
-                            Integer.toString(photo.getInt("photo_id")));
+                            Integer.toString(photo.getInt("photo_id")) +
+                            PhotoDBUtil.thumbnailFormat);
                 }
                 response.put("photos", photos);
             } else if (request.has("photo_id")) {
@@ -63,11 +86,13 @@ public class Photo extends HttpServlet {
                     photo.put("full_url",
                             request.getString("url_prefix") +
                                     "/photo/" +
-                                    Integer.toString(photo.getInt("photo_id")));
+                                    Integer.toString(photo.getInt("photo_id")) +
+                                    PhotoDBUtil.fullPhotoFormat);
                     photo.put("thumbnail_url",
                             request.getString("url_prefix") +
                                     "/thumb/" +
-                                    Integer.toString(photo.getInt("photo_id")));
+                                    Integer.toString(photo.getInt("photo_id")) +
+                                    PhotoDBUtil.thumbnailFormat);
                     response = photo;
                 } else {
                     resp.setStatus(400);

@@ -157,7 +157,8 @@ public class MySQLDBConnection implements DBConnection{
                         rs.getString("zip"),
                         rs.getTimestamp("time_captured"),
                         rs.getTimestamp("time_uploaded"),
-                        rs.getString("category_name")
+                        rs.getString("category_name"),
+                        rs.getInt("likes")
                         );
                 JSONObject photoJSON = photo.toJSONObject();
                 photos.put(photoJSON);
@@ -212,28 +213,34 @@ public class MySQLDBConnection implements DBConnection{
                 "(upload_by_userID, category_name, title, description, longitude, latitude, " +
                 "country, city, street, zip, time_captured, visibility) " +
                 "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-        Timestamp timeCaptured = new Timestamp((new Date()).getTime());
+        Photo photo = new Photo(metadata);
         int photoId = 0;
-        try {
-            timeCaptured = new Timestamp(format.parse(metadata.getString("time_captured")).getTime());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         try {
             PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, userId);
-            statement.setString(2, metadata.getString("category"));
-            statement.setString(3, metadata.getString("title"));
-            statement.setString(4, metadata.getString("description"));
-            statement.setFloat(5, metadata.getFloat("lon"));
-            statement.setFloat(6, metadata.getFloat("lat"));
-            statement.setString(7, metadata.getString("country"));
-            statement.setString(8, metadata.getString("city"));
-            statement.setString(9, metadata.getString("street"));
-            statement.setString(10, metadata.getString("zip"));
-            statement.setTimestamp(11, timeCaptured);
-            statement.setString(12, metadata.getString("visibility"));
+            statement.setString(2, photo.getCategory());
+            statement.setString(3, photo.getTitle());
+            statement.setString(4, photo.getDescription());
+            if (photo.getLon() == null) {
+                statement.setNull(5, Types.FLOAT);
+            } else {
+                statement.setFloat(5, photo.getLon());
+            }
+            if (photo.getLat() == null) {
+                statement.setNull(6, Types.FLOAT);
+            } else {
+                statement.setFloat(6, photo.getLat());
+            }
+            statement.setString(7, photo.getCountry());
+            statement.setString(8, photo.getCity());
+            statement.setString(9, photo.getStreet());
+            statement.setString(10, photo.getZip());
+            if (photo.getTimeCaptured() == null) {
+                statement.setNull(11, Types.TIMESTAMP);
+            } else {
+                statement.setTimestamp(11, new Timestamp(photo.getTimeCaptured().getTime()));
+            }
+            statement.setString(12, photo.getVisibility());
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             if (rs.next()) {
@@ -250,12 +257,13 @@ public class MySQLDBConnection implements DBConnection{
     public int createCollection(int userId, JSONObject metadata) throws IDException, SQLException {
         String query = "INSERT INTO Collection (host_userID, title, description, visibility) VALUES (?,?,?,?)";
         int collectionId = 0;
+        Collection collection = new Collection(metadata);
         try {
             PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, userId);
-            statement.setString(2, metadata.getString("title"));
-            statement.setString(3, metadata.getString("description"));
-            statement.setString(4, metadata.getString("visibility"));
+            statement.setString(2, collection.getTitle());
+            statement.setString(3, collection.getDescription());
+            statement.setString(4, collection.getVisibility());
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             if (rs.next()) {
@@ -274,27 +282,37 @@ public class MySQLDBConnection implements DBConnection{
                 "(host_userID, title, description, longitude, latitude, limitation, " +
                 "country, city, street, zip, time_happened, visibility) " +
                 "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-        Timestamp timeHappened = new Timestamp((new Date()).getTime());
         int eventId = 0;
-        try {
-            timeHappened = new Timestamp(format.parse(metadata.getString("time_happened")).getTime());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Event event = new Event(metadata);
         try {
             PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, userId);
-            statement.setString(2, metadata.getString("title"));
-            statement.setString(3, metadata.getString("description"));
-            statement.setFloat(4, metadata.getFloat("lon"));
-            statement.setFloat(5, metadata.getFloat("lat"));
-            statement.setInt(6, metadata.getInt("limitation"));
+            statement.setString(2, event.getTitle());
+            statement.setString(3, event.getDescription());
+            if (event.getLon() == null) {
+                statement.setNull(4, Types.FLOAT);
+            } else {
+                statement.setFloat(4, metadata.getFloat("lon"));
+            }
+            if (event.getLat() == null) {
+                statement.setNull(5, Types.FLOAT);
+            } else {
+                statement.setFloat(5, metadata.getFloat("lat"));
+            }
+            if (event.getLimitation() == null) {
+                statement.setNull(6, Types.INTEGER);
+            } else {
+                statement.setInt(6, metadata.getInt("limitation"));
+            }
             statement.setString(7, metadata.getString("country"));
             statement.setString(8, metadata.getString("city"));
             statement.setString(9, metadata.getString("street"));
             statement.setString(10, metadata.getString("zip"));
-            statement.setTimestamp(11, timeHappened);
+            if (event.getTimeHappened() == null) {
+                statement.setNull(11, Types.TIMESTAMP);
+            } else {
+                statement.setTimestamp(11, new Timestamp(event.getTimeHappened().getTime()));
+            }
             statement.setString(12, metadata.getString("visibility"));
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
@@ -386,8 +404,8 @@ public class MySQLDBConnection implements DBConnection{
         String query = "INSERT INTO User_participate_event (eventID, userID) VALUES (?,?)";
         try {
             PreparedStatement statement = conn.prepareStatement(query);
-            statement.setInt(1, userId);
-            statement.setInt(2, eventId);
+            statement.setInt(1, eventId);
+            statement.setInt(2, userId);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -406,11 +424,27 @@ public class MySQLDBConnection implements DBConnection{
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, event.getTitle());
             statement.setString(2, event.getDescription());
-            statement.setInt(3, event.getLimitation());
+            if (event.getLimitation() == null) {
+                statement.setNull(3, Types.INTEGER);
+            } else {
+                statement.setInt(3, event.getLimitation());
+            }
             statement.setString(4, event.getVisibility());
-            statement.setTimestamp(5, new Timestamp(event.getTimeHappened().getTime()));
-            statement.setFloat(6, event.getLon());
-            statement.setFloat(7, event.getLat());
+            if (event.getTimeHappened() == null) {
+                statement.setNull(5, Types.TIMESTAMP);
+            } else {
+                statement.setTimestamp(5, new Timestamp(event.getTimeHappened().getTime()));
+            }
+            if (event.getLon() == null) {
+                statement.setNull(6, Types.FLOAT);
+            } else {
+                statement.setFloat(6, event.getLon());
+            }
+            if (event.getLat() == null) {
+                statement.setNull(7, Types.FLOAT);
+            } else {
+                statement.setFloat(7, event.getLat());
+            }
             statement.setString(8, event.getCountry());
             statement.setString(9, event.getCity());
             statement.setString(10, event.getStreet());
@@ -425,8 +459,8 @@ public class MySQLDBConnection implements DBConnection{
 
     @Override
     public void editPhoto(int userId, int photoId, JSONObject metadata) throws IDException, SQLException {
-        String query = "UPDATE Photo SET category_name = ?, title = ?, description = ?, longitude = ?, country = ?, " +
-                "city = ?, street = ?, zip = ?, time_captured = ?, visibility = ? WHERE ID = ?";
+        String query = "UPDATE Photo SET category_name = ?, title = ?, description = ?, longitude = ?, latitude = ?, " +
+                "country = ?, city = ?, street = ?, zip = ?, time_captured = ?, visibility = ? WHERE ID = ?";
         Photo photo = new Photo(getPhoto(userId, photoId));
         photo.editPhotoInfo(metadata);
         try {
@@ -434,14 +468,27 @@ public class MySQLDBConnection implements DBConnection{
             statement.setString(1, photo.getCategory());
             statement.setString(2, photo.getTitle());
             statement.setString(3, photo.getDescription());
-            statement.setFloat(4, photo.getLon());
-            statement.setFloat(5, photo.getLat());
+            if (photo.getLon() == null) {
+                statement.setNull(4, Types.FLOAT);
+            } else {
+                statement.setFloat(4, photo.getLon());
+            }
+            if (photo.getLat() == null) {
+                statement.setNull(5, Types.FLOAT);
+            } else {
+                statement.setFloat(5, photo.getLat());
+            }
             statement.setString(6, photo.getCountry());
-            statement.setString(7, photo.getStreet());
-            statement.setString(8, photo.getZip());
-            statement.setTimestamp(9, new Timestamp(photo.getTimeCaptured().getTime()));
-            statement.setString(10, photo.getVisibility());
-            statement.setInt(11, photoId);
+            statement.setString(7, photo.getCity());
+            statement.setString(8, photo.getStreet());
+            statement.setString(9, photo.getZip());
+            if (photo.getTimeCaptured() == null) {
+                statement.setNull(10, Types.TIMESTAMP);
+            } else {
+                statement.setTimestamp(10, new Timestamp(photo.getTimeCaptured().getTime()));
+            }
+            statement.setString(11, photo.getVisibility());
+            statement.setInt(12, photoId);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -476,7 +523,11 @@ public class MySQLDBConnection implements DBConnection{
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, profile.getFirstName());
             statement.setString(2, profile.getLastName());
-            statement.setDate(3, new java.sql.Date(profile.getDOB().getTime()));
+            if (profile.getDOB() == null) {
+                statement.setNull(3, Types.DATE);
+            } else {
+                statement.setDate(3, new java.sql.Date(profile.getDOB().getTime()));
+            }
             statement.setString(4, profile.getCountry());
             statement.setString(5, profile.getIntroduction());
             statement.setString(6, profile.getGender());
@@ -516,33 +567,54 @@ public class MySQLDBConnection implements DBConnection{
 
     @Override
     public void editCollectionPhotos(int userId, int collectionId, JSONObject changes) throws SQLException {
-        String queryAdd = "INSERT INTO Collection_photo (collectionID, photoID) VALUES (?,?)";
-        String queryDel = "DELETE FROM Collection_photo WHERE collectionID = ?, photoID = ?";
+        String queryAdd = "INSERT IGNORE INTO Collection_photo (collectionID, photoID) VALUES (?,?)";
+        String queryDel = "DELETE FROM Collection_photo WHERE collectionID = ? AND photoID = ?";
+        String queryAuth = "SELECT is_own_collection(?,?)";
+        boolean authorized = true;
         try {
-            PreparedStatement statement = conn.prepareStatement(queryAdd);
-            JSONArray addArr = changes.getJSONArray("add");
-            for (int i = 0; i < addArr.length(); ++i) {
-                statement.setInt(1, collectionId);
-                statement.setInt(2, addArr.getInt(i));
-                statement.addBatch();
+            PreparedStatement statement = conn.prepareStatement(queryAuth);
+            statement.setInt(1, userId);
+            statement.setInt(2, collectionId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                authorized = rs.getBoolean(1);
             }
-            statement.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException("Internal error");
         }
-        try {
-            PreparedStatement statement = conn.prepareStatement(queryDel);
-            JSONArray delArr = changes.getJSONArray("del");
-            for (int i = 0; i < delArr.length(); ++i) {
-                statement.setInt(1, collectionId);
-                statement.setInt(2, delArr.getInt(i));
-                statement.addBatch();
+        if (!authorized) {
+            throw new SQLException("Unauthorized modification");
+        }
+        if (changes.has("add")) {
+            try {
+                PreparedStatement statement = conn.prepareStatement(queryAdd);
+                JSONArray addArr = changes.getJSONArray("add");
+                for (int i = 0; i < addArr.length(); ++i) {
+                    statement.setInt(1, collectionId);
+                    statement.setInt(2, addArr.getInt(i));
+                    statement.addBatch();
+                }
+                statement.executeBatch();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new SQLException("Internal error");
             }
-            statement.executeBatch();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Internal error");
+        }
+        if (changes.has("del")) {
+            try {
+                PreparedStatement statement = conn.prepareStatement(queryDel);
+                JSONArray delArr = changes.getJSONArray("del");
+                for (int i = 0; i < delArr.length(); ++i) {
+                    statement.setInt(1, collectionId);
+                    statement.setInt(2, delArr.getInt(i));
+                    statement.addBatch();
+                }
+                statement.executeBatch();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new SQLException("Internal error");
+            }
         }
     }
 
@@ -693,15 +765,16 @@ public class MySQLDBConnection implements DBConnection{
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getString("visibility"),
-                        rs.getFloat("longitude"),
-                        rs.getFloat("latitude"),
+                        rs.getObject("longitude") == null ? null : rs.getFloat("longitude"),
+                        rs.getObject("latitude") == null ? null : rs.getFloat("latitude"),
                         rs.getString("country"),
                         rs.getString("city"),
                         rs.getString("street"),
                         rs.getString("zip"),
                         rs.getTimestamp("time_captured"),
                         rs.getTimestamp("time_uploaded"),
-                        rs.getString("category_name")
+                        rs.getString("category_name"),
+                        rs.getInt("likes")
                 );
                 photoJSON = photo.toJSONObject();
             }
@@ -748,12 +821,12 @@ public class MySQLDBConnection implements DBConnection{
                         rs.getInt("host_userID"),
                         rs.getString("title"),
                         rs.getString("description"),
-                        rs.getInt("limitation"),
+                        rs.getObject("limitation") == null ? null : rs.getInt("limitation"),
                         rs.getString("visibility"),
                         rs.getTimestamp("time_created"),
                         rs.getTimestamp("time_happened"),
-                        rs.getFloat("longitude"),
-                        rs.getFloat("latitude"),
+                        rs.getObject("longitude") == null ? null : rs.getFloat("longitude"),
+                        rs.getObject("latitude") == null ? null : rs.getFloat("latitude"),
                         rs.getString("country"),
                         rs.getString("city"),
                         rs.getString("street"),
@@ -780,6 +853,7 @@ public class MySQLDBConnection implements DBConnection{
 
             if (rs.next()) {
                 PreparedStatement statementPhotos = conn.prepareStatement(queryPhotos);
+                statementPhotos.setInt(1, rs.getInt("ID"));
                 ResultSet rsPhotos = statementPhotos.executeQuery();
                 HashSet<Integer> photos = new HashSet<Integer>();
                 while (rsPhotos.next()) {
@@ -805,6 +879,7 @@ public class MySQLDBConnection implements DBConnection{
     public JSONArray getCollections(int userId, int friendUserId, int rowCount, int offset) throws IDException, SQLException {
         try {
             String query = "CALL show_collections(?,?,?,?)";
+            String queryPhotos = "SELECT photoID FROM Collection_photo WHERE collectionID = ?";
             JSONArray collections = new JSONArray();
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, userId);
@@ -813,12 +888,20 @@ public class MySQLDBConnection implements DBConnection{
             statement.setInt(4, offset);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
+                PreparedStatement statementPhotos = conn.prepareStatement(queryPhotos);
+                statementPhotos.setInt(1, rs.getInt("ID"));
+                ResultSet rsPhotos = statementPhotos.executeQuery();
+                HashSet<Integer> photos = new HashSet<Integer>();
+                while (rsPhotos.next()) {
+                    photos.add(rsPhotos.getInt("photoID"));
+                }
                 Collection collection = new Collection(rs.getInt("ID"),
                         rs.getInt("host_userID"),
                         rs.getString("title"),
                         rs.getString("visibility"),
                         rs.getString("description"),
-                        rs.getTimestamp("time_created")
+                        rs.getTimestamp("time_created"),
+                        photos
                 );
                 JSONObject collectionJSON = collection.toJSONObject();
                 collections.put(collectionJSON);
@@ -880,15 +963,16 @@ public class MySQLDBConnection implements DBConnection{
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getString("visibility"),
-                        rs.getFloat("longitude"),
-                        rs.getFloat("latitude"),
+                        rs.getObject("longitude") == null ? null : rs.getFloat("longitude"),
+                        rs.getObject("latitude") == null ? null : rs.getFloat("latitude"),
                         rs.getString("country"),
                         rs.getString("city"),
                         rs.getString("street"),
                         rs.getString("zip"),
                         rs.getTimestamp("time_captured"),
                         rs.getTimestamp("time_uploaded"),
-                        rs.getString("category_name")
+                        rs.getString("category_name"),
+                        null
                 );
                 JSONObject photoJSON = photo.toJSONObject();
                 photos.put(photoJSON);
@@ -916,12 +1000,12 @@ public class MySQLDBConnection implements DBConnection{
                         rs.getInt("host_userID"),
                         rs.getString("title"),
                         rs.getString("description"),
-                        rs.getInt("limitation"),
+                        rs.getObject("limitation") == null ? null : rs.getInt("limitation"),
                         rs.getString("visibility"),
                         rs.getTimestamp("time_created"),
                         rs.getTimestamp("time_happened"),
-                        rs.getFloat("longitude"),
-                        rs.getFloat("latitude"),
+                        rs.getObject("longitude") == null ? null : rs.getFloat("longitude"),
+                        rs.getObject("latitude") == null ? null : rs.getFloat("latitude"),
                         rs.getString("country"),
                         rs.getString("city"),
                         rs.getString("street"),
@@ -941,6 +1025,7 @@ public class MySQLDBConnection implements DBConnection{
     public JSONArray searchCollection(int userId, String keyWord, int rowCount, int offset) throws IDException, SQLException {
         try {
             String query = "CALL search_collections(?,?,?,?)";
+            String queryPhotos = "SELECT photoID FROM Collection_photo WHERE collectionID = ?";
             JSONArray collections = new JSONArray();
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, userId);
@@ -949,12 +1034,20 @@ public class MySQLDBConnection implements DBConnection{
             statement.setInt(4, offset);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
+                PreparedStatement statementPhotos = conn.prepareStatement(queryPhotos);
+                statementPhotos.setInt(1, rs.getInt("ID"));
+                ResultSet rsPhotos = statementPhotos.executeQuery();
+                HashSet<Integer> photos = new HashSet<Integer>();
+                while (rsPhotos.next()) {
+                    photos.add(rsPhotos.getInt("photoID"));
+                }
                 Collection collection = new Collection(rs.getInt("ID"),
                         rs.getInt("host_userID"),
                         rs.getString("title"),
                         rs.getString("visibility"),
                         rs.getString("description"),
-                        rs.getTimestamp("time_created")
+                        rs.getTimestamp("time_created"),
+                        photos
                 );
                 JSONObject collectionJSON = collection.toJSONObject();
                 collections.put(collectionJSON);
@@ -967,14 +1060,14 @@ public class MySQLDBConnection implements DBConnection{
     }
 
     @Override
-    public JSONArray searchEventByLoc(int userId, JSONObject location, int rowCount, int offset) throws IDException, SQLException {
-        String query = "CALL search_local_events(?,?,?,?,?)";
+    public JSONArray searchEventByAddress(int userId, JSONObject address, int rowCount, int offset) throws IDException, SQLException {
+        String query = "CALL search_events_by_address(?,?,?,?,?)";
         JSONArray events = new JSONArray();
         try {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, userId);
-            statement.setString(2, location.getString("search_city"));
-            statement.setString(3, location.getString("search_street"));
+            statement.setString(2, address.getString("city"));
+            statement.setString(3, address.getString("street"));
             statement.setInt(4, rowCount);
             statement.setInt(5, offset);
             ResultSet rs = statement.executeQuery();
@@ -983,12 +1076,51 @@ public class MySQLDBConnection implements DBConnection{
                         rs.getInt("host_userID"),
                         rs.getString("title"),
                         rs.getString("description"),
-                        rs.getInt("limitation"),
+                        rs.getObject("limitation") == null ? null : rs.getInt("limitation"),
                         rs.getString("visibility"),
                         rs.getTimestamp("time_created"),
                         rs.getTimestamp("time_happened"),
-                        rs.getFloat("longitude"),
-                        rs.getFloat("latitude"),
+                        rs.getObject("longitude") == null ? null : rs.getFloat("longitude"),
+                        rs.getObject("latitude") == null ? null : rs.getFloat("latitude"),
+                        rs.getString("country"),
+                        rs.getString("city"),
+                        rs.getString("street"),
+                        rs.getString("zip")
+                );
+                JSONObject eventJSON = event.toJSONObject();
+                events.put(eventJSON);
+            }
+            return events;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public JSONArray searchEventByLoc(int userId, JSONObject location, int rowCount, int offset) throws IDException, SQLException {
+        String query = "CALL search_events_by_loc(?,?,?,?,?,?)";
+        JSONArray events = new JSONArray();
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            statement.setFloat(2, location.getJSONObject("center").getFloat("lon"));
+            statement.setFloat(3, location.getJSONObject("center").getFloat("lat"));
+            statement.setInt(4, location.getInt("max_distance"));
+            statement.setInt(4, rowCount);
+            statement.setInt(5, offset);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Event event = new Event(rs.getInt("ID"),
+                        rs.getInt("host_userID"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getObject("limitation") == null ? null : rs.getInt("limitation"),
+                        rs.getString("visibility"),
+                        rs.getTimestamp("time_created"),
+                        rs.getTimestamp("time_happened"),
+                        rs.getObject("longitude") == null ? null : rs.getFloat("longitude"),
+                        rs.getObject("latitude") == null ? null : rs.getFloat("latitude"),
                         rs.getString("country"),
                         rs.getString("city"),
                         rs.getString("street"),

@@ -2,6 +2,7 @@ package api;
 
 import db.DBConnection;
 import db.MySQLDBConnection;
+import db.PhotoDBUtil;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -23,6 +24,8 @@ public class Profile extends HttpServlet{
             if (profile.has("user_id")) {
                 profile.put("profile_url", request.getString("url_prefix") + "/profile/" +
                         Integer.toString(profile.getInt("user_id")));
+                profile.put("avatar_url", request.getString("url_prefix") + "/avatar/" +
+                        Integer.toString(profile.getInt("user_id")) + PhotoDBUtil.avatarFormat);
             }
             response = profile;
         } catch (Exception e) {

@@ -129,4 +129,51 @@
         <servlet-name>api-Event</servlet-name>
         <url-pattern>/api/event</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api-Like</servlet-name>
+        <servlet-class>api.Like</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-Like</servlet-name>
+        <url-pattern>/api/like</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api-Register</servlet-name>
+        <servlet-class>api.Register</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-Register</servlet-name>
+        <url-pattern>/api/register</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api-Collection</servlet-name>
+        <servlet-class>api.Collection</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-Collection</servlet-name>
+        <url-pattern>/api/collection</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api-PhotoFileService</servlet-name>
+        <servlet-class>api.PhotoFileService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-PhotoFileService</servlet-name>
+        <url-pattern>/file/photo/*</url-pattern>
+        <url-pattern>/file/thumbnail/*</url-pattern>
+        <url-pattern>/file/avatar/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api-Search</servlet-name>
+        <servlet-class>api.Search</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-Search</servlet-name>
+        <url-pattern>/api/search</url-pattern>
+    </servlet-mapping>
 </web-app>
