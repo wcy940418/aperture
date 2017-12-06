@@ -37,7 +37,7 @@ public class Photo extends HttpServlet {
             }
             BufferedImage img = ImageIO.read(file);
             if (img != null) {
-                BufferedImage thumb = Scalr.resize(img, 150);
+                BufferedImage thumb = Scalr.resize(img, 300);
                 File thumbFile = new File (PhotoDBUtil.thumbnailPrefix,
                         Integer.toString(photoId) + PhotoDBUtil.thumbnailFormat);
                 ImageIO.write(thumb, PhotoDBUtil.thumbnailFormat.substring(1), thumbFile);
@@ -69,12 +69,12 @@ public class Photo extends HttpServlet {
                     JSONObject photo = photos.getJSONObject(i);
                     photo.put("full_url",
                             request.getString("url_prefix") +
-                            "/photo/" +
+                            "/file/photo/" +
                             Integer.toString(photo.getInt("photo_id")) +
                             PhotoDBUtil.fullPhotoFormat);
                     photo.put("thumbnail_url",
                             request.getString("url_prefix") +
-                            "/thumb/" +
+                            "/file/thumb/" +
                             Integer.toString(photo.getInt("photo_id")) +
                             PhotoDBUtil.thumbnailFormat);
                 }
@@ -85,12 +85,12 @@ public class Photo extends HttpServlet {
                 if (photo.has("photo_id")) {
                     photo.put("full_url",
                             request.getString("url_prefix") +
-                                    "/photo/" +
+                                    "/file/photo/" +
                                     Integer.toString(photo.getInt("photo_id")) +
                                     PhotoDBUtil.fullPhotoFormat);
                     photo.put("thumbnail_url",
                             request.getString("url_prefix") +
-                                    "/thumb/" +
+                                    "/file/thumb/" +
                                     Integer.toString(photo.getInt("photo_id")) +
                                     PhotoDBUtil.thumbnailFormat);
                     response = photo;

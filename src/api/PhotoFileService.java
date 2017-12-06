@@ -24,13 +24,11 @@ public class PhotoFileService extends HttpServlet{
         } else if (imageClass.equals("avatar")) {
             parentDir = PhotoDBUtil.avatarPrefix;
         } else {
-            resp.setStatus(404);
             parentDir = PhotoDBUtil.othersPrefix;
             filename = "404.png";
         }
         File file = new File(parentDir, filename);
         if (!file.canRead()) {
-            resp.setStatus(404);
             parentDir = PhotoDBUtil.othersPrefix;
             filename = "404.png";
             file = new File(parentDir, filename);

@@ -169,6 +169,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>api-PhotoUploadProcessor</servlet-name>
+        <servlet-class>api.PhotoUploadProcessor</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-PhotoUploadProcessor</servlet-name>
+        <url-pattern>/api/photo_upload</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>api-Search</servlet-name>
         <servlet-class>api.Search</servlet-class>
     </servlet>
