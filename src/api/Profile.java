@@ -24,7 +24,7 @@ public class Profile extends HttpServlet{
             if (profile.has("user_id")) {
                 profile.put("profile_url", request.getString("url_prefix") + "/profile/" +
                         Integer.toString(profile.getInt("user_id")));
-                profile.put("avatar_url", request.getString("url_prefix") + "/avatar/" +
+                profile.put("avatar_url", request.getString("url_prefix") + "/file/avatar/" +
                         Integer.toString(profile.getInt("user_id")) + PhotoDBUtil.avatarFormat);
             }
             response = profile;
