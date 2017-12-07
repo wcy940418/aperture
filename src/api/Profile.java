@@ -37,7 +37,7 @@ public class Profile extends HttpServlet{
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject response = new JSONObject();
         try {
             RpcParser.checkSignIn(req);

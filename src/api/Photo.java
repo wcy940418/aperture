@@ -23,7 +23,7 @@ public class Photo extends HttpServlet {
     private static final DBConnection conn = new MySQLDBConnection();
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject response = new JSONObject();
         try {
             RpcParser.checkSignIn(req);
@@ -108,7 +108,7 @@ public class Photo extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject response = new JSONObject();
         try {
             RpcParser.checkSignIn(req);
