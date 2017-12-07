@@ -164,7 +164,7 @@
     <servlet-mapping>
         <servlet-name>api-PhotoFileService</servlet-name>
         <url-pattern>/file/photo/*</url-pattern>
-        <url-pattern>/file/thumbnail/*</url-pattern>
+        <url-pattern>/file/thumb/*</url-pattern>
         <url-pattern>/file/avatar/*</url-pattern>
     </servlet-mapping>
 

@@ -16,6 +16,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -31,15 +32,13 @@ public class PhotoUploadProcessor extends HttpServlet{
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject response = new JSONObject();
         try {
-            RpcParser.checkSignIn(req);
-            JSONObject request = RpcParser.parseInput(req);
+//            RpcParser.checkSignIn(req);
+            JSONObject request = RpcParser.parseUrlParm(req);
             RpcParser.checkKeys(request, "del_photo");
             JSONArray photos = new JSONArray();
-            File fullPhotoFile = new File(PhotoDBUtil.fullPhotoPrefix, request.getString("del_photo"));
-            File thumbFile = new File(PhotoDBUtil.thumbnailPrefix,
-                    request.getString("del_photo").split(".")[0] + PhotoDBUtil.thumbnailFormat);
-            if (fullPhotoFile.exists() && thumbFile.exists()) {
-                boolean status = fullPhotoFile.delete() && thumbFile.delete();
+            File fullPhotoFile = new File(PhotoDBUtil.tempPath, request.getString("del_photo"));
+            if (fullPhotoFile.exists()) {
+                boolean status = fullPhotoFile.delete();
                 JSONObject photo = new JSONObject();
                 photo.put(request.getString("del_photo"), status);
                 photos.put(photo);
@@ -80,9 +79,9 @@ public class PhotoUploadProcessor extends HttpServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject response = new JSONObject();
         try {
-            RpcParser.checkSignIn(req);
-            JSONObject request = RpcParser.parseInput(req);
-            String userId = Integer.toString(request.getInt("user_id"));
+//            RpcParser.checkSignIn(req);
+            JSONObject request = RpcParser.parseUrlParm(req);
+            String userPrefix = "user-" + Integer.toString(request.getInt("user_id")) + "-";
             if (!ServletFileUpload.isMultipartContent(req)) {
                 throw new Exception("Upload request is not multipart");
             }
@@ -96,7 +95,7 @@ public class PhotoUploadProcessor extends HttpServlet{
             List<FileItem> uploadFiles = uploadHandler.parseRequest(req);
             for (FileItem item:uploadFiles) {
                 if (!item.isFormField()) {
-                    File file = File.createTempFile(userId + "-", PhotoDBUtil.fullPhotoFormat, photoDir);
+                    File file = File.createTempFile(userPrefix, PhotoDBUtil.fullPhotoFormat, photoDir);
                     JSONObject photo = new JSONObject();
                     photo.put("name", item.getName());
                     photo.put("size", item.getSize());

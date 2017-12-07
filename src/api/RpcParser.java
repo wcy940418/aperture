@@ -48,7 +48,44 @@ public class RpcParser {
             throw new Exception(sb.toString());
         }
     }
-
+    public static JSONObject parseUrlParm(HttpServletRequest req) throws Exception {
+        JSONObject requestDict = null;
+        HttpSession session = req.getSession(false);
+        int userId = session == null || !req.isRequestedSessionIdValid() ? 1 : (int) session.getAttribute("user_id");
+        requestDict = new JSONObject();
+        Map<String, String[]> parameters = req.getParameterMap();
+        for (Map.Entry<String, String[]> parameter: parameters.entrySet()) {
+            if (parameter.getValue().length == 1) {
+                requestDict.put(parameter.getKey(), parameter.getValue()[0]);
+            }
+        }
+        requestDict.put("user_id", userId);
+        requestDict.put("url_prefix", req.getServerName() +
+                (req.getServerPort() == 80 ? "" : ":" + Integer.toString(req.getServerPort())));
+        return requestDict;
+    }
+    public static JSONObject parseBody(HttpServletRequest req) throws Exception {
+        JSONObject requestDict = null;
+        HttpSession session = req.getSession(false);
+        int userId = session == null || !req.isRequestedSessionIdValid() ? 1 : (int) session.getAttribute("user_id");
+        StringBuffer jb = new StringBuffer();
+        String line = null;
+        try {
+            BufferedReader reader = req.getReader();
+            while ((line = reader.readLine()) != null) {
+                jb.append(line);
+            }
+            reader.close();
+            requestDict = new JSONObject(jb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception(e.getMessage());
+        }
+        requestDict.put("user_id", userId);
+        requestDict.put("url_prefix", req.getServerName() +
+                (req.getServerPort() == 80 ? "" : ":" + Integer.toString(req.getServerPort())));
+        return requestDict;
+    }
     public static JSONObject parseInput(HttpServletRequest req) throws Exception {
         JSONObject requestDict = null;
         HttpSession session = req.getSession(false);
