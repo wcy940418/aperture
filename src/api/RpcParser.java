@@ -60,7 +60,7 @@ public class RpcParser {
             }
         }
         requestDict.put("user_id", userId);
-        requestDict.put("url_prefix", req.getServerName() +
+        requestDict.put("url_prefix", req.getScheme() + "://" + req.getServerName() +
                 (req.getServerPort() == 80 ? "" : ":" + Integer.toString(req.getServerPort())));
         return requestDict;
     }
@@ -82,7 +82,7 @@ public class RpcParser {
             throw new Exception(e.getMessage());
         }
         requestDict.put("user_id", userId);
-        requestDict.put("url_prefix", req.getServerName() +
+        requestDict.put("url_prefix", req.getScheme() + "://" + req.getServerName() +
                 (req.getServerPort() == 80 ? "" : ":" + Integer.toString(req.getServerPort())));
         return requestDict;
     }
@@ -114,7 +114,7 @@ public class RpcParser {
             }
         }
         requestDict.put("user_id", userId);
-        requestDict.put("url_prefix", req.getServerName() +
+        requestDict.put("url_prefix", req.getScheme() + "://" + req.getServerName() +
                 (req.getServerPort() == 80 ? "" : ":" + Integer.toString(req.getServerPort())));
         return requestDict;
     }
