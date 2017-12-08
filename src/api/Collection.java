@@ -2,6 +2,7 @@ package api;
 
 import db.DBConnection;
 import db.MySQLDBConnection;
+import db.PublicResourceCache;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,6 +14,7 @@ import java.io.IOException;
 
 public class Collection extends HttpServlet {
     private static final DBConnection conn = new MySQLDBConnection();
+    private static final PublicResourceCache pubRes = PublicResourceCache.getInstance();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject response = new JSONObject();
@@ -21,6 +23,9 @@ public class Collection extends HttpServlet {
             JSONObject request = RpcParser.parseInput(req);
             RpcParser.checkKeys(request, "title", "description", "visibility");
             int collectionId = conn.createCollection(request.getInt("user_id"), request);
+            if (request.getString("visibility").equals("Public")) {
+                pubRes.addPublicCollection(collectionId);
+            }
             response.put("collection_id", collectionId);
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,6 +89,11 @@ public class Collection extends HttpServlet {
             if (request.getString("edit_type").equals("metadata")) {
                 RpcParser.checkKeys(request, "title", "description", "visibility");
                 conn.editCollectionMetadata(request.getInt("user_id"), request.getInt("collection_id"), request);
+                if (request.getString("visibility").equals("Public")) {
+                    pubRes.addPublicCollection(request.getInt("collection_id"));
+                } else {
+                    pubRes.delPublicCollection(request.getInt("collection_id"));
+                }
             } else if (request.getString("edit_type").equals("photos")) {
                 conn.editCollectionPhotos(request.getInt("user_id"), request.getInt("collection_id"), request);
             } else {

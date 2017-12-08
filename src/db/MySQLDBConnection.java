@@ -1135,4 +1135,74 @@ public class MySQLDBConnection implements DBConnection{
             throw new SQLException("Internal error");
         }
     }
+
+    @Override
+    public HashSet<Integer> publicPhotoLoader() throws SQLException {
+        String query = "SELECT ID FROM Photo WHERE visibility = 'Public' ";
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            HashSet<Integer> photoIds = new HashSet<Integer>();
+            while (rs.next()) {
+                photoIds.add(rs.getInt(1));
+            }
+            return photoIds;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public HashSet<Integer> publicCollectionLoader() throws SQLException {
+        String query = "SELECT ID FROM Collection WHERE visibility = 'Public' ";
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            HashSet<Integer> collectionIds = new HashSet<Integer>();
+            while (rs.next()) {
+                collectionIds.add(rs.getInt(1));
+            }
+            return collectionIds;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public HashSet<Integer> publicEventLoader() throws SQLException {
+        String query = "SELECT ID FROM Event WHERE visibility = 'Public' ";
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            HashSet<Integer> eventIds = new HashSet<Integer>();
+            while (rs.next()) {
+                eventIds.add(rs.getInt(1));
+            }
+            return eventIds;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public boolean canView(int userId, int photoId) throws SQLException {
+        String query = "SELECT can_view(?,?)";
+        boolean validToView = false;
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            statement.setInt(2, photoId);
+            ResultSet rs = statement.executeQuery();
+            if(rs.next()) {
+                validToView = rs.getBoolean(1);
+            }
+            return validToView;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
 }

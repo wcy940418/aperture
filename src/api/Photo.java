@@ -1,9 +1,6 @@
 package api;
 
-import db.DBConnection;
-import db.DBUtil;
-import db.MySQLDBConnection;
-import db.PhotoDBUtil;
+import db.*;
 import org.imgscalr.Scalr;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,7 +18,7 @@ import java.io.IOException;
 
 public class Photo extends HttpServlet {
     private static final DBConnection conn = new MySQLDBConnection();
-
+    private static final PublicResourceCache pubRes = PublicResourceCache.getInstance();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject response = new JSONObject();
@@ -31,6 +28,9 @@ public class Photo extends HttpServlet {
             RpcParser.checkKeys(request, "category", "title", "description", "lon", "lat", "country", "city",
                     "street", "zip", "time_captured", "visibility", "temp_filename");
             int photoId = conn.uploadPhoto(request.getInt("user_id"), request);
+            if (request.getString("visibility").equals("Public")) {
+                pubRes.addPublicPhoto(photoId);
+            }
             File file = new File(PhotoDBUtil.tempPath, request.getString("temp_filename"));
             if (!file.canRead()) {
                 throw new Exception("Unable to find uploaded file");
@@ -118,6 +118,11 @@ public class Photo extends HttpServlet {
             conn.editPhoto(request.getInt("user_id"),
                     request.getInt("photo_id"),
                     request);
+            if (request.getString("visibility").equals("Public")) {
+                pubRes.addPublicPhoto(request.getInt("photo_id"));
+            } else {
+                pubRes.delPublicPhoto(request.getInt("photo_id"));
+            }
         } catch (Exception e) {
             e.printStackTrace();
             resp.setStatus(400);

@@ -2,6 +2,7 @@ package api;
 
 import db.DBConnection;
 import db.MySQLDBConnection;
+import db.PublicResourceCache;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,7 +14,7 @@ import java.io.IOException;
 
 public class Event extends HttpServlet{
     private static final DBConnection conn = new MySQLDBConnection();
-
+    private static final PublicResourceCache pubRes = PublicResourceCache.getInstance();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject response = new JSONObject();
@@ -23,6 +24,9 @@ public class Event extends HttpServlet{
             RpcParser.checkKeys(request, "title", "description", "limitation", "lon", "lat", "country", "city",
                     "street", "zip", "time_happened", "visibility");
             int eventId = conn.createEvent(request.getInt("user_id"), request);
+            if (request.getString("visibility").equals("Public")) {
+                pubRes.addPublicEvent(eventId);
+            }
             response.put("event_id", eventId);
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,6 +89,11 @@ public class Event extends HttpServlet{
             conn.editEvent(request.getInt("user_id"),
                     request.getInt("event_id"),
                     request);
+            if (request.getString("visibility").equals("Public")) {
+                pubRes.addPublicEvent(request.getInt("event_id"));
+            } else {
+                pubRes.delPublicEvent(request.getInt("event_id"));
+            }
         } catch (Exception e) {
             e.printStackTrace();
             resp.setStatus(400);

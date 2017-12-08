@@ -4,6 +4,7 @@ import com.FileException;
 import com.IDException;
 import org.json.*;
 import java.sql.SQLException;
+import java.util.HashSet;
 
 public interface DBConnection {
     /**
@@ -347,4 +348,34 @@ public interface DBConnection {
      * @throws SQLException
      */
     public void registerEvent(int userId, int eventId) throws IDException, SQLException;
+
+    /**
+     * Load public photo ids
+     * @return HashSet of photo ids
+     * @throws SQLException
+     */
+    public HashSet<Integer> publicPhotoLoader() throws SQLException;
+
+    /**
+     * Load public collection ids
+     * @return HashSet of collection ids
+     * @throws SQLException
+     */
+    public HashSet<Integer> publicCollectionLoader() throws SQLException;
+
+    /**
+     * load public event ids
+     * @return HashSet of event ids
+     * @throws SQLException
+     */
+    public HashSet<Integer> publicEventLoader() throws SQLException;
+
+    /**
+     * Test if user can view a photo
+     * @param userId
+     * @param photoId
+     * @return
+     * @throws SQLException
+     */
+    public boolean canView(int userId, int photoId) throws SQLException;
 }
