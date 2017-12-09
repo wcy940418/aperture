@@ -185,4 +185,41 @@
         <servlet-name>api-Search</servlet-name>
         <url-pattern>/api/search</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>html-Profile</servlet-name>
+        <servlet-class>html.Profile</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>html-Profile</servlet-name>
+        <url-pattern>/profile/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>html-Photo</servlet-name>
+        <servlet-class>html.Photo</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>html-Photo</servlet-name>
+        <url-pattern>/photo/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>html-Event</servlet-name>
+        <servlet-class>html.Event</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>html-Event</servlet-name>
+        <url-pattern>/event/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>html-Collection</servlet-name>
+        <servlet-class>html.Collection</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>html-Collection</servlet-name>
+        <url-pattern>/collection/*</url-pattern>
+    </servlet-mapping>
+
 </web-app>
