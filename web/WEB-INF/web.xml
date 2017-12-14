@@ -113,6 +113,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>api-Avatar</servlet-name>
+        <servlet-class>api.Avatar</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api-Avatar</servlet-name>
+        <url-pattern>/api/avatar</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>api-Profile</servlet-name>
         <servlet-class>api.Profile</servlet-class>
     </servlet>
