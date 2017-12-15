@@ -18,6 +18,8 @@ var likers = null;
 var collections = null;
 var addedCollectionIds = [];
 var collectionDividerAdded = false;
+var gMap = null;
+var marker = null;
 
 function toggleMetaSideBar() {
     if (!isMetaSideBarExtended) {
@@ -36,10 +38,22 @@ function photoLoaded(data) {
         .addClass("full-image")
         .css("background-image", 'url("' + data.full_url + '")');
     console.log(data.full_url);
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -34.397, lng: 150.644},
-        zoom: 8
-    })
+    gMap = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 40.69, lng: -95.35},
+        zoom: 4
+    });
+    marker = new google.maps.Marker({
+        position:{lat: 40.69, lng: -95.35},
+        map:gMap,
+        clickable:true
+    });
+    if (data.hasOwnProperty("lon") && data.hasOwnProperty("lat")) {
+        $("#map").css("display", "block");
+        gMap.panTo({lat:data.lat, lng:data.lon});
+        marker.setPosition({lat:data.lat, lng:data.lon});
+    } else {
+        $("#map").css("display", "none");
+    }
     $("#overlay").css("display", "block");
     $("#photo-title").html(data.title);
     $("#photo-description").html(data.description);

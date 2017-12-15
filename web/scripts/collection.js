@@ -10,6 +10,7 @@ var addedCollectionIds = {};
 var collectionPhotos = {};
 var collectionDividerAdded = false;
 var gMap = null;
+var marker = null;
 var slideShowSeq = [];
 
 function toggleMetaSideBar() {
@@ -40,7 +41,16 @@ $(function() {
     var pathName = document.location.pathname.split("/");
     var numOnlyReg = /^\d+$/;
     var reg = new RegExp(numOnlyReg);
-    var collectionId = pathName[pathName.length - 1]
+    var collectionId = pathName[pathName.length - 1];
+    gMap = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 40.69, lng: -95.35},
+        zoom: 4
+    });
+    marker = new google.maps.Marker({
+        position:{lat: 40.69, lng: -95.35},
+        map:gMap,
+        clickable:true
+    });
     if (pathName.length >= 3 && reg.test(collectionId)) {
         $.get({
             url: document.location.origin + "/api/collection?collection_id=" + collectionId,
@@ -97,14 +107,14 @@ function loadFirstPhoto(photo_id) {
         .addClass("full-image")
         .css("background-image", 'url("' + collectionPhotos[photo_id].full_url + '")');
     console.log(collectionPhotos[photo_id].full_url);
-    gMap = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -34.397, lng: 150.644},
-        zoom: 4
-    });
-    var marker = new google.maps.Marker({
-        position:{lat: -34.397, lng: 150.644},
-        map:gMap
-    });
+    if (collectionPhotos[photo_id].hasOwnProperty("lon") && collectionPhotos[photo_id].hasOwnProperty("lat")) {
+        $("#map").css("display", "block");
+        gMap.panTo({lat:collectionPhotos[photo_id].lat, lng:collectionPhotos[photo_id].lon});
+        gMap.setCenter({lat:collectionPhotos[photo_id].lat, lng:collectionPhotos[photo_id].lon});
+        marker.setPosition({lat:collectionPhotos[photo_id].lat, lng:collectionPhotos[photo_id].lon});
+    } else {
+        $("#map").css("display", "none");
+    }
     $("#overlay").css("display", "block");
     $("#slideshow").css("display", "block");
     changePhoto(photo_id);
@@ -133,36 +143,43 @@ function changePhoto(photo_id) {
     $("#category").html(collectionPhotos[photo_id].category);
     $("#slideshow-overlay .active").removeClass("active").addClass("demo");
     $("#p-" + photo_id).removeClass("demo").addClass("active");
-
+    if (collectionPhotos[photo_id].hasOwnProperty("lon") && collectionPhotos[photo_id].hasOwnProperty("lat")) {
+        $("#map").css("display", "block");
+        gMap.panTo({lat:collectionPhotos[photo_id].lat, lng:collectionPhotos[photo_id].lon});
+        gMap.setCenter({lat:collectionPhotos[photo_id].lat, lng:collectionPhotos[photo_id].lon});
+        marker.setPosition({lat:collectionPhotos[photo_id].lat, lng:collectionPhotos[photo_id].lon});
+    } else {
+        $("#map").css("display", "none");
+    }
     photoId = collectionPhotos[photo_id].photo_id;
     getLikers(photoId);
 }
 
 function getLikers(photo) {
     if (likers.hasOwnProperty(photo)) {
-        processLikeButton(userId, likers[photo]);
+        processLikeButton(userId);
     } else {
         $.get({
             url: document.location.origin + "/api/like?photo_id=" + String(photo),
             success: function (data) {
                 likers[photoId] = data.likers;
-                processLikeButton(userId, likers[photoId]);
+                processLikeButton(userId);
             }
         });
     }
 }
 
-function processLikeButton(userId, likers) {
-    for (var i = 0; i < likers.length; ++i) {
-        if(likers[i].user_id === userId) {
+function processLikeButton(userId) {
+    for (var i = 0; i < likers[photoId].length; ++i) {
+        if(likers[photoId][i].user_id === userId) {
             $("#like").css("color", "red");
-            $("#likes").html(likers.length);
+            $("#likes").html(likers[photoId].length);
             return;
         }
     }
     $("#like").click(function(){
         likePhoto(photoId);
-    }).css("cursor", "pointer");
+    }).css("color", "").css("cursor", "pointer");
     $("#likes").html(likers[photoId].length);
 }
 
