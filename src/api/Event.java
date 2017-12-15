@@ -21,8 +21,8 @@ public class Event extends HttpServlet{
         try {
             RpcParser.checkSignIn(req);
             JSONObject request = RpcParser.parseInput(req);
-            RpcParser.checkKeys(request, "title", "description", "limitation", "lon", "lat", "country", "city",
-                    "street", "zip", "time_happened", "visibility");
+            RpcParser.checkKeys(request, "title", "description", "limitation", "lon", "lat", "country", "state",
+                    "city", "street", "zip", "time_happened", "visibility");
             int eventId = conn.createEvent(request.getInt("user_id"), request);
             if (request.getString("visibility").equals("Public")) {
                 pubRes.addPublicEvent(eventId);
@@ -85,7 +85,7 @@ public class Event extends HttpServlet{
             RpcParser.checkSignIn(req);
             JSONObject request = RpcParser.parseInput(req);
             RpcParser.checkKeys(request, "event_id", "title", "description", "limitation", "lon", "lat",
-                    "country", "city", "street", "zip", "time_happened", "visibility");
+                    "country", "state", "city", "street", "zip", "time_happened", "visibility");
             conn.editEvent(request.getInt("user_id"),
                     request.getInt("event_id"),
                     request);

@@ -25,8 +25,8 @@ public class Photo extends HttpServlet {
         try {
             RpcParser.checkSignIn(req);
             JSONObject request = RpcParser.parseInput(req);
-            RpcParser.checkKeys(request, "category", "title", "description", "lon", "lat", "country", "city",
-                    "street", "zip", "time_captured", "visibility", "temp_filename");
+            RpcParser.checkKeys(request, "category", "title", "description", "lon", "lat", "country", "state",
+                    "city", "street", "zip", "time_captured", "visibility", "temp_filename");
             int photoId = conn.uploadPhoto(request.getInt("user_id"), request);
             if (request.getString("visibility").equals("Public")) {
                 pubRes.addPublicPhoto(photoId);
@@ -114,7 +114,7 @@ public class Photo extends HttpServlet {
             RpcParser.checkSignIn(req);
             JSONObject request = RpcParser.parseInput(req);
             RpcParser.checkKeys(request, "photo_id", "category", "title", "description", "lon", "lat", "country",
-                    "city", "street", "zip", "time_captured", "visibility");
+                    "state", "city", "street", "zip", "time_captured", "visibility");
             conn.editPhoto(request.getInt("user_id"),
                     request.getInt("photo_id"),
                     request);

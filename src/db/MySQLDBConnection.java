@@ -146,12 +146,14 @@ public class MySQLDBConnection implements DBConnection{
             while (rs.next()) {
                 Photo photo = new Photo(rs.getInt("ID"),
                         rs.getInt("upload_by_userID"),
+                        rs.getString("name"),
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getString("visibility"),
                         rs.getFloat("longitude"),
                         rs.getFloat("latitude"),
                         rs.getString("country"),
+                        rs.getString("state"),
                         rs.getString("city"),
                         rs.getString("street"),
                         rs.getString("zip"),
@@ -193,6 +195,7 @@ public class MySQLDBConnection implements DBConnection{
                         rs.getFloat("longitude"),
                         rs.getFloat("latitude"),
                         rs.getString("country"),
+                        rs.getString("state"),
                         rs.getString("city"),
                         rs.getString("street"),
                         rs.getString("zip")
@@ -387,11 +390,12 @@ public class MySQLDBConnection implements DBConnection{
     }
 
     @Override
-    public void acceptInvitation(int messageId) throws IDException, SQLException {
-        String query = "CALL accept_invitation(?)";
+    public void responseInvitation(int messageId, boolean accept) throws IDException, SQLException {
+        String query = "CALL accept_invitation(?,?)";
         try {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, messageId);
+            statement.setBoolean(2, accept);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -762,12 +766,14 @@ public class MySQLDBConnection implements DBConnection{
             if (rs.next()) {
                 Photo photo = new Photo(rs.getInt("ID"),
                         rs.getInt("upload_by_userID"),
+                        rs.getString("name"),
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getString("visibility"),
                         rs.getObject("longitude") == null ? null : rs.getFloat("longitude"),
                         rs.getObject("latitude") == null ? null : rs.getFloat("latitude"),
                         rs.getString("country"),
+                        rs.getString("state"),
                         rs.getString("city"),
                         rs.getString("street"),
                         rs.getString("zip"),
@@ -828,6 +834,7 @@ public class MySQLDBConnection implements DBConnection{
                         rs.getObject("longitude") == null ? null : rs.getFloat("longitude"),
                         rs.getObject("latitude") == null ? null : rs.getFloat("latitude"),
                         rs.getString("country"),
+                        rs.getString("state"),
                         rs.getString("city"),
                         rs.getString("street"),
                         rs.getString("zip"));
@@ -960,12 +967,14 @@ public class MySQLDBConnection implements DBConnection{
             while (rs.next()) {
                 Photo photo = new Photo(rs.getInt("ID"),
                         rs.getInt("upload_by_userID"),
+                        null,
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getString("visibility"),
                         rs.getObject("longitude") == null ? null : rs.getFloat("longitude"),
                         rs.getObject("latitude") == null ? null : rs.getFloat("latitude"),
                         rs.getString("country"),
+                        rs.getString("state"),
                         rs.getString("city"),
                         rs.getString("street"),
                         rs.getString("zip"),
@@ -1007,6 +1016,7 @@ public class MySQLDBConnection implements DBConnection{
                         rs.getObject("longitude") == null ? null : rs.getFloat("longitude"),
                         rs.getObject("latitude") == null ? null : rs.getFloat("latitude"),
                         rs.getString("country"),
+                        rs.getString("state"),
                         rs.getString("city"),
                         rs.getString("street"),
                         rs.getString("zip")
@@ -1083,6 +1093,7 @@ public class MySQLDBConnection implements DBConnection{
                         rs.getObject("longitude") == null ? null : rs.getFloat("longitude"),
                         rs.getObject("latitude") == null ? null : rs.getFloat("latitude"),
                         rs.getString("country"),
+                        rs.getString("state"),
                         rs.getString("city"),
                         rs.getString("street"),
                         rs.getString("zip")
@@ -1122,6 +1133,7 @@ public class MySQLDBConnection implements DBConnection{
                         rs.getObject("longitude") == null ? null : rs.getFloat("longitude"),
                         rs.getObject("latitude") == null ? null : rs.getFloat("latitude"),
                         rs.getString("country"),
+                        rs.getString("state"),
                         rs.getString("city"),
                         rs.getString("street"),
                         rs.getString("zip")
@@ -1200,6 +1212,28 @@ public class MySQLDBConnection implements DBConnection{
                 validToView = rs.getBoolean(1);
             }
             return validToView;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public JSONArray getPhotoLikeList(int userId, int photoId) throws SQLException {
+        String query = "CALL photo_like_list(?,?)";
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, userId);
+            statement.setInt(2, photoId);
+            ResultSet rs = statement.executeQuery();
+            JSONArray likers = new JSONArray();
+            while (rs.next()) {
+                JSONObject liker = new JSONObject();
+                liker.put("user_id", rs.getInt("userID"));
+                liker.put("name", rs.getString("name"));
+                likers.put(liker);
+            }
+            return likers;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException("Internal error");

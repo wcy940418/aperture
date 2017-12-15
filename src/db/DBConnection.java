@@ -209,12 +209,13 @@ public interface DBConnection {
      */
     public int sendInvitation(int userId, int toUserId, String content) throws IDException, SQLException;
     /**
-     * Accept invitation
+     * Accept invitation or not
      * @param messageId
+     * @param accept
      * @throws IDException e
      * @throws SQLException
      */
-    public void acceptInvitation(int messageId) throws IDException, SQLException;
+    public void responseInvitation(int messageId, boolean accept) throws IDException, SQLException;
     /**
      * Set friendship visibility
      * @param userId
@@ -378,4 +379,13 @@ public interface DBConnection {
      * @throws SQLException
      */
     public boolean canView(int userId, int photoId) throws SQLException;
+
+    /**
+     * Get the likers of photo
+     * @param userId
+     * @param photoId
+     * @return JSONArray of likers list
+     * @throws SQLException
+     */
+    public JSONArray getPhotoLikeList(int userId, int photoId) throws SQLException;
 }

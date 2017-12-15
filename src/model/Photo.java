@@ -16,6 +16,7 @@ public class Photo {
     private Float lat;
     private String visibility;
     private String country;
+    private String state;
     private String city;
     private String street;
     private String zip;
@@ -23,12 +24,14 @@ public class Photo {
     private Date timeUploaded;
     private String category;
     private Integer likes;
+    private String photographer;
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
 
-    public Photo(int id, int uploaderId, String title, String description, String visibility, Float lon, Float lat,
-                 String country, String city, String street, String zip, Date timeCaptured, Date timeUploaded,
-                 String category, Integer likes) {
+    public Photo(int id, int uploaderId, String photographer, String title, String description, String visibility,
+                 Float lon, Float lat, String country, String state, String city, String street, String zip,
+                 Date timeCaptured, Date timeUploaded, String category, Integer likes) {
         this.id = id;
+        this.photographer = photographer;
         this.uploaderId = uploaderId;
         this.title = title;
         this.description = description;
@@ -37,6 +40,7 @@ public class Photo {
         this.lat = lat;
         this.country = country;
         this.city = city;
+        this.state = state;
         this.street = street;
         this.zip = zip;
         this.timeCaptured = timeCaptured;
@@ -54,12 +58,14 @@ public class Photo {
         }
         this.id = object.optInt("photo_id");
         this.uploaderId = object.optInt("uploader_id");
+        this.photographer = object.optString("photographer");
         this.title = isNull(object, "title") ? null : object.getString("title");
         this.description = isNull(object, "description") ? null : object.getString("description");
         this.visibility = object.getString("visibility");
         this.lon = isNull(object, "lon") ? null : object.getFloat("lon");
         this.lat = isNull(object, "lat") ? null : object.getFloat("lat");
         this.country = isNull(object, "country") ? null : object.getString("country");
+        this.state = isNull(object, "state") ? null : object.getString("state");
         this.city = isNull(object, "city") ? null : object.getString("city");
         this.street = isNull(object, "street") ? null : object.getString("street");
         this.zip = isNull(object, "zip") ? null : object.getString("zip");
@@ -80,6 +86,7 @@ public class Photo {
         this.lon = isNull(object, "lon") ? null : object.getFloat("lon");
         this.lat = isNull(object, "lat") ? null : object.getFloat("lat");
         this.country = isNull(object, "country") ? null : object.getString("country");
+        this.state = isNull(object, "state") ? null : object.getString("state");
         this.city = isNull(object, "city") ? null : object.getString("city");
         this.street = isNull(object, "street") ? null : object.getString("street");
         this.zip = isNull(object, "zip") ? null : object.getString("zip");
@@ -91,11 +98,13 @@ public class Photo {
         try {
             object.put("photo_id", id);
             object.put("uploader_id", uploaderId);
+            object.put("photographer", photographer);
             object.put("title", title);
             object.put("description", description);
             object.put("lon", lon);
             object.put("lat", lat);
             object.put("country", country);
+            object.put("state", state);
             object.put("city", city);
             object.put("street", street);
             object.put("visibility", visibility);
@@ -172,5 +181,9 @@ public class Photo {
 
     public Integer getLikes() {
         return likes;
+    }
+
+    public String getPhotographer() {
+        return photographer;
     }
 }

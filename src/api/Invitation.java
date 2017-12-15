@@ -52,8 +52,8 @@ public class Invitation extends HttpServlet{
             RpcParser.checkSignIn(req);
             JSONObject request = RpcParser.parseInput(req);
             if (request.has("message_id")) {
-                RpcParser.checkKeys(request, "message_id");
-                conn.acceptInvitation(request.getInt("message_id"));
+                RpcParser.checkKeys(request, "message_id", "accept");
+                conn.responseInvitation(request.getInt("message_id"), request.getBoolean("accept"));
             } else if (request.has("to_user_id")) {
                 RpcParser.checkKeys(request, "to_user_id", "content");
                 int messageId = conn.sendInvitation(request.getInt("user_id"),

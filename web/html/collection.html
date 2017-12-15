@@ -2,9 +2,86 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Collection</title>
+    <title>Photo</title>
+    <link rel="stylesheet" href="/styles/collection.css">
+    <link rel="stylesheet" href="/styles/bootstrap.min.css">
 </head>
 <body>
-    <h1>This is a collection page.</h1>
+
+<div id="slideshow" class="slideshow-outbox">
+    <div class="slideshow-content" id="slideshow-overlay"></div>
+    <p id="expand-slide-btn" class="slideshow-toggle-arrow" onclick="toggleSlideshow()"> &#9660 </p>
+</div>
+
+<div id="image-viewer" class="loader">
+</div>
+
+<div id="overlay" class="overlay-outbox">
+    <p id="expand-meta-btn" class="overlay-toggle-arrow" onclick="toggleMetaSideBar()"> &#9650 </p>
+    <div class="overlay-content" id="meta-overlay">
+        <div class="photo-title-desc">
+            <p class="photo-title" id="photo-title">Untitled</p>
+            <div class="photo-desc">
+                <p id="photo-description">blank</p>
+            </div>
+        </div>
+        <div class="photo-meta">
+            <div class="photo-meta-text">
+                <p><span class="glyphicon glyphicon-user"></span> <span id="author">Anonymous</span></p>
+                <p><span class="glyphicon glyphicon-camera"></span> <span id="time-captured">Null</span></p>
+                <p><span class="glyphicon glyphicon-open"></span> <span id="time-uploaded">Null</span></p>
+                <p><span class="glyphicon glyphicon-th-list"></span> <span id="category">Uncategorized</span></p>
+                <p><span class="glyphicon glyphicon-thumbs-up" id="like"></span> <span id="likes">0</span></p>
+                <p id="bookmark"><span class="glyphicon glyphicon-bookmark"></span> <span>Add to collection</span></p>
+            </div>
+            <div id="map" class="sm-map"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Add to collection Modal -->
+<div id="collection-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add to collection</h4>
+            </div>
+            <div class="modal-body">
+                <div class="loader" id="collection-manager">
+                    <button type="button" class="btn btn-default dropdown-toggle"
+                            data-toggle="dropdown" id="collection-selection">
+                        Add to... <span class="caret"></span>
+                    </button>
+                    <ul id="collections" class="dropdown-menu">
+                        <li>
+                            <div class="input-group form-group">
+                                <input id="new-collection-name" type="text" class="form-control"
+                                       placeholder="New collection">
+                                <span class="input-group-btn">
+                                        <button id="add-new-collection" type="button" class="btn btn-default">
+                                            +
+                                        </button>
+                                    </span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="submit-add">Add</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 </body>
+<script src="/scripts/jquery-3.2.1.min.js"></script>
+<script src="/scripts/bootstrap.min.js"></script>
+<script src="/scripts/collection.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQ-7aCfmolnTq7fw8dGtQN6RMa3wSb-0w" defer></script>
 </html>

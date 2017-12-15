@@ -19,12 +19,13 @@ public class Event {
     private Float lon;
     private Float lat;
     private String country;
+    private String state;
     private String city;
     private String street;
     private String zip;
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
     public Event(int id, int hostId, String title, String description, Integer limitation, String visibility,
-                 Date timeCreated, Date timeHappened, Float lon, Float lat, String country, String city,
+                 Date timeCreated, Date timeHappened, Float lon, Float lat, String country, String state, String city,
                  String street, String zip) {
         this.id = id;
         this.hostId = hostId;
@@ -37,6 +38,7 @@ public class Event {
         this.lon = lon;
         this.lat = lat;
         this.country = country;
+        this.state = state;
         this.city = city;
         this.street = street;
         this.zip = zip;
@@ -57,6 +59,7 @@ public class Event {
         this.lon = isNull(object, "lon") ? null : object.getFloat("lon");
         this.lat = isNull(object, "lat") ? null : object.getFloat("lat");
         this.country = isNull(object, "country") ? null : object.getString("country");
+        this.state = isNull(object, "state") ? null : object.getString("state");
         this.city = isNull(object, "city") ? null : object.getString("city");
         this.street = isNull(object, "street") ? null : object.getString("street");
         this.zip = isNull(object, "zip") ? null : object.getString("zip");
@@ -75,10 +78,13 @@ public class Event {
         this.lon = isNull(object, "lon") ? null : object.getFloat("lon");
         this.lat = isNull(object, "lat") ? null : object.getFloat("lat");
         this.country = isNull(object, "country") ? null : object.getString("country");
+        this.state = isNull(object, "state") ? null : object.getString("state");
         this.city = isNull(object, "city") ? null : object.getString("city");
         this.street = isNull(object, "street") ? null : object.getString("street");
         this.zip = isNull(object, "zip") ? null : object.getString("zip");
     }
+
+
     public JSONObject toJSONObject() {
         JSONObject object = new JSONObject();
         try {
@@ -90,6 +96,7 @@ public class Event {
             object.put("lon", lon);
             object.put("lat", lat);
             object.put("country", country);
+            object.put("state", state);
             object.put("city", city);
             object.put("street", street);
             object.put("zip", zip);
@@ -97,6 +104,7 @@ public class Event {
             object.put("time_happened", dateFormat.format(timeHappened));
             object.put("limitation", limitation);
         } catch (Exception e) {
+
             e.printStackTrace();
         }
         return object;
@@ -160,5 +168,9 @@ public class Event {
 
     public String getVisibility() {
         return visibility;
+    }
+
+    public String getState() {
+        return state;
     }
 }
