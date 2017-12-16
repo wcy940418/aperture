@@ -2,6 +2,8 @@ package api;
 
 import db.DBConnection;
 import db.MySQLDBConnection;
+import db.PhotoDBUtil;
+import db.PublicResourceCache;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,6 +15,7 @@ import java.io.IOException;
 
 public class Search extends HttpServlet {
     private static final DBConnection conn = new MySQLDBConnection();
+    private static final PublicResourceCache pubRes = PublicResourceCache.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject response = new JSONObject();
@@ -28,6 +31,20 @@ public class Search extends HttpServlet {
                         request.getInt("days"),
                         request.getInt("load_rows"),
                         request.getInt("offset"));
+                for (int i = 0; i < photos.length(); ++i) {
+                    JSONObject photo = photos.getJSONObject(i);
+                    photo.put("uploader_name", pubRes.getUserName(photo.getInt("uploader_id")));
+                    photo.put("full_url",
+                            request.getString("url_prefix") +
+                                    "/file/photo/" +
+                                    Integer.toString(photo.getInt("photo_id")) +
+                                    PhotoDBUtil.fullPhotoFormat);
+                    photo.put("thumbnail_url",
+                            request.getString("url_prefix") +
+                                    "/file/thumb/" +
+                                    Integer.toString(photo.getInt("photo_id")) +
+                                    PhotoDBUtil.thumbnailFormat);
+                }
                 response.put("photos", photos);
             } else if (request.getString("type").equals("collection")) {
                 RpcParser.checkKeys(request,"keyword");
@@ -35,6 +52,14 @@ public class Search extends HttpServlet {
                         request.getString("keyword"),
                         request.getInt("load_rows"),
                         request.getInt("offset"));
+                for (int i = 0; i < collections.length(); ++i) {
+                    JSONObject collection = collections.getJSONObject(i);
+                    collection.put("host_name", pubRes.getUserName(collection.getInt("host_id")));
+                    collection.put("collection_url",
+                            request.getString("url_prefix") +
+                                    "/collection/" +
+                                    Integer.toString(collection.getInt("collection_id")));
+                }
                 response.put("collections", collections);
             } else if (request.getString("type").equals("event")) {
                 JSONArray events = null;
@@ -43,7 +68,7 @@ public class Search extends HttpServlet {
                             request.getString("keyword"),
                             request.getInt("load_rows"),
                             request.getInt("offset"));
-                } else if (request.has("center") && request.has("max_distance")) {
+                } else if (request.has("lon") && request.has("lat") && request.has("max_distance")) {
                     events = conn.searchEventByLoc(request.getInt("user_id"),
                             request,
                             request.getInt("load_rows"),
@@ -53,6 +78,14 @@ public class Search extends HttpServlet {
                             request,
                             request.getInt("load_rows"),
                             request.getInt("offset"));
+                }
+                for (int i = 0; i < events.length(); ++i) {
+                    JSONObject event = events.getJSONObject(i);
+                    event.put("host_name", pubRes.getUserName(event.getInt("host_id")));
+                    event.put("event_url",
+                            request.getString("url_prefix") +
+                                    "/event/" +
+                                    Integer.toString(event.getInt("event_id")));
                 }
                 response.put("events", events);
             } else {

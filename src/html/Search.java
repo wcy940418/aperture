@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class Photo extends HttpServlet {
+public class Search extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher view = req.getRequestDispatcher("/html/photo.html");
+        RequestDispatcher view = req.getRequestDispatcher("/html/search.html");
         view.include(req, resp);
     }
 }

@@ -1,5 +1,7 @@
 package api;
 
+import db.DBConnection;
+import db.MySQLDBConnection;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class SignOut extends HttpServlet {
+    private static final DBConnection conn = new MySQLDBConnection();
     /**
      * Sign out
      * @param req
@@ -22,10 +25,13 @@ public class SignOut extends HttpServlet {
         JSONObject response = new JSONObject();
         try {
             RpcParser.checkSignIn(req);
+            JSONObject request = RpcParser.parseInput(req);
+            conn.updateLastAccess(request.getInt("user_id"));
             HttpSession session = req.getSession();
             if (session != null) {
                 session.invalidate();
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             resp.setStatus(400);

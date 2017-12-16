@@ -231,4 +231,14 @@
         <url-pattern>/collection/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>html-Search</servlet-name>
+        <servlet-class>html.Search</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>html-Search</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+
+
 </web-app>

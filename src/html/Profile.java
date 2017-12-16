@@ -11,7 +11,6 @@ public class Profile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher view = req.getRequestDispatcher("/html/profile.html");
-        System.out.println(req.getPathInfo());
         view.include(req, resp);
     }
 }

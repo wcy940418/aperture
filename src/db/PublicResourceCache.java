@@ -3,6 +3,7 @@ package db;
 import db.DBConnection;
 import db.MySQLDBConnection;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -15,10 +16,12 @@ public class PublicResourceCache {
         return SingletonHolder.INSTANCE;
     }
     private static HashSet<Integer> publicPhoto, publicEvent, publicCollection;
+    private static HashMap<Integer, String> userNames;
     private static boolean publicResLoaded = false;
     private static final DBConnection conn = new MySQLDBConnection();
     private static ReadWriteLock photoRwLock = new ReentrantReadWriteLock();
     private static ReadWriteLock eventRwLock = new ReentrantReadWriteLock();
+    private static ReadWriteLock userNamesRwLock = new ReentrantReadWriteLock();
     private static ReadWriteLock collectionRwLock = new ReentrantReadWriteLock();
     private PublicResourceCache() {
         if (!publicResLoaded) {
@@ -30,6 +33,8 @@ public class PublicResourceCache {
             photoRwLock.writeLock().lock();
             eventRwLock.writeLock().lock();
             collectionRwLock.writeLock().lock();
+            userNamesRwLock.writeLock().lock();
+            userNames = conn.userNameLoader();
             publicPhoto = conn.publicPhotoLoader();
             publicEvent = conn.publicEventLoader();
             publicCollection = conn.publicCollectionLoader();
@@ -45,6 +50,7 @@ public class PublicResourceCache {
             photoRwLock.writeLock().unlock();
             eventRwLock.writeLock().unlock();
             collectionRwLock.writeLock().unlock();
+            userNamesRwLock.writeLock().unlock();
         }
     }
     public void addPublicPhoto(int photoId) {
@@ -62,6 +68,11 @@ public class PublicResourceCache {
         publicEvent.add(eventId);
         eventRwLock.writeLock().unlock();
     }
+    public void addUserNames(int userId, String userName) {
+        userNamesRwLock.writeLock().lock();
+        userNames.put(userId,userName);
+        userNamesRwLock.writeLock().unlock();
+    }
     public void delPublicPhoto(int photoId) {
         photoRwLock.writeLock().lock();
         publicPhoto.remove(photoId);
@@ -76,6 +87,11 @@ public class PublicResourceCache {
         eventRwLock.writeLock().lock();
         publicEvent.remove(eventId);
         eventRwLock.writeLock().unlock();
+    }
+    public void delUserNames(int userId) {
+        userNamesRwLock.writeLock().lock();
+        userNames.remove(userId);
+        userNamesRwLock.writeLock().unlock();
     }
     public boolean isPublicPhoto(int photoId) {
         boolean hasPhoto;
@@ -97,6 +113,13 @@ public class PublicResourceCache {
         hasEvent = publicEvent.contains(eventId);
         eventRwLock.readLock().unlock();
         return hasEvent;
+    }
+    public String getUserName(int userId) {
+        String userName;
+        userNamesRwLock.readLock().lock();
+        userName = userNames.get(userId);
+        userNamesRwLock.readLock().unlock();
+        return userName;
     }
 
 }

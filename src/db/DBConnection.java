@@ -4,6 +4,7 @@ import com.FileException;
 import com.IDException;
 import org.json.*;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public interface DBConnection {
@@ -57,6 +58,14 @@ public interface DBConnection {
      * @throws SQLException
      */
     public int verifySignIn(String usernameEmail, String password) throws IDException, SQLException;
+
+    /**
+     * Update user last access time
+     * @param userId
+     * @throws SQLException
+     */
+    public void updateLastAccess(int userId) throws SQLException;
+
     /**
      * Get friend list
      * @param userId
@@ -388,4 +397,11 @@ public interface DBConnection {
      * @throws SQLException
      */
     public JSONArray getPhotoLikeList(int userId, int photoId) throws SQLException;
+
+    /**
+     * Get user id and names
+     * @return Hash map of them
+     * @throws SQLException
+     */
+    public HashMap<Integer, String> userNameLoader() throws SQLException;
 }

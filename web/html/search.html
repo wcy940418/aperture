@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+    <link rel="stylesheet" href="/styles/search.css">
+    <link rel="stylesheet" href="/styles/bootstrap.min.css">
+</head>
+<body>
+<div class="search-box centered">
+    <div class="search-group">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="input-group">
+                        <input id="search-keyword" type="text" class="form-control" placeholder="Search">
+                        <div class="input-group-btn">
+                            <button id="search-type" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" value="photo">
+                                <span id="search-for">Photo</span> <span class="caret"></span>
+                            </button>
+                            <ul id="search-type-list" class="dropdown-menu dropdown-menu-left">
+                                <li><a href="javascript:void(0)" id="photo">Photo</a></li>
+                                <li><a href="javascript:void(0)" id="event-0">Event by keyword</a></li>
+                                <li><a href="javascript:void(0)" id="event-1">Event by location</a></li>
+                                <li><a href="javascript:void(0)" id="collection">Collection</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="goSearch()">Search</button>
+    </div>
+    <form class="photo-option" id="photo-option">
+        <span >Search scope:</span>
+        <input type="radio" name="scope" value="All" checked> <span>All</span>
+        <input type="radio" name="scope" value="FOF"> <span>Friend of friend</span>
+        <input type="radio" name="scope" value="Friend"> <span>Friend</span>
+        <span >Search in past:</span>
+        <input type="number" name="days" value="7" min="1" max="365" size="4" step="1"> <span>days</span>
+    </form>
+    <form class="event-loc-option" id="event-loc-option">
+        <span >Search in distance:</span>
+        <input type="number" name="miles" value="10" min="0" max="1000" size="5" step="1"> <span>miles</span>
+    </form>
+</div>
+<div id="result"></div>
+
+</body>
+<script src="/scripts/jquery-3.2.1.min.js"></script>
+<script src="/scripts/bootstrap.min.js"></script>
+<script src="/scripts/search.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQ-7aCfmolnTq7fw8dGtQN6RMa3wSb-0w" defer></script>
+</html>

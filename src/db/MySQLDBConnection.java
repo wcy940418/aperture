@@ -120,10 +120,25 @@ public class MySQLDBConnection implements DBConnection{
                 if (!password.equals(storedPassword)) {
                     throw new IDException("Wrong password");
                 }
+                updateLastAccess(userID);
                 return userID;
             } else {
                 throw new IDException("Invalid Username/Email");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public void updateLastAccess(int userId) throws SQLException {
+        String query = "UPDATE User SET time_last_access = ? WHERE ID = ?";
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setTimestamp(1, new Timestamp(new Date().getTime()));
+            statement.setInt(2, userId);
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException("Internal error");
@@ -1115,11 +1130,11 @@ public class MySQLDBConnection implements DBConnection{
         try {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, userId);
-            statement.setFloat(2, location.getJSONObject("center").getFloat("lon"));
-            statement.setFloat(3, location.getJSONObject("center").getFloat("lat"));
-            statement.setInt(4, location.getInt("max_distance"));
-            statement.setInt(4, rowCount);
-            statement.setInt(5, offset);
+            statement.setFloat(2, location.getFloat("lon"));
+            statement.setFloat(3, location.getFloat("lat"));
+            statement.setFloat(4, location.getInt("max_distance"));
+            statement.setInt(5, rowCount);
+            statement.setInt(6, offset);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Event event = new Event(rs.getInt("ID"),
@@ -1199,6 +1214,7 @@ public class MySQLDBConnection implements DBConnection{
         }
     }
 
+
     @Override
     public boolean canView(int userId, int photoId) throws SQLException {
         String query = "SELECT can_view(?,?)";
@@ -1237,6 +1253,23 @@ public class MySQLDBConnection implements DBConnection{
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public HashMap<Integer, String> userNameLoader() throws SQLException {
+        String query = "SELECT ID, CONCAT(first_name, \" \", last_name) FROM User";
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            HashMap<Integer, String> userNames = new HashMap<Integer, String>();
+            while (rs.next()) {
+                userNames.put(rs.getInt(1), rs.getString(2));
+            }
+            return userNames;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
         }
     }
 }
