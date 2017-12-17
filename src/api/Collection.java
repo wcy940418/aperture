@@ -50,6 +50,7 @@ public class Collection extends HttpServlet {
                         request.getInt("offset"));
                 for (int i = 0; i < collections.length(); ++i) {
                     JSONObject collection = collections.getJSONObject(i);
+                    collection.put("host_name", pubRes.getUserName(collection.getInt("host_id")));
                     collection.put("collection_url",
                             request.getString("url_prefix") +
                                     "/collection/" +
@@ -60,6 +61,7 @@ public class Collection extends HttpServlet {
                 RpcParser.checkKeys(request, "collection_id");
                 JSONObject collection = conn.getCollection(request.getInt("user_id"), request.getInt("collection_id"));
                 if (collection.has("collection_id")) {
+                    collection.put("host_name", pubRes.getUserName(collection.getInt("host_id")));
                     collection.put("collection_url",
                             request.getString("url_prefix") +
                                     "/collection/" +

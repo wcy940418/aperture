@@ -50,6 +50,17 @@ public class Event extends HttpServlet{
                         request.getInt("offset"));
                 for (int i = 0; i < events.length(); ++i) {
                     JSONObject event = events.getJSONObject(i);
+                    JSONArray participators = conn.getParticipators(event.getInt("event_id"));
+                    event.put("host_name", pubRes.getUserName(event.getInt("host_id")));
+                    event.put("participators_num", participators.length());
+                    event.put("participated", false);
+                    for (int j = 0; i < participators.length(); ++i) {
+                        JSONObject participator = participators.getJSONObject(j);
+                        if (request.getInt("user_id") == participator.getInt("user_id")) {
+                            event.put("participated", true);
+                            break;
+                        }
+                    }
                     event.put("event_url",
                             request.getString("url_prefix") +
                                     "/event/" +
@@ -60,6 +71,17 @@ public class Event extends HttpServlet{
                 RpcParser.checkKeys(request, "event_id");
                 JSONObject event = conn.getEvent(request.getInt("user_id"), request.getInt("event_id"));
                 if (event.has("event_id")) {
+                    event.put("host_name", pubRes.getUserName(event.getInt("host_id")));
+                    JSONArray participators = conn.getParticipators(event.getInt("event_id"));
+                    event.put("participators_num", participators.length());
+                    event.put("participated", false);
+                    for (int i = 0; i < participators.length(); ++i) {
+                        JSONObject participator = participators.getJSONObject(i);
+                        if (request.getInt("user_id") == participator.getInt("user_id")) {
+                            event.put("participated", true);
+                            break;
+                        }
+                    }
                     event.put("event_url",
                             request.getString("url_prefix") +
                                     "/event/" +

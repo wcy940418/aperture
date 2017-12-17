@@ -2,7 +2,7 @@ $(function() {
     var pathName = document.location.pathname.split("/");
     var numOnlyReg = /^\d+$/;
     var reg = new RegExp(numOnlyReg);
-    var photoId = pathName[pathName.length - 1]
+    var photoId = pathName[pathName.length - 1];
     if (pathName.length >= 3 && reg.test(photoId)) {
         $.get({
             url: document.location.origin + "/api/photo?photo_id=" + photoId,

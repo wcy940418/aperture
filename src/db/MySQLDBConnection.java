@@ -433,6 +433,27 @@ public class MySQLDBConnection implements DBConnection{
     }
 
     @Override
+    public JSONArray getParticipators(int eventId) throws SQLException {
+        String query = "CALL show_participators(?)";
+        try {
+            JSONArray participators = new JSONArray();
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, eventId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                JSONObject participator = new JSONObject();
+                participator.put("user_id", rs.getInt("userID"));
+                participator.put("name", rs.getString("name"));
+                participators.put(participator);
+            }
+            return participators;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
     public void editEvent(int userId, int eventId, JSONObject metadata) throws IDException, SQLException {
         String query = "UPDATE Event SET title = ?, description = ?, limitation = ?, visibility = ?, " +
                 "time_happened = ?, longitude = ?, latitude = ?, country = ?, city = ?, street = ?, zip = ? " +
@@ -960,6 +981,33 @@ public class MySQLDBConnection implements DBConnection{
             }
             return profileJSON;
         } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Internal error");
+        }
+    }
+
+    @Override
+    public JSONArray searchUser(String keyword) throws SQLException {
+        String query = "SELECT ID FROM User " +
+                "WHERE first_name LIKE CONCAT(\"%\", ?, \"%\") OR last_name LIKE CONCAT(\"%\", ?, \"%\")";
+        try {
+            JSONArray users = new JSONArray();
+            List<Integer> userIds = new ArrayList<>();
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, keyword);
+            statement.setString(2, keyword);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                int Id = rs.getInt("ID");
+                if (Id != 1 && Id != 2) {
+                    userIds.add(Id);
+                }
+            }
+            for (Integer userId: userIds) {
+                users.put(getProfile(2, userId));
+            }
+            return users;
+        } catch (Exception e) {
             e.printStackTrace();
             throw new SQLException("Internal error");
         }

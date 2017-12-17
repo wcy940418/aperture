@@ -404,4 +404,21 @@ public interface DBConnection {
      * @throws SQLException
      */
     public HashMap<Integer, String> userNameLoader() throws SQLException;
+
+    /**
+     * Get Event participator of event
+     * @param eventId
+     * @return JSONArray of participator id, name
+     * @throws SQLException
+     */
+    public JSONArray getParticipators(int eventId) throws SQLException;
+
+    /**
+     * Search user
+     * @param keyword
+     * @return JSONArray of user's profile
+     * @throws SQLException
+     */
+    public JSONArray searchUser(String keyword) throws SQLException;
+
 }

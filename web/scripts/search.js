@@ -58,6 +58,12 @@ $(function () {
                 }
             }
         });
+    } else if (searchType === "user") {
+        $.get({
+            url: document.location.origin + "/api/search?type=user&keyword=" + keyWord +
+            "&offset=" + "0" + "&load_rows=" + "50",
+            success: loadUsers
+        });
     }
 });
 
@@ -134,6 +140,31 @@ function loadEvents(data) {
     }
 }
 
+function loadUsers(data) {
+    if ($(".search-box").hasClass("centered")) {
+        $(".search-box").removeClass("centered").addClass("topped");
+    }
+    $("#result").addClass("item-wall");
+    for (var user in data.users) {
+        var profile = data.users[user];
+        var introduction = profile.hasOwnProperty("introduction") ? profile.introduction : "blank";
+        var country = profile.hasOwnProperty("country") ?
+            "<p><span class='glyphicon glyphicon-map-marker'></span> <span id='country'>" + profile.country + "</span></p>" : "";
+        var gender = profile.hasOwnProperty("gender") ?
+            "<p><span class='glyphicon glyphicon-user'></span> <span id='gender'>" + profile.gender + "</span></p>" : "";
+        $("#result").append(
+            "<a class='item' href=" + profile.profile_url + ">" +
+                "<img src='" + profile.avatar_url + "' class='item-cover'>" +
+                "<div class='item-title-desc'>" +
+                    "<h2>" + profile.first_name + " " + profile.last_name + "</h2>" +
+                    "<div>" + introduction + "</div>" +
+                "</div>" +
+                "<div class='item-meta'>" + country + gender + "</div>" +
+            "</a>"
+        );
+    }
+}
+
 function goSearch() {
     var type = $("#search-type").val();
     var url, scope, days, maxDist;
@@ -156,6 +187,10 @@ function goSearch() {
     } else if (type === 'collection') {
         url = document.location.origin + document.location.pathname + "?type=" + type + "&keyword=" + keyWord +
             "&offset=" + "0" + "&load_rows=" + "50";
+        window.location.href = url;
+    } else if (type === 'user') {
+        url = document.location.origin + document.location.pathname + "?type=" + type + "&keyword=" + keyWord +
+            "&offset=" + "0" + "&load_rows=" + "50";;
         window.location.href = url;
     }
 

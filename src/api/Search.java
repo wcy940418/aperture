@@ -88,7 +88,20 @@ public class Search extends HttpServlet {
                                     Integer.toString(event.getInt("event_id")));
                 }
                 response.put("events", events);
-            } else {
+            } else if (request.getString("type").equals("user")) {
+                JSONArray users = null;
+                if (request.has("keyword")) {
+                    users = conn.searchUser(request.getString("keyword"));
+                    for (int i = 0; i < users.length(); ++i) {
+                        JSONObject profile = users.getJSONObject(i);
+                        profile.put("profile_url", request.getString("url_prefix") + "/profile/" +
+                                Integer.toString(profile.getInt("user_id")));
+                        profile.put("avatar_url", request.getString("url_prefix") + "/file/avatar/" +
+                                Integer.toString(profile.getInt("user_id")) + PhotoDBUtil.avatarFormat);
+                    }
+                }
+                response.put("users", users);
+            } else{
                 resp.setStatus(400);
                 response.put("status", "Unsupported search");
             }
