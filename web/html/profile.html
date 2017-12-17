@@ -1,12 +1,646 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Profile</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Aperture</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="../styles/bootstrap.min.css">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/jquery.fileupload.css">
+
+    <!-- jQuery CDN -->
+    <script src="../scripts/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap Js CDN -->
+    <script src="../scripts/bootstrap.min.js"></script>
+    <!--<script src="../scripts/script.js"></script>-->
+    <script src="../scripts/sidebar.js"></script>
+    <script src="../scripts/profile.js"></script>
+    <script src="../scripts/jquery.ui.widget.js"></script>
+    <script src="../scripts/jquery.iframe-transport.js"></script>
+    <script src="../scripts/jquery.fileupload.js"></script>
 </head>
 <body>
-    <h1>
-        This is the profile page.
-    </h1>
+<div class="alert alert-danger alert-dismissable fade in" hidden>
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <div class="alert-content">This alert box could indicate a warning that might need attention.</div>
+</div>
+    <div class="wrapper">
+    <!-- Sidebar Holder -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-avatar-name">
+                <!-- click the avatar to access to profile -->
+                <a href="">
+                    <img class="avatar" src="">
+                </a>
+                <h3 class="sidebar-name"></h3>
+            </div>
+        </div>
+
+        <ul class="list-unstyled components">
+            <!-- <p>Dummy Heading</p> -->
+            <li>
+                <a href="http://localhost:8080/#" id="home" class="active">Home</a>
+            </li>
+            <li>
+                <a href="#" id="messages">Messages & Connections</a>
+            </li>
+            <li>
+                <a href="#connectionsSubmenu" data-toggle="collapse" aria-expanded="false">Compose</a>
+                <ul class="collapse list-unstyled" id="connectionsSubmenu">
+                    <li><a href="#" id="compose-photo">Photo</a></li>
+                    <li><a href="#" id="compose-collection">Collection</a></li>
+                    <li><a href="#" id="compose-event">Event</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="http://localhost:8080/search" target="_blank" id="search">Search</a>
+            </li>
+
+
+        </ul>
+
+        <ul class="list-unstyled CTAs">
+            <li><a href="#" id="login-logout" class="login-btn">Log in</a></li>
+            <li><a href="#" class="signup-btn">Sign up</a></li>
+        </ul>
+    </nav>
+    <!-- Page Content Holder -->
+    <div id="content">
+        <nav class="navbar navbar-default container">
+            <div class="row">
+                <div class="navbar-header col-sm-2 text-center">
+                    <button type="button" id="sidebarCollapse" class="navbar-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+                <div class="logo col-sm-9">
+                    Aperture
+                </div>
+                <span></span>
+            </div>
+        </nav>
+        <div class="profile-content container">
+            <div class="row">
+                <span class="col-sm-1"></span>
+                <img src="" class="avatar col-sm-4" id="user-avatar">
+                <span class="col-sm-1"></span>
+                <div class="profile-info col-sm-6">
+                    <h2 class="profile-name"></h2><span></span>
+                    <button class="btn" id="add-friend-btn" data-toggle="modal" data-target="#add-friend-popup">Add</button>
+                    <button class="btn" id="edit-profile-btn" data-toggle="modal" data-target="#edit-profile-popup" style="display:none">Edit</button>
+                    <button class="btn" id="send-message-btn" data-toggle="modal" data-target="#send-msg-popup" style="display:none">Message</button>
+                    <button class="btn" id="profile-set-friendship-btn" data-toggle="modal" data-target="#set-friendship-popup" style="display:none">Set Friendship Visibility</button>
+                    <p class="profile-country"></p>
+                    <div class="profile-intro"></div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 30px">
+                <div class="photo-list col-sm-6">
+                    <h3 class="text-center" style="color:#7386D5">PHOTOS</h3>
+                </div>
+                <span class="col-sm-1"></span>
+                <div class="event-collection col-sm-3">
+                    <div class="event-list">
+                        <h3 class="text-center" style="color:#7386D5">EVENTS</h3>
+                    </div>
+                    <div class="collection-list">
+                        <h3 class="text-center" style="color:#7386D5">COLLECTIONS</h3>
+                    </div>
+                </div>
+                <div class="friend-list col-sm-2">
+                    <h3 class="text-center" style="color:#7386D5">FRIENDS</h3>
+                    <!--<div clss="friend-entry">-->
+                        <!--<a href="http://localhost:8080/profile/102">-->
+                            <!--<h4>Name</h4>-->
+                        <!--</a>-->
+                        <!--<div class="line"></div>-->
+                    </div>
+
+                </div>
+            </div>
+
+        <div class="login-form" hidden>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="email-username">Email or Username:</label>
+                    <div class="col-sm-5">
+                        <input type="email" class="form-control" id="email-username" placeholder="Enter email or username" required>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="pswd">Password:</label>
+                    <div class="col-sm-5">
+                        <input type="password" class="form-control" id="pswd" placeholder="Enter password" required>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <div class="checkbox">
+                            <input type="checkbox" id="is-rem" name="remember" value="true"><label for="is-rem"> Remember me</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button type="button" class="btn btn-default">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="signup-form" hidden>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="email">Email:</label>
+                    <div class="col-sm-5">
+                        <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="pwd">Password:</label>
+                    <div class="col-sm-5">
+                        <input type="password" class="form-control" id="pwd" placeholder="Password must have at least 6 characters" required>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="confirm-pwd">Comfirm Password:</label>
+                    <div class="col-sm-5">
+                        <input type="password" class="form-control" id="confirm-pwd" placeholder="Confirm password" required>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="username">Username:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="username" placeholder="Username must be unique and doesn't contain @" required>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="first-name">First Name:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="first-name" placeholder="Frist Name" required>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="last-name">Last Name:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="last-name" placeholder="Last Name" required>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button type="button" class="btn btn-default">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="message-content container" hidden>
+            <div class="row">
+                <ul class="col-sm-2 list-group" id="msg-friend-list">
+                    <h3 class="text-center" style="color:#7386D5">Friends</h3>
+                    <!--<a class="msg-friend-entry" href="#">-->
+                    <!--<img src="" class="avatar">-->
+                    <!--<h4 class="text-center">name</h4>-->
+                    <!--</a>-->
+
+                </ul>
+                <div class="col-sm-5" id="msgs">
+                    <h3 class="text-center" style="color:#7386D5">Messages</h3>
+                    <form class="form-vertical">
+                        <div class="from-group">
+                            <label class="control-label" for="msg-send-message">Select a Friend to Send a Message</label>
+                            <textarea class="form-control" id="msg-send-message" rows="1" style="margin-bottom:20px" required></textarea>
+                        </div>
+                    </form>
+                    <button id="msg-send-btn" class="btn" style="margin-bottom:20px">Send</button>
+                    <div id="no-fri-message" hidden>No message found</div>
+
+                </div>
+                <div class="col-sm-3 list-group text-center" id="invis">
+                    <h3 class="text-center" style="color:#7386D5">Friend Invitations</h3>
+                    <!--<div class="msg-invitation-entry list-group-item">-->
+                    <!--<img src="" class="avatar">-->
+                    <!--<h4 class="from-who">Jay</h4>-->
+                    <!--<div class="text-content">Hi, I want to add you as a friend!</div>-->
+                    <!--<button type="button" class="btn">Accept</button> <button type="button" class="btn">Ingore</button>-->
+                    <!--</div>-->
+
+                </div>
+                <div class="col-sm-2 list-group text-center" id="FOF">
+                    <h3 class="text-center" style="color:#7386D5">FOFs You May Know</h3>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div id="photo-compose-content" class="container" hidden>
+            <div class="row">
+                <span class="col-sm-2"></span>
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- The container for the uploaded files -->
+                            <div id="photo-files" class="files text-center">Preview:</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="btn"><label for="photo-upload" style="font-weight: 400 !important"><i class="glyphicon glyphicon-plus"></i>Select files</label></button>
+                            <input id="photo-upload" type="file" name="files[]" accept=".jpg, .jpeg, .png" style="opacity:0" multiple>
+
+                            <!-- The global progress bar -->
+                            <div id="photo-progress" class="progress">
+                                <div class="progress-bar progress-bar-success"></div>
+                            </div>
+                            <div id="state-text"></div>
+                        </div>
+                    </div>
+                    <form class="form-horizontal" id="photo-compose-form">
+                        <div class="form-group" style="margin-top:40px">
+                            <label class="control-label col-sm-2" for="photo-title">Title:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="photo-title" value="Untitled" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="photo-street">Street:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="photo-street" required>
+                            </div>
+                            <label class="control-label col-sm-2" for="photo-city">City:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="photo-city" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="photo-state">State:</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="photo-state" required>
+                            </div>
+                            <label class="control-label col-sm-2" for="photo-country">Country:</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="photo-country" required>
+                            </div>
+                            <label class="control-label col-sm-2" for="photo-zip">Zip:</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="photo-zip" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="photo-time-captured">Time captured:</label>
+                            <div class="col-sm-10">
+                                <input type="datetime-local" class="form-control" id="photo-time-captured" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="photo-category">Category:</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="photo-category" required>
+                                    <option>Abstract</option>
+                                    <option>Aerial</option>
+                                    <option>Black and White</option>
+                                    <option>Boudoir</option>
+                                    <option>Celebrities</option>
+                                    <option>City & Architecture</option>
+                                    <option>Commercial</option>
+                                    <option>Concert</option>
+                                    <option>Family</option>
+                                    <option>Fashion</option>
+                                    <option>Film</option>
+                                    <option>Fine Art</option>
+                                    <option>Food</option>
+                                    <option>Journalism</option>
+                                    <option>Landscapes</option>
+                                    <option>Macro</option>
+                                    <option>Nature</option>
+                                    <option>Night</option>
+                                    <option>Nude</option>
+                                    <option>People</option>
+                                    <option>Performing Arts</option>
+                                    <option>Sport</option>
+                                    <option>Still Life</option>
+                                    <option>Street</option>
+                                    <option>Transportation</option>
+                                    <option>Travel</option>
+                                    <option>Uncategorized</option>
+                                    <option>Underwater</option>
+                                    <option>Urban Exploration</option>
+                                    <option>Wedding</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Who can see the photo?</label>
+                            <div class="col-sm-10">
+                                <label class="radio-inline"><input type="radio" value="Public" name="photo-visibility" checked>Public</label>
+                                <label class="radio-inline"><input type="radio" value="Private" name="photo-visibility">Private</label>
+                                <div><label class="radio-inline"><input type="radio" value="Friend" name="photo-visibility">Only visible to friends</label></div>
+                                <label class="radio-inline"><input type="radio" value="FOF" name="photo-visibility">Visible to friends and friends of friends</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="photo-description">Description:</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="photo-description" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <div id="success-message" hidden>Photo uploaded successfully!</div>
+                    </form>
+                    <div class="text-right"><button class="btn" id="upload-photo-btn">Upload</button></div>
+                    <div class="text-right" id="upload-more-photo-btn" hidden><button class="btn">Upload more</button></div>
+
+
+
+
+                </div>
+                <span class="col-sm-2"></span>
+            </div>
+
+        </div>
+
+        <div id="collection-compose-content" class="container" hidden>
+            <div class="row">
+                <div class="col-sm-4 list-group" id="collection-list-to-edit">
+                    <h3 class="text-center" style="color:#7386D5">Current Collections</h3>
+                    <div id="no-collection-to-edit" hidden>No collection. Create one today!</div>
+                </div>
+                <div class="col-sm-8">
+                    <br>
+                    <br>
+                    <form class="form-horizontal" id="collection-compose-form">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="collection-title">Title:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="collection-title" value="Untitled" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Who can see the collection?</label>
+                            <div class="col-sm-10">
+                                <label class="radio-inline"><input type="radio" value="Public" name="collection-visibility" checked>Public</label>
+                                <label class="radio-inline"><input type="radio" value="Private" name="collection-visibility">Private</label>
+                                <div><label class="radio-inline"><input type="radio" value="Friend" name="collection-visibility">Only visible to friends</label></div>
+                                <label class="radio-inline"><input type="radio" value="FOF" name="collection-visibility">Visible to friends and friends of friends</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="collection-description">Description:</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="collection-description" rows="5"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="collection-save-success-msg" hidden>Saved successfully!</div>
+                    <div class="text-right" id="collection-btn-group">
+                        <span id="reset-collection-btn"><button class="btn">reset</button></span>
+                        <!--<span id="save-collection-btn" hidden><button class="btn">Save</button></span>-->
+                        <span id="create-collection-btn"><button class="btn">Create</button></span>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="event-compose-content" class="container" hidden>
+            <div class="row">
+                <div class="col-sm-4 list-group" id="event-list-to-edit">
+                    <h3 class="text-center" style="color:#7386D5">Current Events</h3>
+                    <div id="no-event-to-edit" hidden>No collection. Create one today!</div>
+                </div>
+                <div class="col-sm-8">
+                    <br>
+                    <br>
+                    <form class="form-horizontal" id="event-compose-form">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="event-title">Title:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="event-title" value="Untitled" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="event-street">Street:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="event-street" required>
+                            </div>
+                            <label class="control-label col-sm-2" for="event-city">City:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="event-city" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="event-state">State:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="event-state" required>
+                            </div>
+                            <label class="control-label col-sm-2" for="event-country">Country:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="event-country" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="event-limit">Limit No.:</label>
+                            <div class="col-sm-4">
+                                <input type="number" class="form-control" id="event-limit" min="0" step="1" required>
+                            </div>
+                            <label class="control-label col-sm-2" for="event-zip">Zip:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="event-zip" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="event-time-happened">Time:</label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control" id="event-time-happened" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Who can see this event?</label>
+                            <div class="col-sm-10">
+                                <label class="radio-inline"><input type="radio" value="Public" name="event-visibility" checked>Public</label>
+                                <label class="radio-inline"><input type="radio" value="Private" name="event-visibility">Private</label>
+                                <div><label class="radio-inline"><input type="radio" value="Friend" name="event-visibility">Only visible to friends</label></div>
+                                <label class="radio-inline"><input type="radio" value="FOF" name="event-visibility">Visible to friends and friends of friends</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="event-description">Description:</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="event-description" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="event-save-success-msg" hidden>Saved successfully!</div>
+                    <div class="text-right" id="event-btn-group">
+                        <span id="reset-event-btn"><button class="btn">reset</button></span>
+                        <!--<span id="save-event-btn" hidden><button class="btn">Save</button></span>-->
+                        <span id="create-event-btn"><button class="btn">Create</button></span>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    </div>
+
+    <div class="modal fade" id="send-msg-popup" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Send a Message</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-vertical">
+                        <div class="from-group">
+                            <label class="control-label" for="send-message">Content</label>
+                            <textarea class="form-control" id="send-message" rows="5" required></textarea>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="send-msg-btn" class="btn">Send</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="add-friend-popup" role="dialog">
+        <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Send Invitation</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-vertical">
+                    <div class="from-group">
+                        <label class="control-label" for="invitation-message">Add a Message</label>
+                        <textarea class="form-control" id="invitation-message" rows="3" placeholder="Hi! I'd like to connect with you!" required></textarea>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button id="send-invitation-btn" class="btn">Send</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="modal fade" id="edit-profile-popup" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Profile</h4>
+                </div>
+                <div class="modal-body">
+                    <label class="control-label">Avatar:</label>
+                    <!-- The fileinput-button span is used to style the file input field as button -->
+                    <span class="btn btn-success fileinput-button">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <span>Select files...</span>
+                        <!-- The file input field used as target for the file upload widget -->
+                        <input id="fileupload" type="file" name="files[]" accept=".jpg, .jpeg, .png" multiple>
+                    </span>
+                    <br>
+                    <br>
+                    <!-- The global progress bar -->
+                    <div id="progress" class="progress">
+                        <div class="progress-bar progress-bar-success"></div>
+                    </div>
+                    <!-- The container for the uploaded files -->
+                    <div id="files" class="files"></div>
+                    <form class="form-vertical">
+                        <div class="from-group">
+                            <label class="control-label" for="username-change">Username:</label>
+                            <input type="text" class="form-control" id="username-change"required>
+                        </div>
+                        <div class="from-group">
+                            <label class="control-label" for="email-change">Email:</label>
+                            <input type="text" class="form-control" id="email-change" required>
+                        </div>
+                        <div class="from-group">
+                            <label class="control-label" for="first-name-change">First Name:</label>
+                            <input type="text" class="form-control" id="first-name-change" required>
+                        </div>
+                        <div class="from-group">
+                            <label class="control-label" for="last-name-change">Last Name:</label>
+                            <input type="text" class="form-control" id="last-name-change" required>
+                        </div>
+                        <div class="from-group">
+                            <label class="control-label" for="DOB">Date of Birth:</label>
+                            <input type="date" class="form-control" id="DOB" required>
+                        </div>
+                        <div class="from-group">
+                            <label class="control-label" for="country-change">Country:</label>
+                            <input type="text" class="form-control" id="country-change" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="radio-inline"><input type="radio" value="Female" name="gender">Female</label>
+                            <label class="radio-inline"><input type="radio" value="Male" name="gender">Male</label>
+                            <label class="radio-inline"><input type="radio" value="Other" name="gender" checked>Other</label>
+                        </div>
+                        <div class="from-group">
+                            <label class="control-label" for="introduction-change">Introduction</label>
+                            <textarea class="form-control" id="introduction-change" rows="5" required></textarea>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="save-profile-btn" class="btn">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="set-friendship-popup" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Set the visibility of this friendship</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form">
+                        <div class="form-group">
+                            <label class="radio-inline"><input type="radio" value="Public" name="fri-visibility" checked>Public</label>
+                            <label class="radio-inline"><input type="radio" value="Private" name="fri-visibility">Private</label>
+                            <div><label class="radio-inline"><input type="radio" value="Friend" name="fri-visibility">Only visible to friends</label></div>
+                            <label class="radio-inline"><input type="radio" value="FOF" name="fri-visibility">Visible to friends and friends of friends</label>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="set-friendship-btn" class="btn">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

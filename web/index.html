@@ -1,226 +1,507 @@
-<!DOCTYPE HTML>
-<!--
-/*
- * jQuery File Upload Plugin Basic Plus Demo
- * https://github.com/blueimp/jQuery-File-Upload
- *
- * Copyright 2013, Sebastian Tschan
- * https://blueimp.net
- *
- * Licensed under the MIT license:
- * https://opensource.org/licenses/MIT
- */
--->
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <!-- Force latest IE rendering engine or ChromeFrame if installed -->
-    <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
     <meta charset="utf-8">
-    <title>jQuery File Upload Demo - Basic Plus version</title>
-    <meta name="description" content="File Upload widget with multiple file selection, drag&amp;drop support, progress bar, validation and preview images, audio and video for jQuery. Supports cross-domain, chunked and resumable file uploads. Works with any server-side platform (Google App Engine, PHP, Python, Ruby on Rails, Java, etc.) that supports standard HTML form file uploads.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap styles -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <!-- Generic page styles -->
-    <link rel="stylesheet" href="css/style.css">
-    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-    <link rel="stylesheet" href="css/jquery.fileupload.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Aperture</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="/styles/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="styles/style.css">
+
+    <!-- jQuery CDN -->
+    <script src="/scripts/jquery-3.2.1.min.js"></script>
+    <script src="/scripts/bootstrap.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>-->
+    <!-- Bootstrap Js CDN -->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    <script src="scripts/jquery.ui.widget.js"></script>
+    <script src="scripts/jquery.iframe-transport.js"></script>
+    <script src="scripts/jquery.fileupload.js"></script>
+    <script src="scripts/script.js"></script>
+
 </head>
 <body>
-<div class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-fixed-top .navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="https://github.com/blueimp/jQuery-File-Upload">jQuery File Upload</a>
+<div class="alert alert-danger alert-dismissable fade in" hidden>
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <div class="alert-content">This alert box could indicate a warning that might need attention.</div>
+</div>
+<div class="wrapper">
+    <!-- Sidebar Holder -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-avatar-name">
+                <!-- click the avatar to access to profile -->
+                <a href="">
+                    <img class="avatar" src="">
+                </a>
+                <h3 class="sidebar-name"></h3>
+            </div>
         </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="https://github.com/blueimp/jQuery-File-Upload/tags">Download</a></li>
-                <li><a href="https://github.com/blueimp/jQuery-File-Upload">Source Code</a></li>
-                <li><a href="https://github.com/blueimp/jQuery-File-Upload/wiki">Documentation</a></li>
-                <li><a href="https://blueimp.net">&copy; Sebastian Tschan</a></li>
-            </ul>
+
+        <ul class="list-unstyled components">
+            <!-- <p>Dummy Heading</p> -->
+            <li>
+                <a href="#" id="home" class="active">Home</a>
+            </li>
+            <li>
+                <a href="#" id="messages">Messages & Connections</a>
+            </li>
+            <li>
+                <a href="#connectionsSubmenu" data-toggle="collapse" aria-expanded="false">Compose</a>
+                <ul class="collapse list-unstyled" id="connectionsSubmenu">
+                    <li><a href="#" id="compose-photo">Photo</a></li>
+                    <li><a href="#" id="compose-collection">Collection</a></li>
+                    <li><a href="#" id="compose-event">Event</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="http://localhost:8080/search" target="_blank" id="search">Search</a>
+            </li>
+
+
+        </ul>
+
+        <ul class="list-unstyled CTAs">
+            <li><a href="#" id="login-logout" class="login-btn">Log in</a></li>
+            <li><a href="#" class="signup-btn">Sign up</a></li>
+        </ul>
+    </nav>
+    <!-- Page Content Holder -->
+    <div id="content">
+        <nav class="navbar navbar-default container">
+            <div class="row">
+                <div class="navbar-header col-sm-2 text-center">
+                    <button type="button" id="sidebarCollapse" class="navbar-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+                <div class="logo col-sm-9">
+                    Aperture
+                </div>
+                <span></span>
+            </div>
+        </nav>
+
+        <div class="home-content container" hidden>
+            <div class="row">
+                <div class="photo-list col-sm-9">
+                    <div class="photo-entry">
+                        <div class="row">
+                            <img src="border.png" class="photo-thumbnail col-sm-4">
+                            <div class="col-sm-8">
+                                <h3 class="photo-title">This is a test photo<span class="like-number">10</span><span class="glyphicon glyphicon-thumbs-up thumbs-up" style="float:right;"></span></h3>
+                                <div class="text-content">
+                                    In tristique pretium mi eget aliquam. Nullam aliquam eros ut consectetur dapibus. Nunc eu massa ut massa porttitor posuere. Pellentesque a efficitur sem. Morbi mattis ullamcorper risus, accumsan facilisis eros aliquet a. Nullam venenatis augue ut odio ornare eleifend. Integer quis venenatis diam. Vivamus ut lorem ut nisi accumsan mollis sit amet eget orci. Maecenas at lacus nunc. Aliquam tincidunt sapien ut magna interdum, porttitor commodo dolor sollicitudin. In porta ut sapien non condimentum. Nullam a magna pretium, convallis arcu at, placerat arcu. Phasellus tincidunt non ligula quis lobortis. Integer ultrices convallis sapien, eget consequat ex vestibulum tempor. Fusce ornare velit at risus dignissim, a luctus est dictum. Donec magna nisl, varius sed fringilla facilisis, ultrices a eros.
+                                </div>
+                            </div>
+
+                            <p class="timestamp" style="float:right;">2017-12-05 18:45:11</p>
+                        </div>
+
+                        <div class="line"></div>
+                    </div>
+                    <div id="no-new-photo" hidden>No new photo.</div>
+
+                    <!--<button>Load More</button>-->
+
+                </div>
+                <div class="home-message-list col-sm-3">
+                    <div id="home-msg-list" class="list-group">
+                        <h3 class="text-center" style="color:#7386D5">Messages</h3>
+                        <div id="home-no-message" class="text-center" hidden>No new message.</div>
+                    </div>
+
+                    <div id="home-invitation-list" class="list-group">
+                        <h3 class="text-center" style="color:#7386D5">Invitations</h3>
+                        <div id="home-no-invi" class="text-center" hidden>No new invitation.</div>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
+        <div class="login-form">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="email-username">Email or Username:</label>
+                    <div class="col-sm-5">
+                        <input type="email" class="form-control" id="email-username" placeholder="Enter email or username" required>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="pswd">Password:</label>
+                    <div class="col-sm-5">
+                        <input type="password" class="form-control" id="pswd" placeholder="Enter password" required>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <div class="checkbox">
+                            <input type="checkbox" id="is-rem" name="remember" value="true"><label for="is-rem"> Remember me</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button type="button" class="btn btn-default">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="signup-form" hidden>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="email">Email:</label>
+                    <div class="col-sm-5">
+                        <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="pwd">Password:</label>
+                    <div class="col-sm-5">
+                        <input type="password" class="form-control" id="pwd" placeholder="Password must have at least 6 characters" required>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="confirm-pwd">Comfirm Password:</label>
+                    <div class="col-sm-5">
+                        <input type="password" class="form-control" id="confirm-pwd" placeholder="Confirm password" required>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="username">Username:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="username" placeholder="Username must be unique and doesn't contain @" required>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="first-name">First Name:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="first-name" placeholder="Frist Name" required>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="last-name">Last Name:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="last-name" placeholder="Last Name" required>
+                    </div>
+                    <span></span>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button type="button" class="btn btn-default">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="message-content container" hidden>
+            <div class="row">
+                <ul class="col-sm-2 list-group" id="msg-friend-list">
+                    <h3 class="text-center" style="color:#7386D5">Friends</h3>
+                    <!--<a class="msg-friend-entry" href="#">-->
+                        <!--<img src="" class="avatar">-->
+                        <!--<h4 class="text-center">name</h4>-->
+                    <!--</a>-->
+
+                </ul>
+                <div class="col-sm-5" id="msgs">
+                    <h3 class="text-center" style="color:#7386D5">Messages</h3>
+                    <form class="form-vertical">
+                        <div class="from-group">
+                            <label class="control-label" for="msg-send-message">Select a Friend to Send a Message</label>
+                            <textarea class="form-control" id="msg-send-message" rows="1" style="margin-bottom:20px" required></textarea>
+                        </div>
+                    </form>
+                    <button id="msg-send-btn" class="btn" style="margin-bottom:20px">Send</button>
+                    <div id="no-fri-message" hidden>No message found</div>
+
+                </div>
+                <div class="col-sm-3 list-group text-center" id="invis">
+                    <h3 class="text-center" style="color:#7386D5">Friend Invitations</h3>
+                    <!--<div class="msg-invitation-entry list-group-item">-->
+                        <!--<img src="" class="avatar">-->
+                        <!--<h4 class="from-who">Jay</h4>-->
+                        <!--<div class="text-content">Hi, I want to add you as a friend!</div>-->
+                        <!--<button type="button" class="btn">Accept</button> <button type="button" class="btn">Ingore</button>-->
+                    <!--</div>-->
+
+                </div>
+                <div class="col-sm-2 list-group text-center" id="FOF">
+                    <h3 class="text-center" style="color:#7386D5">FOFs You May Know</h3>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div id="photo-compose-content" class="container" hidden>
+            <div class="row">
+                <span class="col-sm-2"></span>
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- The container for the uploaded files -->
+                            <div id="photo-files" class="files text-center">Preview:</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="btn"><label for="photo-upload" style="font-weight: 400 !important"><i class="glyphicon glyphicon-plus"></i>Select files</label></button>
+                            <input id="photo-upload" type="file" name="files[]" accept=".jpg, .jpeg, .png" style="opacity:0" multiple>
+
+                            <!-- The global progress bar -->
+                            <div id="photo-progress" class="progress">
+                                <div class="progress-bar progress-bar-success"></div>
+                            </div>
+                            <div id="state-text"></div>
+                        </div>
+                    </div>
+                    <form class="form-horizontal" id="photo-compose-form">
+                        <div class="form-group" style="margin-top:40px">
+                            <label class="control-label col-sm-2" for="photo-title">Title:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="photo-title" value="Untitled" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="photo-street">Street:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="photo-street" required>
+                            </div>
+                            <label class="control-label col-sm-2" for="photo-city">City:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="photo-city" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="photo-state">State:</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="photo-state" required>
+                            </div>
+                            <label class="control-label col-sm-2" for="photo-country">Country:</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="photo-country" required>
+                            </div>
+                            <label class="control-label col-sm-2" for="photo-zip">Zip:</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="photo-zip" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="photo-time-captured">Time captured:</label>
+                            <div class="col-sm-10">
+                                <input type="datetime-local" class="form-control" id="photo-time-captured" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="photo-category">Category:</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="photo-category" required>
+                                    <option>Abstract</option>
+                                    <option>Aerial</option>
+                                    <option>Black and White</option>
+                                    <option>Boudoir</option>
+                                    <option>Celebrities</option>
+                                    <option>City & Architecture</option>
+                                    <option>Commercial</option>
+                                    <option>Concert</option>
+                                    <option>Family</option>
+                                    <option>Fashion</option>
+                                    <option>Film</option>
+                                    <option>Fine Art</option>
+                                    <option>Food</option>
+                                    <option>Journalism</option>
+                                    <option>Landscapes</option>
+                                    <option>Macro</option>
+                                    <option>Nature</option>
+                                    <option>Night</option>
+                                    <option>Nude</option>
+                                    <option>People</option>
+                                    <option>Performing Arts</option>
+                                    <option>Sport</option>
+                                    <option>Still Life</option>
+                                    <option>Street</option>
+                                    <option>Transportation</option>
+                                    <option>Travel</option>
+                                    <option>Uncategorized</option>
+                                    <option>Underwater</option>
+                                    <option>Urban Exploration</option>
+                                    <option>Wedding</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Who can see the photo?</label>
+                            <div class="col-sm-10">
+                                <label class="radio-inline"><input type="radio" value="Public" name="photo-visibility" checked>Public</label>
+                                <label class="radio-inline"><input type="radio" value="Private" name="photo-visibility">Private</label>
+                                <div><label class="radio-inline"><input type="radio" value="Friend" name="photo-visibility">Only visible to friends</label></div>
+                                <label class="radio-inline"><input type="radio" value="FOF" name="photo-visibility">Visible to friends and friends of friends</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="photo-description">Description:</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="photo-description" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <div id="success-message" hidden>Photo uploaded successfully!</div>
+                    </form>
+                    <div class="text-right"><button class="btn" id="upload-photo-btn">Upload</button></div>
+                    <div class="text-right" id="upload-more-photo-btn" hidden><button class="btn">Upload more</button></div>
+
+
+
+
+                </div>
+                <span class="col-sm-2"></span>
+            </div>
+
+        </div>
+
+        <div id="collection-compose-content" class="container" hidden>
+            <div class="row">
+                <div class="col-sm-4 list-group" id="collection-list-to-edit">
+                    <h3 class="text-center" style="color:#7386D5">Current Collections</h3>
+                    <div id="no-collection-to-edit" hidden>No collection. Create one today!</div>
+                </div>
+                <div class="col-sm-8">
+                    <br>
+                    <br>
+                    <form class="form-horizontal" id="collection-compose-form">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="collection-title">Title:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="collection-title" value="Untitled" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Who can see the collection?</label>
+                            <div class="col-sm-10">
+                                <label class="radio-inline"><input type="radio" value="Public" name="collection-visibility" checked>Public</label>
+                                <label class="radio-inline"><input type="radio" value="Private" name="collection-visibility">Private</label>
+                                <div><label class="radio-inline"><input type="radio" value="Friend" name="collection-visibility">Only visible to friends</label></div>
+                                <label class="radio-inline"><input type="radio" value="FOF" name="collection-visibility">Visible to friends and friends of friends</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="collection-description">Description:</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="collection-description" rows="5"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="collection-save-success-msg" hidden>Saved successfully!</div>
+                    <div class="text-right" id="collection-btn-group">
+                        <span id="reset-collection-btn"><button class="btn">reset</button></span>
+                        <!--<span id="save-collection-btn" hidden><button class="btn">Save</button></span>-->
+                        <span id="create-collection-btn"><button class="btn">Create</button></span>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="event-compose-content" class="container" hidden>
+            <div class="row">
+                <div class="col-sm-4 list-group" id="event-list-to-edit">
+                    <h3 class="text-center" style="color:#7386D5">Current Events</h3>
+                    <div id="no-event-to-edit" hidden>No collection. Create one today!</div>
+                </div>
+                <div class="col-sm-8">
+                    <br>
+                    <br>
+                    <form class="form-horizontal" id="event-compose-form">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="event-title">Title:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="event-title" value="Untitled" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="event-street">Street:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="event-street" required>
+                            </div>
+                            <label class="control-label col-sm-2" for="event-city">City:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="event-city" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="event-state">State:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="event-state" required>
+                            </div>
+                            <label class="control-label col-sm-2" for="event-country">Country:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="event-country" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="event-limit">Limit No.:</label>
+                            <div class="col-sm-4">
+                                <input type="number" class="form-control" id="event-limit" min="0" step="1" required>
+                            </div>
+                            <label class="control-label col-sm-2" for="event-zip">Zip:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="event-zip" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="event-time-happened">Time:</label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control" id="event-time-happened" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Who can see this event?</label>
+                            <div class="col-sm-10">
+                                <label class="radio-inline"><input type="radio" value="Public" name="event-visibility" checked>Public</label>
+                                <label class="radio-inline"><input type="radio" value="Private" name="event-visibility">Private</label>
+                                <div><label class="radio-inline"><input type="radio" value="Friend" name="event-visibility">Only visible to friends</label></div>
+                                <label class="radio-inline"><input type="radio" value="FOF" name="event-visibility">Visible to friends and friends of friends</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="event-description">Description:</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="event-description" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="event-save-success-msg" hidden>Saved successfully!</div>
+                    <div class="text-right" id="event-btn-group">
+                        <span id="reset-event-btn"><button class="btn">reset</button></span>
+                        <!--<span id="save-event-btn" hidden><button class="btn">Save</button></span>-->
+                        <span id="create-event-btn"><button class="btn">Create</button></span>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 </div>
-<div class="container">
-    <h1>jQuery File Upload Demo</h1>
-    <h2 class="lead">Basic Plus version</h2>
-    <ul class="nav nav-tabs">
-        <li><a href="basic.html">Basic</a></li>
-        <li class="active"><a href="basic-plus.html">Basic Plus</a></li>
-        <li><a href="index.html">Basic Plus UI</a></li>
-        <li><a href="angularjs.html">AngularJS</a></li>
-        <li><a href="jquery-ui.html">jQuery UI</a></li>
-    </ul>
-    <br>
-    <blockquote>
-        <p>File Upload widget with multiple file selection, drag&amp;drop support, progress bar, validation and preview images, audio and video for jQuery.<br>
-            Supports cross-domain, chunked and resumable file uploads and client-side image resizing.<br>
-            Works with any server-side platform (PHP, Python, Ruby on Rails, Java, Node.js, Go etc.) that supports standard HTML form file uploads.</p>
-    </blockquote>
-    <br>
-    <!-- The fileinput-button span is used to style the file input field as button -->
-    <span class="btn btn-success fileinput-button">
-        <i class="glyphicon glyphicon-plus"></i>
-        <span>Add files...</span>
-        <!-- The file input field used as target for the file upload widget -->
-        <input id="fileupload" type="file" name="files[]" multiple>
-    </span>
-    <br>
-    <br>
-    <!-- The global progress bar -->
-    <div id="progress" class="progress">
-        <div class="progress-bar progress-bar-success"></div>
-    </div>
-    <!-- The container for the uploaded files -->
-    <div id="files" class="files"></div>
-    <br>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Demo Notes</h3>
-        </div>
-        <div class="panel-body">
-            <ul>
-                <li>The maximum file size for uploads in this demo is <strong>999 KB</strong> (default file size is unlimited).</li>
-                <li>Only image files (<strong>JPG, GIF, PNG</strong>) are allowed in this demo (by default there is no file type restriction).</li>
-                <li>Uploaded files will be deleted automatically after <strong>5 minutes or less</strong> (demo files are stored in memory).</li>
-                <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage (see <a href="https://github.com/blueimp/jQuery-File-Upload/wiki/Browser-support">Browser support</a>).</li>
-                <li>Please refer to the <a href="https://github.com/blueimp/jQuery-File-Upload">project website</a> and <a href="https://github.com/blueimp/jQuery-File-Upload/wiki">documentation</a> for more information.</li>
-                <li>Built with the <a href="http://getbootstrap.com/">Bootstrap</a> CSS framework and Icons from <a href="http://glyphicons.com/">Glyphicons</a>.</li>
-            </ul>
-        </div>
-    </div>
-</div>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-<script src="js/vendor/jquery.ui.widget.js"></script>
-<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-<script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
-<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-<script src="//blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
-<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="js/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="js/jquery.fileupload.js"></script>
-<!-- The File Upload processing plugin -->
-<script src="js/jquery.fileupload-process.js"></script>
-<!-- The File Upload image preview & resize plugin -->
-<script src="js/jquery.fileupload-image.js"></script>
-<!-- The File Upload audio preview plugin -->
-<script src="js/jquery.fileupload-audio.js"></script>
-<!-- The File Upload video preview plugin -->
-<script src="js/jquery.fileupload-video.js"></script>
-<!-- The File Upload validation plugin -->
-<script src="js/jquery.fileupload-validate.js"></script>
-<script>
-    /*jslint unparam: true, regexp: true */
-    /*global window, $ */
-    $(function () {
-        'use strict';
-        // Change this to the location of your server-side upload handler:
-        var url = window.location.hostname === 'blueimp.github.io' ?
-            '//jquery-file-upload.appspot.com/' : 'api/photo_upload',
-            uploadButton = $('<button/>')
-                .addClass('btn btn-primary')
-                .prop('disabled', true)
-                .text('Processing...')
-                .on('click', function () {
-                    var $this = $(this),
-                        data = $this.data();
-                    $this
-                        .off('click')
-                        .text('Abort')
-                        .on('click', function () {
-                            $this.remove();
-                            data.abort();
-                        });
-                    data.submit().always(function () {
-                        $this.remove();
-                    });
-                });
-        $('#fileupload').fileupload({
-            url: url,
-            dataType: 'json',
-            autoUpload: false,
-            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-            maxFileSize: 999000,
-            // Enable image resizing, except for Android and Opera,
-            // which actually support image resizing, but fail to
-            // send Blob objects via XHR requests:
-            disableImageResize: /Android(?!.*Chrome)|Opera/
-                .test(window.navigator.userAgent),
-            previewMaxWidth: 100,
-            previewMaxHeight: 100,
-            previewCrop: true
-        }).on('fileuploadadd', function (e, data) {
-            data.context = $('<div/>').appendTo('#files');
-            $.each(data.files, function (index, file) {
-                var node = $('<p/>')
-                    .append($('<span/>').text(file.name));
-                if (!index) {
-                    node
-                        .append('<br>')
-                        .append(uploadButton.clone(true).data(data));
-                }
-                node.appendTo(data.context);
-            });
-        }).on('fileuploadprocessalways', function (e, data) {
-            var index = data.index,
-                file = data.files[index],
-                node = $(data.context.children()[index]);
-            if (file.preview) {
-                node
-                    .prepend('<br>')
-                    .prepend(file.preview);
-            }
-            if (file.error) {
-                node
-                    .append('<br>')
-                    .append($('<span class="text-danger"/>').text(file.error));
-            }
-            if (index + 1 === data.files.length) {
-                data.context.find('button')
-                    .text('Upload')
-                    .prop('disabled', !!data.files.error);
-            }
-        }).on('fileuploadprogressall', function (e, data) {
-            var progress = parseInt(data.loaded / data.total * 100, 10);
-            $('#progress .progress-bar').css(
-                'width',
-                progress + '%'
-            );
-        }).on('fileuploaddone', function (e, data) {
-            $.each(data.result.files, function (index, file) {
-                if (file.url) {
-                    var link = $('<a>')
-                        .attr('target', '_blank')
-                        .prop('href', file.url);
-                    $(data.context.children()[index])
-                        .wrap(link);
-                } else if (file.error) {
-                    var error = $('<span class="text-danger"/>').text(file.error);
-                    $(data.context.children()[index])
-                        .append('<br>')
-                        .append(error);
-                }
-            });
-        }).on('fileuploadfail', function (e, data) {
-            $.each(data.files, function (index) {
-                var error = $('<span class="text-danger"/>').text('File upload failed.');
-                $(data.context.children()[index])
-                    .append('<br>')
-                    .append(error);
-            });
-        }).prop('disabled', !$.support.fileInput)
-            .parent().addClass($.support.fileInput ? undefined : 'disabled');
-    });
-</script>
+
+
+
 </body>
 </html>
