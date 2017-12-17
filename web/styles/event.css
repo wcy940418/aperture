@@ -1,0 +1,72 @@
+body, html {
+    height: 100%;
+    background-color: #9d9d9d;
+    margin: 0;
+}
+
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-bottom: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+body .loader {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.container {
+    padding-top: 50px;
+    height: 100%;
+    font-family: Tahoma, Geneva, sans-serif;
+    box-shadow: -10px 0 20px grey, 10px 0 20px grey;
+    background-color: #f3f3f3;
+    display: none;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 970px;
+    }
+}
+
+.map {
+    height: 400px;
+}
+
+.info-section {
+    color: #3c3c3c;
+    text-align: left;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.description {
+    padding: 10px 30px;
+
+}
+
+.no-participators {
+    padding-top: 20px;
+    font-size: 24px;
+    color: #5e5e5e;
+    text-align: center;
+}
+
+#rsvp-btn {
+    width: 100px;
+}
+
+#participators table td {
+    background-color: #ffffff;
+    width: 20%;
+    padding: 2px;
+}
